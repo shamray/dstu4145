@@ -1,5 +1,9 @@
+.gitignore
+
 .vs
+.vscode
 CMakeSettings.json
+build
 
 .idea
 cmake-build-*

@@ -53,7 +53,6 @@ namespace dstu4145 {
         if (a.field_ != b.field_)
             throw std::logic_error("invalid operation");
 
-        std::cout << std::hex;
         auto result = integer2{0};
         auto field = a.field_;
 
@@ -67,10 +66,6 @@ namespace dstu4145 {
             if (boost::multiprecision::bit_test(b.value_, i))
                 result ^= a.value_;
         }
-
-        //auto result = a.value_ * b.value_;
-        //auto field = a.field_;
-        std::cout << result << std::endl;
 
         return field.create_element(static_cast<integer>(modulo(result, field.basis())));
     }

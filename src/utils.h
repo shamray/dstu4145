@@ -23,8 +23,6 @@ namespace dstu4145 {
         auto dl = d >> 1;
         auto dr = d - dl;
 
-        // std::cout << dl << " | " << dr << std::endl;
-
         auto half = multiply(dl, p);
 
         if (dl == dr)

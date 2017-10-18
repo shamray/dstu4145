@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "ecurve.h"
-#include "gf2m_element.h"
-#include "utils.h"
 
 using namespace testing;
 
@@ -86,7 +84,6 @@ TEST_F(simple, field_element_multiplication_small) {
 }
 
 TEST_F(simple, field_element_multiplication_big) {
-    std::cout << "jeronimo!" << std::endl;
     auto a = field.create_element(dstu4145::integer{"0x695B3B9D26830943133078EF19FE8A8814F8F7B70"});
     auto b = field.create_element(dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"});
 

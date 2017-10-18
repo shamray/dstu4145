@@ -46,10 +46,21 @@ namespace dstu4145 {
         {
             auto& p = *this;
 
-            auto x = square((p.y + q.y) / (p.x + q.x)) + (p.y + q.y) / (p.x + q.x) + p.x + q.x + gf2m::element{c.gf_, c.a_};
-            auto y = (p.y + q.y) / (p.x + q.y) * (p.x + x) + x + p.y;
+            if (p.x == q.x)
+            {
+                auto t = p.y / p.x + p.x;
+                std::cout << p.y / p.x << std::endl;
+                auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
+                auto y = square(p.x) + t * x + x;
 
-            return ecurve_point{ c, x, y };
+                return ecurve_point{ c, x, y };
+            }
+            else
+            {
+                auto x = square((p.y + q.y) / (p.x + q.x)) + (p.y + q.y) / (p.x + q.x) + p.x + q.x + gf2m::element{c.gf_, c.a_};
+                auto y = (p.y + q.y) / (p.x + q.y) * (p.x + x) + x + p.y;
+                return ecurve_point{ c, x, y };
+            }
         }
 
         auto operator* (integer d) const {

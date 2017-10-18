@@ -49,7 +49,6 @@ namespace dstu4145 {
             if (p.x == q.x)
             {
                 auto t = p.y / p.x + p.x;
-                std::cout << p.y / p.x << std::endl;
                 auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
                 auto y = square(p.x) + t * x + x;
 

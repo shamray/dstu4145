@@ -45,7 +45,7 @@ TEST_F(simple, DISABLED_point_multiplication) {
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, DISABLED_point_addition) {
+TEST_F(simple, point_addition) {
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x5A4397672F0C513E390212AD3825420BE83E3BFDA" },
@@ -128,11 +128,11 @@ TEST(multiply, all) {
     EXPECT_EQ(multiply(15, 10), 150);
 }
 
-TEST(euqlid, DISABLED_simple) {
-//    auto [d, a, b] = dstu4145::extended_euqlid(6, 4);
-//    a; b;
-//
-//    EXPECT_EQ(d, dstu4145::integer{2});
+TEST(euqlid, simple) {
+    auto [d, a, b] = dstu4145::extended_euqlid(6, 4, 6);
+    a; b;
+
+    EXPECT_EQ(d, dstu4145::integer{2});
 }
 
 TEST(gf2m, inverse) {

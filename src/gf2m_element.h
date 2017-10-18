@@ -25,11 +25,8 @@ namespace dstu4145 {
         }
 
         auto inverse() const {
-            std::cout << std::endl;
-            std::cout << field_.basis();
             auto [d, a, b] = extended_euqlid(field_.basis(), value_, field_.basis());
             d; a;
-            std::cout << "[" << d << "," << a << "," << b << "]" << std::endl;
             return field_.create_element(b);
         }
 

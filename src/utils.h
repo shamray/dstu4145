@@ -31,7 +31,6 @@ namespace dstu4145 {
         for (int i = boost::multiprecision::msb(b); i>=0; i--)
         {
             result <<= 1;
-            //std::cout << i << " : " << boost::multiprecision::bit_test(b.value_, i) << std::endl;
             if (boost::multiprecision::bit_test(b, i))
                 result ^= a;
         }

@@ -25,9 +25,12 @@ namespace dstu4145 {
         }
 
         auto inverse() const {
-            auto [d, a, b] = extended_euqlid(field_.basis(), value_);
+            std::cout << std::endl;
+            std::cout << field_.basis();
+            auto [d, a, b] = extended_euqlid(field_.basis(), value_, field_.basis());
             d; a;
-            return element(b);
+            std::cout << "[" << d << "," << a << "," << b << "]" << std::endl;
+            return field_.create_element(b);
         }
 
     private:
@@ -53,21 +56,10 @@ namespace dstu4145 {
         if (a.field_ != b.field_)
             throw std::logic_error("invalid operation");
 
-        auto result = integer2{0};
         auto field = a.field_;
+        auto result = p_multiply(a.value_, b.value_);
 
-        if (b .value_== 0)
-          return gf2m::element(field, 0);
-
-        for (int i = boost::multiprecision::msb(b.value_); i>=0; i--)
-        {
-            result <<= 1;
-            //std::cout << i << " : " << boost::multiprecision::bit_test(b.value_, i) << std::endl;
-            if (boost::multiprecision::bit_test(b.value_, i))
-                result ^= a.value_;
-        }
-
-        return field.create_element(static_cast<integer>(modulo(result, field.basis())));
+        return field.create_element(static_cast<integer>(p_modulo(result, field.basis())));
     }
 
     inline auto operator/ (const gf2m::element& a, const gf2m::element& b) -> gf2m::element {

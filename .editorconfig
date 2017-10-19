@@ -1,0 +1,4 @@
+[*.cpp, *.cxx, *.c, *.hpp, *.hxx, *.h]
+indent_size=4
+tab_size=4
+insert_space=true

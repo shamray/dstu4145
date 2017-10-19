@@ -23,19 +23,18 @@ struct simple : Test {
     dstu4145::integer d{"0x183F60FDF7951FF47D67193F8D073790C1C9B5A3E" };
 };
 
-TEST_F(simple, DISABLED_public_key_computation) {
+TEST_F(simple, public_key_computation) {
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x057DE7FDE023FF929CB6AC785CE4B79CF64ABD2DA" },
         dstu4145::integer{"0x3E85444324BCF06AD85ABF6AD7B5F34770532B9AA" }
     };
     auto q = -(d * p);
-    // auto q = dstu4145::integer{ 100000 } * p;
 
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, DISABLED_point_multiplication) {
+TEST_F(simple, point_multiplication) {
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x57DE7FDE023FF929CB6AC785CE4B79CF64ABDC2DA" },

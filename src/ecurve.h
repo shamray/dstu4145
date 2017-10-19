@@ -58,7 +58,7 @@ namespace dstu4145 {
             {
                 auto t = (p.y + q.y) / (p.x + q.x);
                 auto x = square(t) + t + p.x + q.x + gf2m::element{c.gf_, c.a_};
-                auto y = (p.y + q.y) / (p.x + q.y) * (p.x + x) + x + p.y;
+                auto y = t * (p.x + x) + x + p.y;
                 return ecurve_point{ c, x, y };
             }
         }

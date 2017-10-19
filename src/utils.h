@@ -36,7 +36,6 @@ namespace dstu4145 {
         }
 
         return result;
-
     }
 
     template <class T, class U>

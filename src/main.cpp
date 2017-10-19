@@ -26,7 +26,7 @@ struct simple : Test {
 TEST_F(simple, public_key_computation) {
     auto expected = dstu4145::ecurve::point{
         curve,
-        dstu4145::integer{"0x057DE7FDE023FF929CB6AC785CE4B79CF64ABD2DA" },
+        dstu4145::integer{"0x57DE7FDE023FF929CB6AC785CE4B79CF64ABDC2DA" },
         dstu4145::integer{"0x3E85444324BCF06AD85ABF6AD7B5F34770532B9AA" }
     };
     auto q = -(d * p);

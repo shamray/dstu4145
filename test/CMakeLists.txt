@@ -1,7 +1,11 @@
 add_executable(dstu-test main.cpp)
 
-get_property(XXX TARGET googletest PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-message(${XXX})
-target_link_libraries(dstu-test boost googletest)
+target_link_libraries(dstu-test 
+    dstu4145
+    Boost::boost 
+    GTest::GTest 
+    GTest::Main)
 
 add_test(NAME DstuTest COMMAND dstu-test)
+
+ 

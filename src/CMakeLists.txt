@@ -1,7 +1,11 @@
-set(LIB dstu4145)
+add_library(dstu4145 
+    gf2m.cpp 
+    ecurve.cpp 
+    gf2m_element.cpp 
+    integer.cpp 
+    utils.cpp)
 
-add_library(${LIB} gf2m.cpp ecurve.cpp gf2m_element.cpp integer.cpp utils.cpp)
+target_link_libraries(dstu4145
+    Boost::boost)
 
-#target_include_directories(${LIB})
-
-target_link_libraries(${LIB} boost)
+target_compile_options(dstu4145 PUBLIC "/std:c++latest")

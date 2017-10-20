@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "ecurve.h"
+#include "../src/ecurve.h"
 
 using namespace testing;
 

@@ -1,9 +1,7 @@
-include_directories( ${Boost_INCLUDE_DIR} )
-include_directories( ${GTEST_INCLUDE_DIRS} )
+set(LIB dstu4145)
 
-message(${GTEST_INCLUDE_DIRS})
+add_library(${LIB} gf2m.cpp ecurve.cpp gf2m_element.cpp integer.cpp utils.cpp)
 
-add_executable(dstu-test main.cpp gf2m.cpp)
-target_link_libraries(dstu-test ${GTEST_BOTH_LIBRARIES})
+#target_include_directories(${LIB})
 
-add_test(NAME DstuTest COMMAND dstu-test)
+target_link_libraries(${LIB} boost)

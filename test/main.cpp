@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "../src/ecurve.h"
+#include "../src/domain_params.h"
 
 using namespace testing;
 
@@ -206,3 +207,21 @@ TEST_F(simple, signature_verification) {
     EXPECT_EQ(static_cast<dstu4145::integer>(y), r);
 }
 
+struct acceptance : Test {
+
+
+    dstu4145::domain_params params{
+        dstu4145::ecurve {
+            dstu4145::gf2m {163, 7, 6, 3 },
+            1,
+            dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"},
+            dstu4145::integer{"0x400000000000000000002BEC12BE2262D39BCF14D"}
+        },
+        dstu4145::integer {"0x400000000000000000002BEC12BE2262D39BCF14D"},
+        dstu4145::ecurve::point {
+            params.curve,
+            dstu4145::integer{"0x72D867F93A93AC27DF9FF01AFFE74885C8C540420"},
+            dstu4145::integer{"0x0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"}
+        }
+    };
+};

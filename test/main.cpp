@@ -4,6 +4,52 @@
 
 using namespace testing;
 
+TEST(utils, modulo_small) {
+    auto a = dstu4145::integer{"0x63"};
+    auto b = dstu4145::integer{"0x2A"};
+
+    EXPECT_EQ(dstu4145::p_modulo(a, b), dstu4145::integer{"0x1D"});
+
+}
+
+TEST(multiply, all) {
+    using dstu4145::multiply;
+
+    EXPECT_EQ(multiply(100, 3), 300);
+
+    EXPECT_EQ(multiply(1, 10), 10);
+    EXPECT_EQ(multiply(2, 10), 20);
+    EXPECT_EQ(multiply(3, 10), 30);
+    EXPECT_EQ(multiply(4, 10), 40);
+    EXPECT_EQ(multiply(5, 10), 50);
+    EXPECT_EQ(multiply(6, 10), 60);
+    EXPECT_EQ(multiply(7, 10), 70);
+    EXPECT_EQ(multiply(8, 10), 80);
+    EXPECT_EQ(multiply(9, 10), 90);
+    EXPECT_EQ(multiply(10, 10), 100);
+    EXPECT_EQ(multiply(11, 10), 110);
+    EXPECT_EQ(multiply(12, 10), 120);
+    EXPECT_EQ(multiply(13, 10), 130);
+    EXPECT_EQ(multiply(14, 10), 140);
+    EXPECT_EQ(multiply(15, 10), 150);
+}
+
+TEST(euqlid, simple) {
+    auto [d, a, b] = dstu4145::extended_euqlid(6, 4, 6);
+    a; b;
+
+    EXPECT_EQ(d, dstu4145::integer{2});
+}
+
+TEST(gf2m, inverse) {
+    auto field = dstu4145::gf2m{7, 5, 2, 1};
+    auto element = dstu4145::gf2m_element{field, 42};
+    auto inverted = dstu4145::gf2m_element{field, 62};
+
+    EXPECT_EQ(element.inverse(), inverted);
+}
+
+
 struct simple : Test {
     dstu4145::gf2m field{163, 7, 6, 3 };
 
@@ -23,64 +69,6 @@ struct simple : Test {
     dstu4145::integer d{"0x183F60FDF7951FF47D67193F8D073790C1C9B5A3E"};
     dstu4145::integer n{"0x400000000000000000002BEC12BE2262D39BCF14D"};
 };
-
-TEST_F(simple, public_key_computation) {
-    auto expected = dstu4145::ecurve::point{
-        curve,
-        dstu4145::integer{"0x57DE7FDE023FF929CB6AC785CE4B79CF64ABDC2DA"},
-        dstu4145::integer{"0x3E85444324BCF06AD85ABF6AD7B5F34770532B9AA"}
-    };
-    auto q = -(d * p);
-
-    EXPECT_EQ(q, expected);
-}
-
-TEST_F(simple, presignature_calculation) {
-    auto expected = dstu4145::ecurve::point{
-        curve,
-        dstu4145::integer{"0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C"},
-        dstu4145::integer{"0x5310AE5E560464A95DC80286F17EB762EC544B15B"}
-    };
-
-    auto e = dstu4145::integer{"0x1025E40BD97DB012B7A1D79DE8E12932D247F61C6"};
-    auto ep = e * p;
-    EXPECT_EQ(ep, expected);
-
-    auto fe = static_cast<dstu4145::integer>(ep.x);
-    EXPECT_EQ(fe, dstu4145::integer{ "0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C" });
-}
-
-TEST_F(simple, signature_calculation) {
-    auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
-
-    auto e = dstu4145::integer{ "0x1025E40BD97DB012B7A1D79DE8E12932D247F61C6" };
-    auto fe = (e * p).x;
-
-    auto h = field.create_element(hash);
-    auto r = static_cast<dstu4145::integer>(h * fe);
-
-    auto dr = static_cast<dstu4145::integer>((static_cast<dstu4145::integer2>(d) * r) % n);
-    auto s = (e + dr) % n;
-
-    EXPECT_EQ(r, dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"});
-    EXPECT_EQ(s, dstu4145::integer{"0x2100D86957331832B8E8C230F5BD6A332B3615ACA"});
-}
-
-TEST_F(simple, signature_verification) {
-    auto q = -(d * p);
-
-    auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
-
-    auto h = field.create_element(hash);
-    auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
-    auto s = dstu4145::integer{"0x2100D86957331832B8E8C230F5BD6A332B3615ACA"};
-
-    auto rpoint = s * p + r * q;
-
-    auto y = h * rpoint.x;
-
-    EXPECT_EQ(static_cast<dstu4145::integer>(y), r);
-}
 
 TEST_F(simple, point_multiplication) {
     auto expected = dstu4145::ecurve::point{
@@ -153,12 +141,15 @@ TEST_F(simple, field_element_multiplication_big) {
     EXPECT_EQ(a * b, field.create_element(dstu4145::integer{"0x2F44EF2885428821377088E7AB7110467B10B663B"}));
 }
 
-TEST(utils, modulo_small) {
-    auto a = dstu4145::integer{"0x63"};
-    auto b = dstu4145::integer{"0x2A"};
+TEST_F(simple, public_key_computation) {
+    auto expected = dstu4145::ecurve::point{
+        curve,
+        dstu4145::integer{"0x57DE7FDE023FF929CB6AC785CE4B79CF64ABDC2DA"},
+        dstu4145::integer{"0x3E85444324BCF06AD85ABF6AD7B5F34770532B9AA"}
+    };
+    auto q = -(d * p);
 
-    EXPECT_EQ(dstu4145::p_modulo(a, b), dstu4145::integer{"0x1D"});
-
+    EXPECT_EQ(q, expected);
 }
 
 TEST_F(simple, hash_to_field_element) {
@@ -168,40 +159,50 @@ TEST_F(simple, hash_to_field_element) {
     EXPECT_EQ(static_cast<dstu4145::integer>(h), dstu4145::integer{"0x03A2EB95B7180166DDF73532EEB76EDAEF52247FF" });
 }
 
+TEST_F(simple, presignature_calculation) {
+    auto expected = dstu4145::ecurve::point{
+        curve,
+        dstu4145::integer{"0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C"},
+        dstu4145::integer{"0x5310AE5E560464A95DC80286F17EB762EC544B15B"}
+    };
 
-TEST(multiply, all) {
-    using dstu4145::multiply;
+    auto e = dstu4145::integer{"0x1025E40BD97DB012B7A1D79DE8E12932D247F61C6"};
+    auto ep = e * p;
+    EXPECT_EQ(ep, expected);
 
-    EXPECT_EQ(multiply(100, 3), 300);
-
-    EXPECT_EQ(multiply(1, 10), 10);
-    EXPECT_EQ(multiply(2, 10), 20);
-    EXPECT_EQ(multiply(3, 10), 30);
-    EXPECT_EQ(multiply(4, 10), 40);
-    EXPECT_EQ(multiply(5, 10), 50);
-    EXPECT_EQ(multiply(6, 10), 60);
-    EXPECT_EQ(multiply(7, 10), 70);
-    EXPECT_EQ(multiply(8, 10), 80);
-    EXPECT_EQ(multiply(9, 10), 90);
-    EXPECT_EQ(multiply(10, 10), 100);
-    EXPECT_EQ(multiply(11, 10), 110);
-    EXPECT_EQ(multiply(12, 10), 120);
-    EXPECT_EQ(multiply(13, 10), 130);
-    EXPECT_EQ(multiply(14, 10), 140);
-    EXPECT_EQ(multiply(15, 10), 150);
+    auto fe = static_cast<dstu4145::integer>(ep.x);
+    EXPECT_EQ(fe, dstu4145::integer{ "0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C" });
 }
 
-TEST(euqlid, simple) {
-    auto [d, a, b] = dstu4145::extended_euqlid(6, 4, 6);
-    a; b;
+TEST_F(simple, signature_calculation) {
+    auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
 
-    EXPECT_EQ(d, dstu4145::integer{2});
+    auto e = dstu4145::integer{ "0x1025E40BD97DB012B7A1D79DE8E12932D247F61C6" };
+    auto fe = (e * p).x;
+
+    auto h = field.create_element(hash);
+    auto r = static_cast<dstu4145::integer>(h * fe);
+
+    auto dr = static_cast<dstu4145::integer>((static_cast<dstu4145::integer2>(d) * r) % n);
+    auto s = (e + dr) % n;
+
+    EXPECT_EQ(r, dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"});
+    EXPECT_EQ(s, dstu4145::integer{"0x2100D86957331832B8E8C230F5BD6A332B3615ACA"});
 }
 
-TEST(gf2m, inverse) {
-    auto field = dstu4145::gf2m{7, 5, 2, 1};
-    auto element = dstu4145::gf2m_element{field, 42};
-    auto inverted = dstu4145::gf2m_element{field, 62};
+TEST_F(simple, signature_verification) {
+    auto q = -(d * p);
 
-    EXPECT_EQ(element.inverse(), inverted);
+    auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
+
+    auto h = field.create_element(hash);
+    auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    auto s = dstu4145::integer{"0x2100D86957331832B8E8C230F5BD6A332B3615ACA"};
+
+    auto rpoint = s * p + r * q;
+
+    auto y = h * rpoint.x;
+
+    EXPECT_EQ(static_cast<dstu4145::integer>(y), r);
 }
+

@@ -3,5 +3,5 @@
 #include <functional>
 
 namespace dstu4145 {
-    using rng_t = std::function<char>();
+    using rng_t = std::function<char()>;
 }

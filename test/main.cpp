@@ -2,7 +2,9 @@
 
 #include "../src/ecurve.h"
 #include "../src/domain_params.h"
+#include "../src/signer.h"
 
+using namespace std::string_literals;
 using namespace testing;
 
 TEST(utils, modulo_small) {
@@ -208,8 +210,6 @@ TEST_F(simple, signature_verification) {
 }
 
 struct acceptance : Test {
-
-
     dstu4145::domain_params params{
         dstu4145::ecurve {
             dstu4145::gf2m {163, 7, 6, 3 },
@@ -224,4 +224,58 @@ struct acceptance : Test {
             dstu4145::integer{"0x0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"}
         }
     };
+
+    dstu4145::rng_t rng{ [](){ return char{'\x00'}; } };
+
+    dstu4145::private_key prv_key;
+    dstu4145::public_key  pub_key;
+
+    auto decode_char(char c) {
+        static const auto chars = std::map<char, char> {
+            {'0', 0},   {'1', 1},   {'2', 2},   {'3', 3},
+            {'4', 4},   {'5', 5},   {'6', 6},   {'7', 7},
+            {'8', 8},   {'9', 9},   {'A', 10},  {'B', 11},
+            {'C', 12},  {'D', 13},  {'E', 14},  {'F', 15}
+        };
+
+        auto found = chars.find(c);
+        if (found == std::end(chars))
+            throw std::runtime_error("wrong format");
+
+        return found->second;
+    }
+
+    auto hex_buffer(const std::string& hex_string) -> std::vector<char> {
+        using namespace std::string_literals;
+
+        if (std::size(hex_string) % 2 != 0)
+            return hex_buffer("0"s + hex_string);
+
+        auto result = std::vector<char>{};
+        for (size_t i = 0; i < std::size(hex_string); i += 2) {
+            auto c1 = decode_char(hex_string[i]);
+            auto c2 = decode_char(hex_string[i+1]);
+            result.push_back(c1 * 16 + c2);
+        }
+        return result;
+    }
 };
+
+TEST_F(acceptance, hex_buffer) {
+    auto expected = std::vector<char>{ '\xBA', '\xDC', '\x0D', '\xE1'};
+    EXPECT_EQ(expected, hex_buffer("BADC0DE1"));
+}
+
+
+TEST_F(acceptance, sign) {
+    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+    auto s = dstu4145::signer{params, rng};
+
+    auto signature = s.sign_hash(h, prv_key);
+    auto expected = hex_buffer(
+        "000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s +
+        "00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
+    );
+
+    EXPECT_EQ(signature, expected);
+}

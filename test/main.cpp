@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "../src/ecurve.h"
-#include "../src/domain_params.h"
-#include "../src/signer.h"
+#include "ecurve.h"
+#include "domain_params.h"
+#include "signer.h"
 
 using namespace std::string_literals;
 using namespace testing;

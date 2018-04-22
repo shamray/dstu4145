@@ -5,6 +5,8 @@
 
 namespace dstu4145 {
 
+    struct ecurve_point;
+
     class ecurve {
         friend struct ecurve_point;
     public:

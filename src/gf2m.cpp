@@ -1,8 +1,8 @@
 #include "gf2m.h"
 #include "gf2m_element.h"
 
-namespace dstu4145 {
-
+namespace dstu4145
+{
     gf2m::gf2m(int m, int x1, int x2, int x3)
         : m_(m)
         , basis_(0)

@@ -3,12 +3,14 @@
 #include "gf2m.h"
 #include "gf2m_element.h"
 
-namespace dstu4145 {
-
+namespace dstu4145
+{
     struct ecurve_point;
 
-    class ecurve {
+    class ecurve
+    {
         friend struct ecurve_point;
+
     public:
         using point = ecurve_point;
 
@@ -27,7 +29,8 @@ namespace dstu4145 {
         integer n_;
     };
 
-    struct ecurve_point {
+    struct ecurve_point
+    {
         ecurve_point(ecurve curve, integer ix, integer iy)
             : x(curve.gf_, ix)
             , y(curve.gf_, iy)
@@ -65,15 +68,19 @@ namespace dstu4145 {
             }
         }
 
-        auto operator* (integer d) const {
+        auto operator*(integer d) const
+        {
             return multiply(d, *this);
         }
-        auto operator- () const {
+
+        auto operator-() const
+        {
             return ecurve_point{ c, x, x + y };
         }
     };
 
-    inline auto operator* (integer d, ecurve::point p) {
+    inline auto operator* (integer d, ecurve::point p)
+    {
         return p * d;
     }
 

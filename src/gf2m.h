@@ -2,11 +2,12 @@
 
 #include "integer.h"
 
-namespace dstu4145 {
-
+namespace dstu4145
+{
     class gf2m_element;
 
-    class gf2m: boost::equality_comparable<gf2m> {
+    class gf2m: boost::equality_comparable<gf2m>
+    {
     public:
         using element = gf2m_element;
         gf2m(int m, int x1, int x2, int x3);

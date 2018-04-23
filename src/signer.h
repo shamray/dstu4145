@@ -6,8 +6,10 @@
 
 #include <vector>
 
-namespace dstu4145 {
-    class signer {
+namespace dstu4145
+{
+    class signer
+    {
     public:
         signer(domain_params params, rng_t random);
         auto sign_hash(std::vector<char> hash, private_key sign_key) -> std::vector<char>;

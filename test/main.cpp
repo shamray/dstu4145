@@ -3,11 +3,13 @@
 #include "ecurve.h"
 #include "domain_params.h"
 #include "signer.h"
+#include "verifier.h"
 
 using namespace std::string_literals;
 using namespace testing;
 
-TEST(utils, modulo_small) {
+TEST(utils, modulo_small)
+{
     auto a = dstu4145::integer{"0x63"};
     auto b = dstu4145::integer{"0x2A"};
 
@@ -15,7 +17,8 @@ TEST(utils, modulo_small) {
 
 }
 
-TEST(multiply, all) {
+TEST(multiply, all)
+{
     using dstu4145::multiply;
 
     EXPECT_EQ(multiply(100, 3), 300);
@@ -37,14 +40,16 @@ TEST(multiply, all) {
     EXPECT_EQ(multiply(15, 10), 150);
 }
 
-TEST(euqlid, simple) {
+TEST(euqlid, simple)
+{
     auto [d, a, b] = dstu4145::extended_euqlid(6, 4, 6);
     a; b;
 
     EXPECT_EQ(d, dstu4145::integer{2});
 }
 
-TEST(gf2m, inverse) {
+TEST(gf2m, inverse)
+{
     auto field = dstu4145::gf2m{7, 5, 2, 1};
     auto element = dstu4145::gf2m_element{field, 42};
     auto inverted = dstu4145::gf2m_element{field, 62};
@@ -53,7 +58,8 @@ TEST(gf2m, inverse) {
 }
 
 
-struct simple : Test {
+struct simple : Test
+{
     dstu4145::gf2m field{163, 7, 6, 3 };
 
     dstu4145::ecurve curve{
@@ -73,7 +79,8 @@ struct simple : Test {
     dstu4145::integer n{"0x400000000000000000002BEC12BE2262D39BCF14D"};
 };
 
-TEST_F(simple, point_multiplication) {
+TEST_F(simple, point_multiplication)
+{
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x57DE7FDE023FF929CB6AC785CE4B79CF64ABDC2DA"},
@@ -83,7 +90,8 @@ TEST_F(simple, point_multiplication) {
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, point_addition_equal) {
+TEST_F(simple, point_addition_equal)
+{
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x5A4397672F0C513E390212AD3825420BE83E3BFDA"},
@@ -93,7 +101,8 @@ TEST_F(simple, point_addition_equal) {
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, point_addition_not_equal) {
+TEST_F(simple, point_addition_not_equal)
+{
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x61DA3389DDA324607BFFCC1EAD469465D033EDE07"},
@@ -109,28 +118,32 @@ TEST_F(simple, point_addition_not_equal) {
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, field_element_addition_small) {
+TEST_F(simple, field_element_addition_small)
+{
     auto a = field.create_element(1);
     auto b = field.create_element(2);
 
     EXPECT_EQ(a + b, field.create_element(3));
 }
 
-TEST_F(simple, field_element_addition_small_equal) {
+TEST_F(simple, field_element_addition_small_equal)
+{
     auto a = field.create_element(1);
     auto b = field.create_element(1);
 
     EXPECT_EQ(a + b, field.create_element(0));
 }
 
-TEST_F(simple, field_element_addition_big) {
+TEST_F(simple, field_element_addition_big)
+{
     auto a = field.create_element(dstu4145::integer{"0x695B3B9D26830943133078EF19FE8A8814F8F7B70"});
     auto b = field.create_element(dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"});
 
     EXPECT_EQ(a + b, field.create_element(dstu4145::integer{"0x5ED757308A030E3F43DC5965A137EA9D61F474E14"}));
 }
 
-TEST_F(simple, field_element_multiplication_small) {
+TEST_F(simple, field_element_multiplication_small)
+{
     auto a = field.create_element(2);
     auto b = field.create_element(3);
 
@@ -144,7 +157,8 @@ TEST_F(simple, field_element_multiplication_big) {
     EXPECT_EQ(a * b, field.create_element(dstu4145::integer{"0x2F44EF2885428821377088E7AB7110467B10B663B"}));
 }
 
-TEST_F(simple, public_key_computation) {
+TEST_F(simple, public_key_computation)
+{
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x57DE7FDE023FF929CB6AC785CE4B79CF64ABDC2DA"},
@@ -155,14 +169,16 @@ TEST_F(simple, public_key_computation) {
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, hash_to_field_element) {
+TEST_F(simple, hash_to_field_element)
+{
     auto hash = ::dstu4145::integer{"0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
     auto h = field.create_element(hash);
 
     EXPECT_EQ(static_cast<dstu4145::integer>(h), dstu4145::integer{"0x03A2EB95B7180166DDF73532EEB76EDAEF52247FF" });
 }
 
-TEST_F(simple, presignature_calculation) {
+TEST_F(simple, presignature_calculation)
+{
     auto expected = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C"},
@@ -177,7 +193,8 @@ TEST_F(simple, presignature_calculation) {
     EXPECT_EQ(fe, dstu4145::integer{ "0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C" });
 }
 
-TEST_F(simple, signature_calculation) {
+TEST_F(simple, signature_calculation)
+{
     auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
 
     auto e = dstu4145::integer{ "0x1025E40BD97DB012B7A1D79DE8E12932D247F61C6" };
@@ -193,7 +210,8 @@ TEST_F(simple, signature_calculation) {
     EXPECT_EQ(s, dstu4145::integer{"0x2100D86957331832B8E8C230F5BD6A332B3615ACA"});
 }
 
-TEST_F(simple, signature_verification) {
+TEST_F(simple, signature_verification)
+{
     auto q = -(d * p);
 
     auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
@@ -209,7 +227,8 @@ TEST_F(simple, signature_verification) {
     EXPECT_EQ(static_cast<dstu4145::integer>(y), r);
 }
 
-struct acceptance : Test {
+struct acceptance : Test
+{
     dstu4145::domain_params params{
         dstu4145::ecurve {
             dstu4145::gf2m {163, 7, 6, 3 },
@@ -230,7 +249,8 @@ struct acceptance : Test {
     dstu4145::private_key prv_key;
     dstu4145::public_key  pub_key;
 
-    auto decode_char(char c) {
+    auto decode_char(char c)
+    {
         static const auto chars = std::map<char, char> {
             {'0', 0},   {'1', 1},   {'2', 2},   {'3', 3},
             {'4', 4},   {'5', 5},   {'6', 6},   {'7', 7},
@@ -245,7 +265,8 @@ struct acceptance : Test {
         return found->second;
     }
 
-    auto hex_buffer(const std::string& hex_string) -> std::vector<char> {
+    auto hex_buffer(const std::string& hex_string) -> std::vector<char>
+    {
         using namespace std::string_literals;
 
         if (std::size(hex_string) % 2 != 0)
@@ -261,13 +282,15 @@ struct acceptance : Test {
     }
 };
 
-TEST_F(acceptance, hex_buffer) {
+TEST_F(acceptance, hex_buffer)
+{
     auto expected = std::vector<char>{ '\xBA', '\xDC', '\x0D', '\xE1'};
     EXPECT_EQ(expected, hex_buffer("BADC0DE1"));
 }
 
 
-TEST_F(acceptance, sign) {
+TEST_F(acceptance, sign)
+{
     auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
     auto s = dstu4145::signer{params, rng};
 

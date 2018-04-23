@@ -2,6 +2,7 @@
 
 #include <functional>
 
-namespace dstu4145 {
+namespace dstu4145
+{
     using rng_t = std::function<char()>;
 }

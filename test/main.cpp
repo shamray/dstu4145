@@ -265,14 +265,14 @@ struct acceptance : Test
         return found->second;
     }
 
-    auto hex_buffer(const std::string& hex_string) -> std::vector<char>
+    auto hex_buffer(const std::string& hex_string) -> std::vector<unsigned char>
     {
         using namespace std::string_literals;
 
         if (std::size(hex_string) % 2 != 0)
             return hex_buffer("0"s + hex_string);
 
-        auto result = std::vector<char>{};
+        auto result = std::vector<unsigned char>{};
         for (size_t i = 0; i < std::size(hex_string); i += 2) {
             auto c1 = decode_char(hex_string[i]);
             auto c2 = decode_char(hex_string[i+1]);
@@ -284,8 +284,27 @@ struct acceptance : Test
 
 TEST_F(acceptance, hex_buffer)
 {
-    auto expected = std::vector<char>{ '\xBA', '\xDC', '\x0D', '\xE1'};
+    auto expected = std::vector<unsigned char>{ u'\xBA', u'\xDC', u'\x0D', u'\xE1'};
     EXPECT_EQ(expected, hex_buffer("BADC0DE1"));
+}
+
+TEST_F(acceptance, int_to_buffer)
+{
+    auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    auto rbuf = std::vector<unsigned char>{};
+    auto expected = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
+
+    dstu4145::integer_to_buffer(r, std::back_inserter(rbuf));
+
+    EXPECT_EQ(rbuf, expected);
+}
+
+TEST_F(acceptance, buffer_to_int)
+{
+    auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    auto rbuf = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
+
+    EXPECT_EQ(r, dstu4145::buffer_to_integer(rbuf));
 }
 
 

@@ -22,6 +22,8 @@ namespace dstu4145
             , n_(n)
         {}
 
+        auto field() const -> const auto& { return gf_; }
+
     private:
         gf2m gf_;
         int a_;

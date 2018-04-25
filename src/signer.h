@@ -15,6 +15,9 @@ namespace dstu4145
         auto sign_hash(std::vector<unsigned char> hash, private_key sign_key) -> std::vector<unsigned char>;
 
     private:
+        auto gen_random_integer() -> integer;
+
+    private:
         domain_params params_;
         rng_t random_;
     };

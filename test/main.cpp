@@ -5,7 +5,7 @@
 #include "signer.h"
 #include "verifier.h"
 
-using namespace std::string_literals;
+using namespace std::literals;
 using namespace testing;
 
 TEST(utils, modulo_small)
@@ -249,7 +249,7 @@ struct acceptance : Test
     dstu4145::private_key prv_key;
     dstu4145::public_key  pub_key;
 
-    auto decode_char(char c)
+    static auto decode_char(char c)
     {
         static const auto chars = std::map<char, char> {
             {'0', 0},   {'1', 1},   {'2', 2},   {'3', 3},
@@ -265,7 +265,7 @@ struct acceptance : Test
         return found->second;
     }
 
-    auto hex_buffer(const std::string& hex_string) -> std::vector<unsigned char>
+    static auto hex_buffer(const std::string& hex_string) -> std::vector<unsigned char>
     {
         using namespace std::string_literals;
 
@@ -310,6 +310,17 @@ TEST_F(acceptance, buffer_to_int)
 
 TEST_F(acceptance, sign)
 {
+    auto rng = [](){
+        static auto buffer = hex_buffer(
+            "00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E000000000000000000000001025E40BD97DB012B7A1D79DE8E12932D247F61C6"
+        );
+        static auto current = std::begin(buffer);
+
+        if (current == std::end(buffer))
+            return decltype(buffer)::value_type();
+        else
+            return *current++;
+    };
     auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
     auto s = dstu4145::signer{params, rng};
 

@@ -12,7 +12,7 @@ namespace dstu4145
     {
     public:
         signer(domain_params params, rng_t random);
-        auto sign_hash(std::vector<unsigned char> hash, private_key sign_key) -> std::vector<unsigned char>;
+        auto sign_hash(const private_key& key, const std::vector<unsigned char>& hash) -> std::vector<unsigned char>;
 
     private:
         auto gen_random_integer() -> integer;

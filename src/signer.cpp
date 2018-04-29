@@ -13,14 +13,14 @@ namespace dstu4145
 
     }
 
-    auto signer::sign_hash(std::vector<unsigned char> hash, private_key sign_key) -> std::vector<unsigned char>
+    auto signer::sign_hash(const private_key& sign_key, const std::vector<unsigned char>& hash) -> std::vector<unsigned char>
     {
         const auto& curve = params_.curve;
         const auto& field = curve.field();
         const auto& p = params_.p;
         const auto& n = params_.n;
 
-        auto d = gen_random_integer();
+        const auto& d = static_cast<integer>(sign_key);
 
         auto e = gen_random_integer();
         auto fe = (e * p).x;

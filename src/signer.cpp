@@ -7,8 +7,8 @@ using namespace std::string_literals;
 namespace dstu4145
 {
     signer::signer(domain_params params, rng_t random)
-        : params_(params)
-        , random_(random)
+        : params_(std::move(params))
+        , random_(std::move(random))
     {
 
     }

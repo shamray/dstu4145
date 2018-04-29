@@ -246,8 +246,8 @@ struct acceptance : Test
 
     dstu4145::rng_t rng{ [](){ return char{'\x00'}; } };
 
-    dstu4145::private_key prv_key;
-    dstu4145::public_key  pub_key;
+    dstu4145::private_key prv_key{hex_buffer("000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s)};
+    dstu4145::public_key  pub_key{params, prv_key};
 
     static auto decode_char(char c)
     {
@@ -308,7 +308,7 @@ TEST_F(acceptance, buffer_to_int)
 }
 
 
-TEST_F(acceptance, sign)
+TEST_F(acceptance, signing_hash_produces_correct_signature)
 {
     auto rng = [](){
         static auto buffer = hex_buffer(
@@ -332,4 +332,16 @@ TEST_F(acceptance, sign)
     );
 
     EXPECT_EQ(signature, expected);
+}
+
+TEST_F(acceptance, verifying_correct_signature_is_successful)
+{
+    auto v = dstu4145::verifier{params};
+    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+    auto signature = hex_buffer(
+        "000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s +
+        "00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
+    );
+
+    EXPECT_TRUE(v.verify_hash(pub_key, h, signature));
 }

@@ -22,11 +22,17 @@ namespace dstu4145
 
     }
 
+    template <class iterator1, class iterator2>
+    auto buffer_to_integer(const iterator1& begin, const iterator2& end)
+    {
+        auto result = integer{0};
+        import_bits(result, begin, end);
+        return result;
+    }
+
     template <class container>
     auto buffer_to_integer(const container& c)
     {
-        auto result = integer{0};
-        import_bits(result, std::begin(c), std::end(c));
-        return result;
+        return buffer_to_integer(std::begin(c), std::end(c));
     }
 }

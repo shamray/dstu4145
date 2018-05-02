@@ -1,4 +1,5 @@
 #include "verifier.h"
+#include "key_pair.h"
 
 namespace dstu4145
 {
@@ -12,6 +13,19 @@ namespace dstu4145
         std::vector<unsigned char> signature
     ) -> bool
     {
-        return true;
+        const auto& q = static_cast<ecurve::point>(key);
+        const auto& p = params_.p;
+        const auto& curve = params_.curve;
+        const auto& field = curve.field();
+
+        auto h = field.create_element(buffer_to_integer(hash));
+        auto s = buffer_to_integer(std::begin(signature), std::begin(signature) + signature.size() / 2);
+        auto r = buffer_to_integer(std::begin(signature) + signature.size() / 2, std::end(signature));
+
+        auto rpoint = s * p + r * q;
+
+        auto y = h * rpoint.x;
+
+        return static_cast<dstu4145::integer>(y) == r;
     }
 }

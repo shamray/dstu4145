@@ -3,7 +3,7 @@
 
 namespace dstu4145
 {
-    private_key::private_key(const std::vector<unsigned char> &value)
+    private_key::private_key(const std::vector<std::byte> &value)
         : d_{buffer_to_integer(value)}
     {
     }

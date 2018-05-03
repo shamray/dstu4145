@@ -11,14 +11,28 @@ namespace dstu4145
     void integer_to_buffer(const integer& i, iterator out)
     {
         unsigned bitcount = boost::multiprecision::backends::eval_msb_imp(i.backend()) + 1;
-        unsigned chunks = bitcount / 8;
+        constexpr auto chunk_size = 8;
+        constexpr bool msv_first = true;
+        unsigned chunks = bitcount / chunk_size;
         if(bitcount % 8)
             ++chunks;
 
         for(auto i = 0; i < 32 - chunks; ++i)
-            *out++ = 0;
+            *out++ = std::byte{0};
 
-        export_bits(i, out, 8);
+        if(!i)
+            return;
+
+        int bit_location = msv_first ? bitcount - chunk_size : 0;
+        int bit_step = msv_first ? -static_cast<int>(chunk_size) : chunk_size;
+        while(bit_location % bit_step) ++bit_location;
+
+        do
+        {
+            *out = std::byte{boost::multiprecision::detail::extract_bits(i.backend(), bit_location, chunk_size, integer::backend_type::trivial_tag())};
+            ++out;
+            bit_location += bit_step;
+        } while((bit_location >= 0) && (bit_location < (int)bitcount));
 
     }
 

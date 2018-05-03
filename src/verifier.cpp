@@ -9,8 +9,8 @@ namespace dstu4145
 
     auto verifier::verify_hash(
         const public_key& key,
-        std::vector<unsigned char> hash,
-        std::vector<unsigned char> signature
+        std::vector<std::byte> hash,
+        std::vector<std::byte> signature
     ) -> bool
     {
         const auto& q = static_cast<ecurve::point>(key);

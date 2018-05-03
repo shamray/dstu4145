@@ -11,7 +11,7 @@ namespace dstu4145
     class private_key
     {
     public:
-        private_key(const std::vector<unsigned char>& value);
+        private_key(const std::vector<std::byte>& value);
 
         operator integer() const { return d_; }
 
@@ -22,7 +22,7 @@ namespace dstu4145
     class public_key
     {
     public:
-        public_key(const std::vector<unsigned char>& value);
+        public_key(const std::vector<std::byte>& value);
         public_key(const domain_params& params, const private_key& value);
 
         operator ecurve::point() const { return q_; }

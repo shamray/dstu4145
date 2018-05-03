@@ -13,7 +13,7 @@ namespace dstu4145
 
     }
 
-    auto signer::sign_hash(const private_key& sign_key, const std::vector<unsigned char>& hash) -> std::vector<unsigned char>
+    auto signer::sign_hash(const private_key& sign_key, const std::vector<std::byte>& hash) -> std::vector<std::byte>
     {
         const auto& curve = params_.curve;
         const auto& field = curve.field();
@@ -32,7 +32,7 @@ namespace dstu4145
         auto dr = static_cast<integer>((static_cast<integer2>(d) * r) % n);
         auto s = (e + dr) % n;
 
-        auto result = std::vector<unsigned char>{};
+        auto result = std::vector<std::byte>{};
 
         integer_to_buffer(s, std::back_inserter(result));
         integer_to_buffer(r, std::back_inserter(result));
@@ -42,7 +42,7 @@ namespace dstu4145
 
     auto signer::gen_random_integer() -> integer
     {
-        auto buffer = std::vector<unsigned char>{};
+        auto buffer = std::vector<std::byte>{};
 
         while(buffer.size() < 32) {
             buffer.push_back(random_());

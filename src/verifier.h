@@ -12,8 +12,8 @@ namespace dstu4145
         verifier(domain_params params);
         auto verify_hash(
             const public_key& key,
-            std::vector<unsigned char> hash,
-            std::vector<unsigned char> signature
+            std::vector<std::byte> hash,
+            std::vector<std::byte> signature
         ) -> bool;
 
     private:

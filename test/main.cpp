@@ -244,7 +244,7 @@ struct acceptance : Test
         }
     };
 
-    dstu4145::rng_t rng{ [](){ return char{'\x00'}; } };
+    dstu4145::rng_t rng{ [](){ return std::byte{'\x00'}; } };
 
     dstu4145::private_key prv_key{hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s)};
     dstu4145::public_key  pub_key{params, prv_key};
@@ -265,18 +265,18 @@ struct acceptance : Test
         return found->second;
     }
 
-    static auto hex_buffer(const std::string& hex_string) -> std::vector<unsigned char>
+    static auto hex_buffer(const std::string& hex_string) -> std::vector<std::byte>
     {
         using namespace std::string_literals;
 
         if (std::size(hex_string) % 2 != 0)
             return hex_buffer("0"s + hex_string);
 
-        auto result = std::vector<unsigned char>{};
+        auto result = std::vector<std::byte>{};
         for (size_t i = 0; i < std::size(hex_string); i += 2) {
             auto c1 = decode_char(hex_string[i]);
             auto c2 = decode_char(hex_string[i+1]);
-            result.push_back(c1 * 16 + c2);
+            result.push_back(std::byte{c1 * 16 + c2});
         }
         return result;
     }
@@ -284,14 +284,14 @@ struct acceptance : Test
 
 TEST_F(acceptance, hex_buffer)
 {
-    auto expected = std::vector<unsigned char>{ u'\xBA', u'\xDC', u'\x0D', u'\xE1'};
+    auto expected = std::vector<std::byte>{ std::byte{u'\xBA'}, std::byte{u'\xDC'}, std::byte{u'\x0D'}, std::byte{u'\xE1'}};
     EXPECT_EQ(expected, hex_buffer("BADC0DE1"));
 }
 
 TEST_F(acceptance, int_to_buffer)
 {
     auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
-    auto rbuf = std::vector<unsigned char>{};
+    auto rbuf = std::vector<std::byte>{};
     auto expected = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
 
     dstu4145::integer_to_buffer(r, std::back_inserter(rbuf));

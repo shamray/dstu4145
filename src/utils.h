@@ -86,15 +86,5 @@ namespace dstu4145
 
         auto [d, a, b] = extended_euqlid(c, r, mod);
         return std::make_tuple(d, b, a ^ p_modulo(p_multiply(q,  b), mod));
-
-       /* auto a = integer{1};
-        auto u = integer{1};
-        auto d = f;
-        auto v = c;
-
-        while(v != 0) {
-            auto [r, q] = divide(d, v);
-            w = a ^
-        }*/
     }
 }

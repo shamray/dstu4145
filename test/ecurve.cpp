@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "ecurve.h"
-#include "domain_params.h"
 
 
 using namespace std::literals;

@@ -1,5 +1,5 @@
 add_executable(dstu-test
-  main.cpp
+  ecurve.cpp
   acceptance.cpp
   integer.cpp
   gf2m.cpp

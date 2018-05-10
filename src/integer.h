@@ -11,7 +11,7 @@ namespace dstu4145
     void integer_to_buffer(const integer& i, iterator out)
     {
         unsigned bitcount = boost::multiprecision::backends::eval_msb_imp(i.backend()) + 1;
-        constexpr auto chunk_size = 8;
+        constexpr auto chunk_size = uint8_t{8};
         constexpr bool msv_first = true;
         unsigned chunks = bitcount / chunk_size;
         if(bitcount % 8)
@@ -29,11 +29,10 @@ namespace dstu4145
 
         do
         {
-            *out = std::byte{boost::multiprecision::detail::extract_bits(i.backend(), bit_location, chunk_size, integer::backend_type::trivial_tag())};
+            *out = static_cast<std::byte>(boost::multiprecision::detail::extract_bits(i.backend(), bit_location, chunk_size, boost::mpl::false_()));
             ++out;
             bit_location += bit_step;
         } while((bit_location >= 0) && (bit_location < (int)bitcount));
-
     }
 
     template <class iterator1, class iterator2>

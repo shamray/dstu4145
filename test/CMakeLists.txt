@@ -2,6 +2,7 @@ add_executable(dstu-test
   main.cpp
   acceptance.cpp
   integer.cpp
+  utils.cpp
   test-utils.cpp
   test-utils-test.cpp
 )

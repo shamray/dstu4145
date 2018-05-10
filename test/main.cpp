@@ -8,16 +8,6 @@ using namespace std::literals;
 using namespace testing;
 
 
-TEST(gf2m, inverse)
-{
-    auto field = dstu4145::gf2m{7, 5, 2, 1};
-    auto element = dstu4145::gf2m_element{field, 42};
-    auto inverted = dstu4145::gf2m_element{field, 62};
-
-    EXPECT_EQ(element.inverse(), inverted);
-}
-
-
 struct simple : Test
 {
     dstu4145::gf2m field{163, 7, 6, 3 };

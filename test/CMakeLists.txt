@@ -3,6 +3,7 @@ add_executable(dstu-test
   acceptance.cpp
   integer.cpp
   test-util.cpp
+  test-util-test.cpp
 )
 
 target_link_libraries(dstu-test 

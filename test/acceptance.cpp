@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "test-util.h"
+#include "test-utils.h"
 
 #include "signer.h"
 #include "verifier.h"

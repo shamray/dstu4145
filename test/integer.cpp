@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "test-util.h"
+#include "test-utils.h"
 #include "integer.h"
 
 using namespace std::literals;

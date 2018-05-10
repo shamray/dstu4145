@@ -1,4 +1,7 @@
-add_executable(dstu-test main.cpp)
+add_executable(dstu-test
+  main.cpp
+  acceptance.cpp
+)
 
 target_link_libraries(dstu-test 
     dstu4145

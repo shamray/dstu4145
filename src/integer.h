@@ -40,7 +40,7 @@ namespace dstu4145
     auto buffer_to_integer(const iterator1& begin, const iterator2& end)
     {
         auto result = integer{0};
-        import_bits(result, begin, end);
+        import_bits(result, begin, end, 8);
         return result;
     }
 

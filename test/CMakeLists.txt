@@ -1,6 +1,7 @@
 add_executable(dstu-test
   main.cpp
   acceptance.cpp
+  integer.cpp
   test-util.cpp
 )
 

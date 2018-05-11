@@ -6,21 +6,22 @@ using namespace std::string_literals;
 
 namespace dstu4145
 {
-    signer::signer(domain_params params, rng_t random)
-        : params_(std::move(params))
+    signer::signer(private_key sign_key, domain_params params, rng_t random)
+        : prvkey_(std::move(sign_key))
+        , params_(std::move(params))
         , random_(std::move(random))
     {
 
     }
 
-    auto signer::sign_hash(const private_key& sign_key, const std::vector<std::byte>& hash) -> std::vector<std::byte>
+    auto signer::sign_hash(const std::vector<std::byte>& hash) -> std::vector<std::byte>
     {
         const auto& curve = params_.curve;
         const auto& field = curve.field();
         const auto& p = params_.p;
         const auto& n = params_.n;
 
-        const auto& d = static_cast<integer>(sign_key);
+        const auto& d = static_cast<integer>(prvkey_);
 
         auto e = gen_random_integer();
         auto fe = (e * p).x;

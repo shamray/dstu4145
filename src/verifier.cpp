@@ -1,19 +1,15 @@
 #include "verifier.h"
-#include "key_pair.h"
 
 namespace dstu4145
 {
-    verifier::verifier(domain_params params)
-        : params_(std::move(params))
+    verifier::verifier(public_key key, domain_params params)
+        : pubkey_(std::move(key))
+        , params_(std::move(params))
     {}
 
-    auto verifier::verify_hash(
-        const public_key& key,
-        std::vector<std::byte> hash,
-        std::vector<std::byte> signature
-    ) -> bool
+    auto verifier::verify_hash(std::vector<std::byte> hash, std::vector<std::byte> signature) -> bool
     {
-        const auto& q = static_cast<ecurve::point>(key);
+        const auto& q = static_cast<ecurve::point>(pubkey_);
         const auto& p = params_.p;
         const auto& curve = params_.curve;
         const auto& field = curve.field();

@@ -5,7 +5,7 @@ eleptic curve cryptography digital signature algorithm. It is
 written in C++17. The library is designed to be compact, efficient
 and easy to use.
 
-Ця бібліотека реалізує ДСУТ 4145-2002 - стандарт цифрового підпису,
+Ця бібліотека реалізує ДСТУ 4145-2002 - стандарт цифрового підпису,
 що ґрунтується на еліптичних кривих. Бібліотека написана на C++17.
 
 ## Compilation requirements

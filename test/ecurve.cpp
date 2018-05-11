@@ -14,8 +14,7 @@ struct simple : Test
     dstu4145::ecurve curve{
         field,
         1,
-        dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"},
-        dstu4145::integer{"0x400000000000000000002BEC12BE2262D39BCF14D"}
+        dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"}
     };
 
     dstu4145::ecurve::point p{

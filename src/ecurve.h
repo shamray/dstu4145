@@ -15,11 +15,10 @@ namespace dstu4145
         using point = ecurve_point;
 
     public:
-        ecurve(gf2m gf, int a, integer b, integer n)
+        ecurve(gf2m gf, int a, integer b)
             : gf_(gf)
             , a_(a)
             , b_(b)
-            , n_(n)
         {}
 
         auto field() const -> const auto& { return gf_; }
@@ -28,7 +27,6 @@ namespace dstu4145
         gf2m gf_;
         int a_;
         integer b_;
-        integer n_;
     };
 
     struct ecurve_point

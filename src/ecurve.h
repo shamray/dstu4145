@@ -22,6 +22,10 @@ namespace dstu4145
         {}
 
         auto field() const -> const auto& { return gf_; }
+        auto a() const { return a_; }
+        auto b() const { return b_; }
+
+        auto get_point(integer ix, integer iy) const -> point;
 
     private:
         gf2m gf_;
@@ -31,6 +35,12 @@ namespace dstu4145
 
     struct ecurve_point
     {
+        ecurve_point(ecurve curve)
+            : x(curve.gf_.create_element(0))
+            , y(curve.gf_.create_element(0))
+            , c(curve)
+        {}
+
         ecurve_point(ecurve curve, integer ix, integer iy)
             : x(curve.gf_, ix)
             , y(curve.gf_, iy)
@@ -87,6 +97,11 @@ namespace dstu4145
     inline auto operator== (ecurve::point a, ecurve::point b)
     {
         return a.x == b.x && a.y == b.y;
+    }
+
+    inline auto operator!= (ecurve::point a, ecurve::point b)
+    {
+        return !(a == b);
     }
 
     inline std::ostream& operator<< (std::ostream& os, const ecurve::point& p)

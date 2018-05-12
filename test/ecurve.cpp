@@ -175,4 +175,8 @@ TEST_F(simple, signature_verification)
     EXPECT_EQ(static_cast<dstu4145::integer>(y), r);
 }
 
-
+TEST_F(simple, find_point)
+{
+    auto actual = curve.find_point(dstu4145::integer{"0x72D867F93A93AC27DF9FF01AFFE74885C8C540420"});
+    EXPECT_EQ(actual, p);
+}

@@ -10,15 +10,16 @@ using namespace testing;
 
 struct acceptance : Test
 {
+    dstu4145::ecurve curve {
+        dstu4145::gf2m {163, 7, 6, 3 },
+        1,
+        dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"}
+    };
     dstu4145::domain_params params{
-        dstu4145::ecurve {
-            dstu4145::gf2m {163, 7, 6, 3 },
-            1,
-            dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"}
-        },
+        curve,
         dstu4145::integer {"0x400000000000000000002BEC12BE2262D39BCF14D"},
         dstu4145::ecurve::point {
-            params.curve,
+            curve,
             dstu4145::integer{"0x72D867F93A93AC27DF9FF01AFFE74885C8C540420"},
             dstu4145::integer{"0x0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"}
         }
@@ -66,4 +67,35 @@ TEST_F(acceptance, verifying_correct_signature_is_successful)
     );
 
     EXPECT_TRUE(v.verify_hash(h, signature));
+}
+
+struct acceptance233 : Test
+{
+    dstu4145::ecurve curve{
+        dstu4145::gf2m {233, 9, 4, 1 },
+        1,
+        dstu4145::integer{"0x06973B15095675534C7CF7E64A21BD54EF5DD3B8A0326AA936ECE454D2C"}
+    };
+    dstu4145::integer n {"0x1000000000000000000000000000013E974E72F8A6922031D2603CFE0D7"};
+
+    dstu4145::rng_t rng {
+        [] () {
+            static auto buffer = hex_buffer(
+                "000000000000000000000001025E40BD97DB012B7A1D79DE8E12932D247F61C6"s
+            );
+            static auto current = std::begin(buffer);
+
+            if (current == std::end(buffer))
+                return decltype(buffer)::value_type();
+            else
+                return *current++;
+        }
+    };
+
+    dstu4145::private_key prv_key{hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s)};
+};
+
+TEST_F(acceptance233, test1)
+{
+
 }

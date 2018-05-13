@@ -6,7 +6,16 @@ namespace dstu4145
     {
         auto solve_quadratic_equasion(const gf2m& gf, const gf2m::element& u, const gf2m::element& w) -> std::optional<gf2m::element>
         {
-            return gf.create_element(dstu4145::integer{"0x0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"});
+            assert(u != gf.create_element(0));
+            assert(w != gf.create_element(0));
+
+            auto v = w * square(u.inverse());
+
+            assert(v.trace() != gf.create_element(1));
+
+            std::cout << gf.basis() << std::endl;
+            return v.half_trace() * u;
+//            return gf.create_element(dstu4145::integer{"0x0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"});
         }
     }
     auto ecurve::find_point(integer ix, integer iy) const -> point

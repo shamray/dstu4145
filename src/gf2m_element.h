@@ -36,6 +36,9 @@ namespace dstu4145
             return field_.create_element(b);
         }
 
+        auto trace() -> gf2m_element;
+        auto half_trace() -> gf2m_element;
+
     private:
         gf2m field_;
         integer value_;
@@ -44,6 +47,11 @@ namespace dstu4145
     inline auto operator==(const gf2m::element& a, const gf2m::element& b) -> bool
     {
         return a.field_ == b.field_ && a.value_ == b.value_;
+    }
+
+    inline auto operator!=(const gf2m::element& a, const gf2m::element& b) -> bool
+    {
+        return !(a == b);
     }
 
     inline auto operator+(const gf2m::element& a, const gf2m::element& b) -> gf2m::element

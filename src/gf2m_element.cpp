@@ -7,8 +7,6 @@ namespace dstu4145
         auto t = *this;
         auto x = *this;
 
-        std::cout << std::endl;
-
         for (auto i = 1u; i < field_.m(); ++i)
             t = square(t) + x;
 

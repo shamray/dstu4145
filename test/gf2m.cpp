@@ -17,14 +17,17 @@ TEST(gf2m_test, trace)
     auto field = dstu4145::gf2m{163, 7, 6, 3 };
     auto u = field.create_element(dstu4145::integer{"0x4AFB244364AA35D5A34F61A76615D1968E512F94"});
     auto w = u.trace();
+
+    EXPECT_EQ(w, field.create_element(dstu4145::integer{0}));
 }
 
 TEST(gf2m_test, multiply_identical)
 {
     auto field = dstu4145::gf2m{163, 7, 6, 3 };
     auto a = field.create_element(dstu4145::integer{"0x4CAD141C3B5ADA6B8A55A0A1FDA6D223A86F85B5E"});
-    auto s = a * a;
-    std::cout << std::endl << s << std::endl;
+    auto expected = field.create_element(dstu4145::integer{"0x1DC6F426DE35AEE2A90290E014D64E6AE3C4FA81E"});
+
+    EXPECT_EQ(a * a, expected);
 }
 
 TEST(gf2m_test, add)

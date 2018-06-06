@@ -21,6 +21,15 @@ TEST(gf2m_test, trace)
     EXPECT_EQ(w, field.create_element(dstu4145::integer{0}));
 }
 
+TEST(gf2m_test, half_trace)
+{
+    auto field = dstu4145::gf2m{163, 7, 6, 3 };
+    auto u = field.create_element(dstu4145::integer{"0x4AFB244364AA35D5A34F61A76615D1968E512F94"});
+    auto w = u.half_trace();
+
+    EXPECT_EQ(w, field.create_element(dstu4145::integer{"0x166D14411C58E39898B0A99989AE32BDD86B1E24"}));
+}
+
 TEST(gf2m_test, multiply_identical)
 {
     auto field = dstu4145::gf2m{163, 7, 6, 3 };

@@ -9,11 +9,19 @@ namespace dstu4145
             assert(u != gf.create_element(0));
             assert(w != gf.create_element(0));
 
-            auto v = w * square(u.inverse());
+            //auto v = w * square(u.inverse());
+
+            auto u1 = u.inverse();
+            auto u2 = u1 * u1;
+            auto v = w * u2;
+
+            std::cout << std::endl << v << std::endl;
+            std::cout << std::endl << v.trace() << std::endl;
+            std::cout << std::endl << v.half_trace() << std::endl;
 
             assert(v.trace() != gf.create_element(1));
 
-            std::cout << gf.basis() << std::endl;
+            std::cout << std::endl << std::hex << gf.basis() << std::endl;
             return v.half_trace() * u;
 //            return gf.create_element(dstu4145::integer{"0x0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"});
         }
@@ -28,9 +36,12 @@ namespace dstu4145
         for (;;) {
             auto u = field().create_element(ix);
             auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
+            //std::cout << std::endl << w << std::endl;
             auto z = solve_quadratic_equasion(field(), u, w);
-            if (z.has_value())
-                return point {*this, u, z.value()};
+            if (z.has_value()) {
+                //assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
+                return point{*this, u, z.value()};
+            }
         }
     }
 

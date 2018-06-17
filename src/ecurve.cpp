@@ -28,7 +28,7 @@ namespace dstu4145
             auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
             auto z = solve_quadratic_equasion(field(), u, w);
             if (z.has_value()) {
-                //assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
+                assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
                 return point{*this, u, z.value()};
             }
         }

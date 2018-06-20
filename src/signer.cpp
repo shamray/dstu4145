@@ -1,4 +1,5 @@
 #include "signer.h"
+#include "rng.h"
 
 #include <map>
 
@@ -23,7 +24,7 @@ namespace dstu4145
 
         const auto& d = static_cast<integer>(prvkey_);
 
-        auto e = gen_random_integer();
+        auto e = gen_random_integer(random_);
         auto fe = (e * p).x;
 
         auto h = field.create_element(buffer_to_integer(hash));
@@ -40,16 +41,4 @@ namespace dstu4145
 
         return result;
     }
-
-    auto signer::gen_random_integer() -> integer
-    {
-        auto buffer = std::vector<std::byte>{};
-
-        while(buffer.size() < 32) {
-            buffer.push_back(random_());
-        }
-
-        return buffer_to_integer(buffer);
-    }
-
 }

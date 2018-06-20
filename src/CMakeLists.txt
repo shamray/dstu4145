@@ -3,7 +3,17 @@ add_library(dstu4145
     ecurve.cpp 
     gf2m_element.cpp 
     integer.cpp 
-    utils.cpp signer.cpp signer.h verifier.cpp verifier.h rng_interface.h key_pair.cpp key_pair.h domain_params.cpp domain_params.h)
+    utils.cpp
+    signer.cpp
+    signer.h
+    verifier.cpp
+    verifier.h
+    rng_interface.h
+    key_pair.cpp
+    key_pair.h
+    domain_params.cpp
+    domain_params.h
+    rng.h)
 
 target_include_directories(dstu4145 PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

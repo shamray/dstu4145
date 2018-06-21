@@ -5,13 +5,12 @@
 
 namespace dstu4145
 {
-    auto gen_random_integer(rng_t rng)
+    inline auto gen_random_integer(rng_t rng)
     {
         auto buffer = std::vector<std::byte>{};
 
-        while(buffer.size() < 32) {
+        while(buffer.size() < 32)
             buffer.push_back(rng());
-        }
 
         return buffer_to_integer(buffer);
     }

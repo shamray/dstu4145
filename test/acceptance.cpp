@@ -4,6 +4,9 @@
 
 #include "signer.h"
 #include "verifier.h"
+#include "rng.h"
+
+#include <random>
 
 using namespace std::literals;
 using namespace testing;
@@ -15,7 +18,7 @@ struct acceptance : Test
         1,
         dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"}
     };
-    dstu4145::domain_params params{
+    dstu4145::domain_params params {
         curve,
         dstu4145::integer {"0x400000000000000000002BEC12BE2262D39BCF14D"},
         dstu4145::ecurve::point {
@@ -80,22 +83,35 @@ struct acceptance233 : Test
 
     dstu4145::rng_t rng {
         [] () {
-            static auto buffer = hex_buffer(
-                "000000000000000000000001025E40BD97DB012B7A1D79DE8E12932D247F61C6"s
-            );
-            static auto current = std::begin(buffer);
+            static std::random_device rd;
+            static std::mt19937 gen(rd());
+            std::uniform_int_distribution<unsigned char> dis(0);
 
-            if (current == std::end(buffer))
-                return decltype(buffer)::value_type();
-            else
-                return *current++;
+            return std::byte{ dis(gen) };
         }
     };
 
     dstu4145::private_key prv_key{hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s)};
 };
 
-TEST_F(acceptance233, test1)
+TEST_F(acceptance233, sign_and_verify)
 {
+    auto x = dstu4145::gen_random_integer(rng);
+    auto base_point = curve.find_point(x);
 
+    dstu4145::domain_params params {
+        curve,
+        n,
+        base_point
+    };
+
+    dstu4145::public_key pub_key{params, prv_key};
+
+    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+    auto s = dstu4145::signer{prv_key, params, rng};
+    auto v = dstu4145::verifier{pub_key, params};
+
+    auto signature = s.sign_hash(h);
+
+    EXPECT_TRUE(v.verify_hash(h, signature));
 }

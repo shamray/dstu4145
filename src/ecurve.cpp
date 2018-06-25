@@ -1,4 +1,5 @@
 #include "ecurve.h"
+#include "rng.h"
 
 namespace dstu4145
 {
@@ -11,7 +12,8 @@ namespace dstu4145
 
             auto v = w * square(u.inverse());
 
-            assert(v.trace() != gf.create_element(1));
+            if (v.trace() == gf.create_element(1))
+                return std::nullopt;
 
             return v.half_trace() * u;
         }
@@ -21,16 +23,24 @@ namespace dstu4145
         return point{*this, ix, iy};
     }
 
-    auto ecurve::find_point(integer ix) const -> point
+    auto ecurve::find_point(integer ix) const -> std::optional<point>
+    {
+        auto u = field().create_element(ix);
+        auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
+        auto z = solve_quadratic_equasion(field(), u, w);
+        if (!z.has_value())
+            return std::nullopt;
+
+        assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
+        return point{*this, u, z.value()};
+    }
+
+    auto ecurve::find_point(rng_t rng) const -> point
     {
         for (;;) {
-            auto u = field().create_element(ix);
-            auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
-            auto z = solve_quadratic_equasion(field(), u, w);
-            if (z.has_value()) {
-                assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
-                return point{*this, u, z.value()};
-            }
+            auto p = find_point(gen_random_integer(rng));
+            if (p.has_value())
+                return p.value();
         }
     }
 

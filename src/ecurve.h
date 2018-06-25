@@ -2,6 +2,7 @@
 
 #include "gf2m.h"
 #include "gf2m_element.h"
+#include "rng_interface.h"
 
 namespace dstu4145
 {
@@ -26,7 +27,8 @@ namespace dstu4145
         auto b() const { return b_; }
 
         auto find_point(integer ix, integer iy) const -> point;
-        auto find_point(integer ix) const -> point;
+        auto find_point(integer ix) const -> std::optional<point>;
+        auto find_point(rng_t rng) const -> point;
         auto infinity_point() const -> point;
 
     private:

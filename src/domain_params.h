@@ -21,7 +21,7 @@ namespace dstu4145
         domain_params(ecurve curve, integer n, rng_t& rng)
             : curve{std::move(curve)}
             , n{std::move(n)}
-            , p{this->curve.find_point(gen_random_integer(rng))}
+            , p{this->curve.find_point(rng)}
         {
         }
 

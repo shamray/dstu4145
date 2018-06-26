@@ -18,14 +18,10 @@ namespace dstu4145
             return v.half_trace() * u;
         }
     }
-    auto ecurve::find_point(integer ix, integer iy) const -> point
-    {
-        return point{*this, ix, iy};
-    }
 
     auto ecurve::find_point(integer ix) const -> std::optional<point>
     {
-        auto u = field().create_element(ix);
+        auto u = field().create_element(std::move(ix));
         auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
         auto z = solve_quadratic_equasion(field(), u, w);
         if (!z.has_value())

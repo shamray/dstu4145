@@ -26,7 +26,6 @@ namespace dstu4145
         auto a() const { return a_; }
         auto b() const { return b_; }
 
-        auto find_point(integer ix, integer iy) const -> point;
         auto find_point(integer ix) const -> std::optional<point>;
         auto find_point(rng_t rng) const -> point;
         auto infinity_point() const -> point;

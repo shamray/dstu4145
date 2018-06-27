@@ -88,9 +88,23 @@ struct acceptance233 : Test
             std::uniform_int_distribution<unsigned char> dis(0);
 
             auto x = dis(gen);
-            std::cerr << std::hex << int(x);
+            std::cerr << std::hex << std::setfill('0') << std::setw(2) << int(x);
 
             return std::byte{ x };
+        }
+    };
+
+    dstu4145::rng_t rng2 {
+        [] () {
+            static auto buffer = hex_buffer(
+                "DE5318F3DC7CBCA5F627191A300D0230E1C6CB18941831292D32B748EF85EEA9"s
+            );
+            static auto current = std::begin(buffer);
+
+            if (current == std::end(buffer))
+                return decltype(buffer)::value_type();
+            else
+                return *current++;
         }
     };
 
@@ -105,7 +119,7 @@ TEST_F(acceptance233, fail_to_find_point)
     EXPECT_EQ(base_point, std::nullopt);
 }
 
-TEST_F(acceptance233, wtf)
+TEST_F(acceptance233, DISABLED_wtf)
 {
     dstu4145::domain_params params {
         curve,

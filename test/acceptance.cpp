@@ -87,10 +87,7 @@ struct acceptance233 : Test
             static std::mt19937 gen(rd());
             std::uniform_int_distribution<unsigned char> dis(0);
 
-            auto x = dis(gen);
-            std::cerr << std::hex << std::setfill('0') << std::setw(2) << int(x);
-
-            return std::byte{ x };
+            return std::byte{ dis(gen) };
         }
     };
 
@@ -151,10 +148,6 @@ TEST_F(acceptance233, sign_and_verify)
         n,
         base_point
     };
-
-    std::cerr << std::endl;
-    std::cerr << "p.x = " << base_point.x << std::endl;
-    std::cerr << "p.y = " << base_point.y << std::endl;
 
     dstu4145::public_key pub_key{params, prv_key};
 

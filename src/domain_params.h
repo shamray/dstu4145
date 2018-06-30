@@ -18,24 +18,11 @@ namespace dstu4145
             , p{p}
         {}
 
-        domain_params(ecurve curve, integer n, rng_t& rng)
+        domain_params(ecurve curve, integer n, rng_t rng)
             : curve{std::move(curve)}
             , n{std::move(n)}
             , p{this->curve.find_point(rng)}
         {
         }
-
-    private:
-        auto gen_random_integer(rng_t& rng) -> integer
-        {
-            auto buffer = std::vector<std::byte>{};
-
-            while(buffer.size() < 32) {
-                buffer.push_back(rng());
-            }
-
-            return buffer_to_integer(buffer);
-        }
-
     };
 }

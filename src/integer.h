@@ -4,8 +4,15 @@
 
 namespace dstu4145
 {
-    using integer = boost::multiprecision::uint256_t;
-    using integer2 = boost::multiprecision::uint512_t;
+    using integer = boost::multiprecision::number<
+        boost::multiprecision::cpp_int_backend<
+            256,
+            4096,
+            boost::multiprecision::unsigned_magnitude,
+            boost::multiprecision::unchecked,
+            void
+        >
+    >;
 
     template <class iterator>
     void integer_to_buffer(const integer& i, iterator out)

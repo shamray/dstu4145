@@ -31,7 +31,7 @@ namespace dstu4145
         auto y = h * fe;
         auto r = static_cast<integer>(y);
 
-        auto dr = static_cast<integer>((static_cast<integer2>(d) * r) % n);
+        auto dr = (d * r) % n;
         auto s = (e + dr) % n;
 
         auto result = std::vector<std::byte>{};

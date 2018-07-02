@@ -151,7 +151,7 @@ TEST_F(simple, signature_calculation)
     auto h = field.create_element(hash);
     auto r = static_cast<dstu4145::integer>(h * fe);
 
-    auto dr = static_cast<dstu4145::integer>((static_cast<dstu4145::integer2>(d) * r) % n);
+    auto dr = (d * r) % n;
     auto s = (e + dr) % n;
 
     EXPECT_EQ(r, dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"});

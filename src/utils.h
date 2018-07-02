@@ -26,7 +26,7 @@ namespace dstu4145
 
     inline auto p_multiply(const integer& a, const integer& b)
     {
-        auto result = integer2{0};
+        auto result = integer{0};
 
         if (b== 0)
             return result;

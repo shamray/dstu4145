@@ -14,12 +14,10 @@ namespace dstu4145
 
         auto create_element(integer value) const -> element;
 
+        auto operator== (const gf2m& other) const  -> bool;
+
         auto m() const { return m_; }
         auto basis() const { return basis_; }
-
-        auto operator== (const gf2m& other) const {
-            return m() == other.m();
-        }
 
     private:
         int m_;

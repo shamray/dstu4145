@@ -14,7 +14,13 @@ namespace dstu4145
         bit_set(basis_, 0);
     }
 
-    auto gf2m::create_element(integer value) const -> element {
+    auto gf2m::create_element(integer value) const -> element
+    {
         return element(*this, value % (integer{ 1 } << m_));
+    }
+
+    auto gf2m::operator== (const gf2m& other) const  -> bool
+    {
+        return m() == other.m();
     }
 }

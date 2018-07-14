@@ -14,28 +14,11 @@ namespace dstu4145
         friend auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element;
         friend auto operator<<(std::ostream& os, const gf2m_element& x) -> std::ostream&;
 
-        gf2m_element(gf2m field, integer value)
-            : field_(std::move(field))
-            , value_(std::move(value))
-        {}
+        explicit operator integer() { return value_; }
 
-        auto element(integer value) const
-        {
-            return gf2m_element{field_, std::move(value)};
-        }
-
-        explicit operator integer()
-        {
-            return value_;
-        }
-
-        auto inverse() const
-        {
-            auto [d, a, b] = extended_euqlid(field_.basis(), value_, field_.basis());
-            d; a;
-            return field_.create_element(b);
-        }
-
+        gf2m_element(gf2m field, integer value);
+        auto element(integer value) const -> gf2m_element;
+        auto inverse() const -> gf2m_element;
         auto trace() -> gf2m_element;
         auto half_trace() -> gf2m_element;
 

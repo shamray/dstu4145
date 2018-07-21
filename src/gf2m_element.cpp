@@ -40,4 +40,46 @@ namespace dstu4145
 
         return t;
     }
+
+    auto operator==(const gf2m::element& a, const gf2m::element& b) -> bool
+    {
+        return a.field_ == b.field_ && a.value_ == b.value_;
+    }
+
+    auto operator+(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
+    {
+        if (a.field_ != b.field_)
+            throw std::logic_error("invalid operation");
+
+        auto field = a.field_;
+        auto result = a.value_ ^ b.value_;
+
+        return field.create_element(result);
+    }
+
+    auto operator*(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
+    {
+        if (a.field_ != b.field_)
+            throw std::logic_error("invalid operation");
+
+        auto field = a.field_;
+        auto result = p_multiply(a.value_, b.value_);
+
+        return field.create_element(static_cast<integer>(p_modulo(result, field.basis())));
+    }
+
+    auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
+    {
+        return a * b.inverse();
+    }
+
+    auto square(const gf2m::element& a) -> gf2m::element
+    {
+        return a * a;
+    }
+
+    std::ostream& operator<<(std::ostream& os, const gf2m_element& x)
+    {
+        return os << std::hex << x.value_;
+    }
 }

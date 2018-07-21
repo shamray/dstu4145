@@ -5,7 +5,7 @@
 
 namespace dstu4145
 {
-    class gf2m_element
+    class gf2m_element: boost::equality_comparable<gf2m_element>
     {
     public:
         friend auto operator==(const gf2m::element&, const gf2m::element&) -> bool;
@@ -30,11 +30,6 @@ namespace dstu4145
     inline auto operator==(const gf2m::element& a, const gf2m::element& b) -> bool
     {
         return a.field_ == b.field_ && a.value_ == b.value_;
-    }
-
-    inline auto operator!=(const gf2m::element& a, const gf2m::element& b) -> bool
-    {
-        return !(a == b);
     }
 
     inline auto operator+(const gf2m::element& a, const gf2m::element& b) -> gf2m::element

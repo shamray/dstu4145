@@ -17,7 +17,6 @@ namespace dstu4145
         explicit operator integer() { return value_; }
 
         gf2m_element(gf2m field, integer value);
-        auto element(integer value) const -> gf2m_element;
         auto inverse() const -> gf2m_element;
         auto trace() -> gf2m_element;
         auto half_trace() -> gf2m_element;

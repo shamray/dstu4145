@@ -60,7 +60,7 @@ namespace dstu4145
         auto field = a.field_;
         auto result = p_multiply(a.value_, b.value_);
 
-        return field.create_element(static_cast<integer>(p_modulo(result, field.basis())));
+        return field.create_element(p_modulo(result, field.basis()));
     }
 
     auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element

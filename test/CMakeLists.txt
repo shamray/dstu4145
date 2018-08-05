@@ -1,11 +1,11 @@
 add_executable(dstu-test
-  ecurve.cpp
-  acceptance.cpp
-  integer.cpp
-  gf2m.cpp
-  utils.cpp
   test-utils.cpp
   test-utils-test.cpp
+  utils.cpp
+  gf2m.cpp
+  integer.cpp
+  ecurve.cpp
+  acceptance.cpp
 )
 
 target_link_libraries(dstu-test 

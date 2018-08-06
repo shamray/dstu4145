@@ -1,5 +1,7 @@
 add_library(dstu4145 
-    gf2m.cpp 
+    gf2m.cpp
+    polynomial.cpp
+    polynomial.h
     ecurve.cpp 
     gf2m_element.cpp 
     integer.cpp 

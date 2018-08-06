@@ -13,7 +13,16 @@ TEST(utils, modulo_small)
 
 }
 
-TEST(multiply, all)
+TEST(utils, modulo_small2)
+{
+    auto field = dstu4145::gf2m{7, 5, 2, 1};
+    auto a = field.create_element( dstu4145::integer{"0x63"});
+    auto b = field.create_element(dstu4145::integer{"0x2A"});
+
+    EXPECT_EQ(dstu4145::p_modulo(a, b), field.create_element(dstu4145::integer{"0x1D"}));
+}
+
+TEST(utils, multiply_all)
 {
     using dstu4145::multiply;
 
@@ -36,10 +45,19 @@ TEST(multiply, all)
     EXPECT_EQ(multiply(15, 10), 150);
 }
 
-TEST(euqlid, simple)
+TEST(utils, euqlid_simple)
 {
     auto [d, a, b] = dstu4145::extended_euqlid(6, 4, 6);
     a; b;
 
     EXPECT_EQ(d, dstu4145::integer{2});
+}
+
+TEST(utils, euqlid_simple2)
+{
+    auto field = dstu4145::gf2m{7, 5, 2, 1};
+    auto [d, a, b] = dstu4145::extended_euqlid(field.create_element(6), field.create_element(4), field.create_element(6));
+    a; b;
+
+    EXPECT_EQ(d, field.create_element(2));
 }

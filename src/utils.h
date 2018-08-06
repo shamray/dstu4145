@@ -1,6 +1,8 @@
 #pragma once
 
 #include "integer.h"
+#include "gf2m_element.h"
+#include "gf2m.h"
 #include <tuple>
 
 namespace dstu4145
@@ -69,6 +71,37 @@ namespace dstu4145
         return std::make_tuple(remainder, quotient);
     }
 
+    inline auto p_divide(const gf2m::element &dividend, const gf2m::element &divisor) -> std::tuple<gf2m::element, gf2m::element>
+    {
+        assert (dividend.field() == divisor.field());
+        const auto& field = dividend.field();
+
+        auto remainder = field.create_element(0);
+        auto quotient = field.create_element(0);
+
+        if (divisor.is_zero())
+            throw std::logic_error("divide by zero");
+
+        if (dividend.is_zero())
+            return std::make_tuple(remainder, quotient);
+
+        long degree = boost::multiprecision::msb(divisor.value_);
+
+        for (long i = boost::multiprecision::msb(dividend.value_); i>=0; i--)
+        {
+            remainder.value_ <<= 1;
+            if (boost::multiprecision::bit_test(dividend.value_, static_cast<unsigned>(i)))
+                boost::multiprecision::bit_set(remainder.value_, 0);
+
+            if (boost::multiprecision::bit_test(remainder.value_, static_cast<unsigned>(degree))) {
+                remainder.value_ ^= divisor.value_;
+                boost::multiprecision::bit_set(quotient.value_, static_cast<unsigned>(i));
+            }
+        }
+
+        return std::make_tuple(remainder, quotient);
+    }
+
     template <class T, class U>
     auto p_modulo(const T& a, const U& b)
     {
@@ -79,6 +112,7 @@ namespace dstu4145
 
     inline auto extended_euqlid(integer f, const integer& c, const integer& mod)
     {
+        std::cout << std::hex << f << "\t" << c << "\t" << mod << std::endl;
         if (c == 0)
             return std::make_tuple(f, integer{1}, integer{0});
 
@@ -86,5 +120,17 @@ namespace dstu4145
 
         auto [d, a, b] = extended_euqlid(c, r, mod);
         return std::make_tuple(d, b, a ^ p_modulo(p_multiply(q,  b), mod));
+    }
+
+    inline auto extended_euqlid(gf2m::element f,  gf2m::element c, gf2m::element mod)
+    {
+        std::cout << f << "\t" << c << "\t" << mod << std::endl;
+        if (c.is_zero())
+            return std::make_tuple(f, f.field().create_element(1), f.field().create_element(0));
+
+        auto [r, q] = p_divide(f, c);
+
+        auto [d, a, b] = extended_euqlid(c, r, mod);
+        return std::make_tuple(d, b, p_modulo(a + p_modulo(q * b, mod), mod));
     }
 }

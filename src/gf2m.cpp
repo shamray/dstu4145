@@ -5,13 +5,8 @@ namespace dstu4145
 {
     gf2m::gf2m(int m, int x1, int x2, int x3)
         : m_(m)
-        , basis_(0)
+        , basis_(m, x1, x2, x3)
     {
-        bit_set(basis_, m);
-        bit_set(basis_, x1);
-        bit_set(basis_, x2);
-        bit_set(basis_, x3);
-        bit_set(basis_, 0);
     }
 
     auto gf2m::create_element(integer value) const -> element

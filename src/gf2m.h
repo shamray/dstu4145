@@ -1,6 +1,6 @@
 #pragma once
 
-#include "integer.h"
+#include "polynomial.h"
 
 namespace dstu4145
 {
@@ -21,6 +21,6 @@ namespace dstu4145
 
     private:
         int m_;
-        integer basis_;
+        polynomial basis_;
     };
 }

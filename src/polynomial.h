@@ -20,6 +20,8 @@ namespace dstu4145
         polynomial(int m, int x1, int x2, int x3);
         explicit polynomial(integer value);
 
+        explicit operator integer() { return value_; }
+
         auto is_zero() const { return value_ == 0; }
 
     private:

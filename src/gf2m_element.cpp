@@ -1,8 +1,14 @@
 #include "gf2m_element.h"
+#include "utils.h"
 
 namespace dstu4145
 {
     gf2m_element::gf2m_element(gf2m field, integer value)
+        : field_(std::move(field))
+        , value_(std::move(value))
+    {}
+
+    gf2m_element::gf2m_element(gf2m field, polynomial value)
         : field_(std::move(field))
         , value_(std::move(value))
     {}
@@ -12,6 +18,9 @@ namespace dstu4145
         auto [d, a, b] = extended_euqlid(field_.basis(), value_, field_.basis());
         d; a;
         return field_.create_element(b);
+//        auto [d, a, b] = extended_euqlid(field_.create_element(field_.basis()), *this, field_.create_element(field_.basis()));
+//        d; a;
+//        return b;
     }
 
     auto gf2m_element::trace() -> gf2m_element
@@ -47,9 +56,7 @@ namespace dstu4145
             throw std::logic_error("invalid operation");
 
         auto field = a.field_;
-        auto result = a.value_ ^ b.value_;
-
-        return field.create_element(result);
+        return field.create_element(a.value_ + b.value_);
     }
 
     auto operator*(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
@@ -58,9 +65,7 @@ namespace dstu4145
             throw std::logic_error("invalid operation");
 
         auto field = a.field_;
-        auto result = p_multiply(a.value_, b.value_);
-
-        return field.create_element(p_modulo(result, field.basis()));
+        return field.create_element((a.value_* b.value_) % field.basis());
     }
 
     auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element

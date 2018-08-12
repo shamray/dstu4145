@@ -83,7 +83,6 @@ namespace dstu4145
 
     auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
     {
-        std::cout << f << "\t" << c << "\t" << mod << std::endl;
         if (c.is_zero())
             return std::make_tuple(f, polynomial{1}, polynomial{0});
 

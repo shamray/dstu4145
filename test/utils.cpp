@@ -3,7 +3,7 @@
 #include "utils.h"
 
 using namespace std::literals;
-
+/*
 TEST(utils, modulo_small)
 {
     auto a = dstu4145::integer{"0x63"};
@@ -43,3 +43,4 @@ TEST(utils, euqlid_simple)
 
     EXPECT_EQ(d, dstu4145::integer{2});
 }
+*/

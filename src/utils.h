@@ -26,6 +26,8 @@ namespace dstu4145
           return half + half + p;
     }
 
+    /*
+
     inline auto p_multiply(const integer& a, const integer& b)
     {
         auto result = integer{0};
@@ -90,4 +92,5 @@ namespace dstu4145
         auto [d, a, b] = extended_euqlid(c, r, mod);
         return std::make_tuple(d, b, a ^ p_modulo(p_multiply(q,  b), mod));
     }
+    */
 }

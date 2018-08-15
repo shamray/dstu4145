@@ -1,15 +1,16 @@
 #include <gtest/gtest.h>
 
+#include "polynomial.h"
 #include "utils.h"
 
 using namespace std::literals;
-/*
+
 TEST(utils, modulo_small)
 {
-    auto a = dstu4145::integer{"0x63"};
-    auto b = dstu4145::integer{"0x2A"};
+    auto a = dstu4145::polynomial{dstu4145::integer{"0x63"}};
+    auto b = dstu4145::polynomial{dstu4145::integer{"0x2A"}};
 
-    EXPECT_EQ(dstu4145::p_modulo(a, b), dstu4145::integer{"0x1D"});
+    EXPECT_EQ(a % b, dstu4145::polynomial{dstu4145::integer{"0x1D"}});
 
 }
 
@@ -38,9 +39,8 @@ TEST(utils, multiply_all)
 
 TEST(utils, euqlid_simple)
 {
-    auto [d, a, b] = dstu4145::extended_euqlid(6, 4, 6);
+    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
     a; b;
 
-    EXPECT_EQ(d, dstu4145::integer{2});
+    EXPECT_EQ(d, dstu4145::polynomial{2});
 }
-*/

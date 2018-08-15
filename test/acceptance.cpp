@@ -116,7 +116,7 @@ TEST_F(acceptance233, fail_to_find_point)
     EXPECT_EQ(base_point, std::nullopt);
 }
 
-TEST_F(acceptance233, DISABLED_wtf)
+TEST_F(acceptance233, wtf) //doesn't seem to fail anymore after integer -> polynomial switch
 {
     dstu4145::domain_params params {
         curve,

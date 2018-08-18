@@ -24,17 +24,27 @@ namespace dstu4145
 
         const auto& d = static_cast<integer>(prvkey_);
 
-        auto e = gen_random_integer(random_);
+        auto e = gen_random_integer(random_, boost::multiprecision::msb(n)-1);
+        assert(e < n);
+        std::cout << std::hex << std::endl << "e= " << e << std::endl;
+        eee = e;
         auto fe = (e * p).x;
+        assert(!fe.is_zero());
 
         auto h = field.create_element(buffer_to_integer(hash));
+        assert(!h.is_zero());
         auto y = h * fe;
         auto r = static_cast<integer>(y);
+        assert(r != integer{0});
 
         auto dr = (d * r) % n;
         auto s = (e + dr) % n;
+        assert(s != integer{0});
 
         auto result = std::vector<std::byte>{};
+
+        std::cout << std::hex << std::endl << "r= " << r << std::endl;
+        std::cout << std::hex << std::endl << "s= " << s << std::endl;
 
         integer_to_buffer(s, std::back_inserter(result));
         integer_to_buffer(r, std::back_inserter(result));

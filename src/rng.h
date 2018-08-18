@@ -5,13 +5,19 @@
 
 namespace dstu4145
 {
-    inline auto gen_random_integer(rng_t rng)
+    inline auto gen_random_integer(rng_t rng, unsigned msb)
     {
         auto buffer = std::vector<std::byte>{};
 
         while(buffer.size() < 32)
             buffer.push_back(rng());
 
-        return buffer_to_integer(buffer);
+        auto result = buffer_to_integer(buffer);
+        std::cout << std::hex << std::endl << "x= " << result << std::endl;
+
+        for (unsigned i = msb; i < 256; ++i)
+            bit_unset(result, i);
+
+        return result;
     }
 }

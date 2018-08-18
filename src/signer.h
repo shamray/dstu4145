@@ -14,6 +14,8 @@ namespace dstu4145
         signer(private_key key, domain_params params, rng_t random);
         auto sign_hash(const std::vector<std::byte>& hash) -> std::vector<std::byte>;
 
+        integer eee;
+
     private:
         private_key prvkey_;
         domain_params params_;

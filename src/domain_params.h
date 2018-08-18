@@ -16,12 +16,14 @@ namespace dstu4145
             : curve{(curve)}
             , n{n}
             , p{p}
-        {}
+        {
+            assert(p * n != curve.infinity_point());
+        }
 
         domain_params(ecurve curve, integer n, rng_t rng)
             : curve{std::move(curve)}
             , n{std::move(n)}
-            , p{this->curve.find_point(rng)}
+            , p{this->curve.find_point(rng, n)}
         {
         }
     };

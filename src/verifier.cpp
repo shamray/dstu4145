@@ -18,9 +18,14 @@ namespace dstu4145
         auto s = buffer_to_integer(std::begin(signature), std::begin(signature) + signature.size() / 2);
         auto r = buffer_to_integer(std::begin(signature) + signature.size() / 2, std::end(signature));
 
+        std::cout << std::hex << std::endl << "r= " << r << std::endl;
+        std::cout << std::hex << std::endl << "s= " << s << std::endl;
+
         auto rpoint = s * p + r * q;
 
         auto y = h * rpoint.x;
+
+        std::cout << std::hex << std::endl << "r`=" << static_cast<dstu4145::integer>(y) << std::endl;
 
         return static_cast<dstu4145::integer>(y) == r;
     }

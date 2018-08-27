@@ -22,6 +22,9 @@ namespace dstu4145
     auto ecurve::find_point(integer ix) const -> std::optional<point>
     {
         auto u = field().create_element(std::move(ix));
+        if (u == field().create_element(0))
+            return infinity_point();
+
         auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
         auto z = solve_quadratic_equasion(field(), u, w);
         if (!z.has_value())
@@ -31,11 +34,11 @@ namespace dstu4145
         return point{*this, u, z.value()};
     }
 
-    auto ecurve::find_point(rng_t rng) const -> point
+    auto ecurve::find_point(rng_t rng, integer n) const -> point
     {
         for (;;) {
-            auto p = find_point(gen_random_integer(rng));
-            if (p.has_value())
+            auto p = find_point(gen_random_integer(rng, field().m() - 1));
+            if (p.has_value() && p.value() * n != infinity_point())
                 return p.value();
         }
     }
@@ -44,4 +47,13 @@ namespace dstu4145
     {
         return point{*this};
     }
+
+    auto ecurve_point::validate() const -> bool
+    {
+        if (*this == c.infinity_point())
+            return true;
+
+        return x * x * x + c.field().create_element(c.a()) * x * x + c.field().create_element(c.b()) == y * y + y * x;
+    }
+
 }

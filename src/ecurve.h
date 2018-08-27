@@ -28,7 +28,7 @@ namespace dstu4145
         auto b() const { return b_; }
 
         auto find_point(integer ix) const -> std::optional<point>;
-        auto find_point(rng_t rng) const -> point;
+        auto find_point(rng_t rng, integer n) const -> point;
         auto infinity_point() const -> point;
 
     private:
@@ -49,13 +49,17 @@ namespace dstu4145
             : x(curve.gf_, ix)
             , y(curve.gf_, iy)
             , c(curve)
-        {}
+        {
+            assert(validate());
+        }
 
         ecurve_point(ecurve curve, gf2m::element x, gf2m::element y)
             : x(x)
             , y(y)
             , c(curve)
-        {}
+        {
+            assert(validate());
+        }
 
         gf2m::element x;
         gf2m::element y;
@@ -69,33 +73,51 @@ namespace dstu4145
             {
                 auto t = p.y / p.x + p.x;
                 auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
+                if (x == gf2m::element{c.gf_, 0})
+                    return c.infinity_point();
+
                 auto y = square(p.x) + t * x + x;
 
-                return ecurve_point{ c, x, y };
+                auto r = ecurve_point{ c, x, y };
+                assert(r.validate());
+                return r;
             }
             else
             {
                 auto t = (p.y + q.y) / (p.x + q.x);
                 auto x = square(t) + t + p.x + q.x + gf2m::element{c.gf_, c.a_};
+                if (x == gf2m::element{c.gf_, 0})
+                    return c.infinity_point();
+
                 auto y = t * (p.x + x) + x + p.y;
-                return ecurve_point{ c, x, y };
+                auto r = ecurve_point{ c, x, y };
+                assert(r.validate());
+                return r;
             }
         }
 
+        auto validate() const -> bool;
+
         auto operator*(integer d) const
         {
-            return multiply(d, *this);
+            auto r = multiply(d, *this);
+            assert(r.validate());
+            return r;
         }
 
         auto operator-() const
         {
-            return ecurve_point{ c, x, x + y };
+            auto r = ecurve_point{ c, x, x + y };
+            assert(r.validate());
+            return r;
         }
     };
 
     inline auto operator* (integer d, ecurve::point p)
     {
-        return p * d;
+        auto r = p * d;
+        assert(r.validate());
+        return r;
     }
 
     inline auto operator== (ecurve::point a, ecurve::point b)

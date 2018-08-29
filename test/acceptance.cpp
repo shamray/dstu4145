@@ -11,6 +11,14 @@
 using namespace std::literals;
 using namespace testing;
 
+namespace std
+{
+    ostream& operator<< (ostream& s, const vector<byte>& v)
+    {
+        return s << std::hex << dstu4145::buffer_to_integer(v);
+    }
+}
+
 struct acceptance : Test
 {
     dstu4145::ecurve curve {
@@ -56,6 +64,8 @@ TEST_F(acceptance, signing_hash_produces_correct_signature)
         "000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s +
         "00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
     );
+
+    std::cout << signature << std::endl << expected << std::endl;
 
     EXPECT_EQ(signature, expected);
 }
@@ -116,46 +126,33 @@ TEST_F(acceptance233, fail_to_find_point)
     EXPECT_EQ(base_point, std::nullopt);
 }
 
-TEST_F(acceptance233, DISABLED_wtf)
-{
-    dstu4145::domain_params params {
-        curve,
-        n,
-        dstu4145::ecurve::point {
-            curve,
-            dstu4145::integer{"0x17F07BFE343D04769E1F4A6DFA802E59AE878EEB53968DAD36BBDDFBD85"},
-            dstu4145::integer{"0x1D35F0F428DE1F301B8D21176937B1DC9E255977A3D11EA985707F7B3B8"}
-        }
-    };
-
-    dstu4145::public_key pub_key{params, prv_key};
-
-    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-    auto s = dstu4145::signer{prv_key, params, rng};
-    auto v = dstu4145::verifier{pub_key, params};
-
-    auto signature = s.sign_hash(h);
-
-    EXPECT_TRUE(v.verify_hash(h, signature));
-}
-
 TEST_F(acceptance233, sign_and_verify)
 {
-    auto base_point = curve.find_point(rng);
+    auto fails = 0;
+    for (auto i = 0; i < 100; ++i) {
+        auto base_point = curve.find_point(rng, n);
 
-    dstu4145::domain_params params {
-        curve,
-        n,
-        base_point
-    };
+        dstu4145::domain_params params {
+            curve,
+            n,
+            base_point
+        };
 
-    dstu4145::public_key pub_key{params, prv_key};
+        dstu4145::public_key pub_key{params, prv_key};
 
-    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-    auto s = dstu4145::signer{prv_key, params, rng};
-    auto v = dstu4145::verifier{pub_key, params};
+        auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+        auto s = dstu4145::signer{prv_key, params, rng};
+        auto v = dstu4145::verifier{pub_key, params};
 
-    auto signature = s.sign_hash(h);
+        auto signature = s.sign_hash(h);
 
-    EXPECT_TRUE(v.verify_hash(h, signature));
+        if (!v.verify_hash(h, signature)) {
+            ++fails;
+            std::cout << std::hex << std::endl << "x= " << params.p.x << std::endl;
+            std::cout << "y= " << params.p.y << std::endl;
+            std::cout << "e= " << s.eee << std::endl;
+        }
+    }
+
+    EXPECT_EQ(0, fails);
 }

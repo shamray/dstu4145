@@ -11,14 +11,6 @@
 using namespace std::literals;
 using namespace testing;
 
-namespace std
-{
-    ostream& operator<< (ostream& s, const vector<byte>& v)
-    {
-        return s << std::hex << dstu4145::buffer_to_integer(v);
-    }
-}
-
 struct acceptance : Test
 {
     dstu4145::ecurve curve {
@@ -64,8 +56,6 @@ TEST_F(acceptance, signing_hash_produces_correct_signature)
         "000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s +
         "00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
     );
-
-    std::cout << signature << std::endl << expected << std::endl;
 
     EXPECT_EQ(signature, expected);
 }

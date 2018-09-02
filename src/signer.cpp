@@ -26,7 +26,6 @@ namespace dstu4145
 
         auto e = gen_random_integer(random_, boost::multiprecision::msb(n)-1);
         assert(e < n);
-        std::cout << std::hex << std::endl << "e= " << e << std::endl;
         eee = e;
         auto fe = (e * p).x;
         assert(!fe.is_zero());
@@ -42,9 +41,6 @@ namespace dstu4145
         assert(s != integer{0});
 
         auto result = std::vector<std::byte>{};
-
-        std::cout << std::hex << std::endl << "r= " << r << std::endl;
-        std::cout << std::hex << std::endl << "s= " << s << std::endl;
 
         integer_to_buffer(s, std::back_inserter(result));
         integer_to_buffer(r, std::back_inserter(result));

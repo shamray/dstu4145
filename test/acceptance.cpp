@@ -119,7 +119,7 @@ TEST_F(acceptance233, fail_to_find_point)
 TEST_F(acceptance233, sign_and_verify)
 {
     auto fails = 0;
-    for (auto i = 0; i < 100; ++i) {
+    for (auto i = 0; i < 20; ++i) {
         auto base_point = curve.find_point(rng, n);
 
         dstu4145::domain_params params {
@@ -136,11 +136,12 @@ TEST_F(acceptance233, sign_and_verify)
 
         auto signature = s.sign_hash(h);
 
-        if (!v.verify_hash(h, signature)) {
+        if (v.verify_hash(h, signature)) {
             ++fails;
-            std::cout << std::hex << std::endl << "x= " << params.p.x << std::endl;
-            std::cout << "y= " << params.p.y << std::endl;
-            std::cout << "e= " << s.eee << std::endl;
+
+            ADD_FAILURE() << std::hex
+                          << "p.x= " << params.p.x << std::endl
+                          << "p.y= " << params.p.y;
         }
     }
 

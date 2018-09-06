@@ -26,7 +26,6 @@ namespace dstu4145
 
         auto e = gen_random_integer(random_, boost::multiprecision::msb(n)-1);
         assert(e < n);
-        eee = e;
         auto fe = (e * p).x;
         assert(!fe.is_zero());
 

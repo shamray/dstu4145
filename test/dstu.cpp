@@ -11,7 +11,7 @@
 using namespace std::literals;
 using namespace testing;
 
-struct acceptance : Test
+struct dstu : Test
 {
     dstu4145::ecurve curve {
         dstu4145::gf2m {163, 7, 6, 3 },

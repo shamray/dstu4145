@@ -5,7 +5,7 @@ add_executable(dstu-test
   gf2m.cpp
   integer.cpp
   ecurve.cpp
-  acceptance.cpp
+  dstu.cpp
 )
 
 target_link_libraries(dstu-test 

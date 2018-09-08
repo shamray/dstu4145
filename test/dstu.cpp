@@ -11,6 +11,7 @@
 using namespace std::literals;
 using namespace testing;
 
+// Test case from DSTU 4145-2002 Appendix B
 struct dstu : Test
 {
     dstu4145::ecurve curve {

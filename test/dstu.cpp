@@ -47,7 +47,7 @@ struct dstu : Test
     dstu4145::public_key  pub_key{params, prv_key};
 };
 
-TEST_F(acceptance, signing_hash_produces_correct_signature)
+TEST_F(dstu, signing_hash_produces_correct_signature)
 {
     auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
     auto s = dstu4145::signer{prv_key, params, rng};
@@ -61,7 +61,7 @@ TEST_F(acceptance, signing_hash_produces_correct_signature)
     EXPECT_EQ(signature, expected);
 }
 
-TEST_F(acceptance, verifying_correct_signature_is_successful)
+TEST_F(dstu, verifying_correct_signature_is_successful)
 {
     auto v = dstu4145::verifier{pub_key, params};
     auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");

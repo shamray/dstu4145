@@ -17,7 +17,8 @@ target_link_libraries(dstu-test
 add_test(NAME DstuTest COMMAND dstu-test)
 
 add_executable(dstu-acceptance-test
-  acceptance.cpp)
+  acceptance.cpp
+  test-utils.cpp)
 
 target_link_libraries(dstu-acceptance-test
   dstu4145

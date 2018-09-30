@@ -55,7 +55,7 @@ TEST_F(acceptance163, sign_and_verify)
 
         auto signature = s.sign_hash(h);
 
-        if (v.verify_hash(h, signature)) {
+        if (!v.verify_hash(h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex
@@ -117,7 +117,7 @@ TEST_F(acceptance233, sign_and_verify)
 
         auto signature = s.sign_hash(h);
 
-        if (v.verify_hash(h, signature)) {
+        if (!v.verify_hash(h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex

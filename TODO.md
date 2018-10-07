@@ -1,3 +1,4 @@
+* todo: Operator += for point
 * todo: Move test-utils to a dedicated library
 * todo: Eliptic curves with 3 coeffs
 * todo: Full-fledged integer adapter

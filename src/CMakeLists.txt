@@ -24,11 +24,7 @@ target_include_directories(dstu4145 PUBLIC
 target_link_libraries(dstu4145
     Boost::boost)
 
-if (MSVC)
-    target_compile_options(dstu4145 PUBLIC "/std:c++latest")
-else()
-    target_compile_features(dstu4145 PUBLIC cxx_std_17)
-endif()
+target_compile_features(dstu4145 PUBLIC cxx_std_17)
 
 install(TARGETS dstu4145 EXPORT Dstu4145Config
     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}

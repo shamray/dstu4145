@@ -14,27 +14,31 @@ TEST(utils, modulo_small)
 
 }
 
-TEST(utils, multiply_all)
+using dstu4145::multiply;
+
+TEST(utils, multiply_by_1)
 {
-    using dstu4145::multiply;
+    ASSERT_EQ(multiply(1,1), 1);
+}
 
-    EXPECT_EQ(multiply(100, 3), 300);
+TEST(utils, multiply_by_3)
+{
+    ASSERT_EQ(multiply(3,1), 3);
+}
 
-    EXPECT_EQ(multiply(1, 10), 10);
-    EXPECT_EQ(multiply(2, 10), 20);
-    EXPECT_EQ(multiply(3, 10), 30);
-    EXPECT_EQ(multiply(4, 10), 40);
-    EXPECT_EQ(multiply(5, 10), 50);
-    EXPECT_EQ(multiply(6, 10), 60);
-    EXPECT_EQ(multiply(7, 10), 70);
-    EXPECT_EQ(multiply(8, 10), 80);
-    EXPECT_EQ(multiply(9, 10), 90);
-    EXPECT_EQ(multiply(10, 10), 100);
-    EXPECT_EQ(multiply(11, 10), 110);
-    EXPECT_EQ(multiply(12, 10), 120);
-    EXPECT_EQ(multiply(13, 10), 130);
-    EXPECT_EQ(multiply(14, 10), 140);
-    EXPECT_EQ(multiply(15, 10), 150);
+TEST(utils, multiply_by_5)
+{
+    ASSERT_EQ(multiply(5,1), 5);
+}
+
+TEST(utils, multiply_by_4)
+{
+    ASSERT_EQ(multiply(4,1), 4);
+}
+
+TEST(utils, multiply_by_hundred)
+{
+    ASSERT_EQ(multiply(100,3), 300);
 }
 
 TEST(utils, euqlid_simple)

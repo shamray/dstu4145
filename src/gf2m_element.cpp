@@ -28,7 +28,7 @@ namespace dstu4145
         auto t = *this;
         auto x = *this;
 
-        for (auto i = 1u; i < field_.m(); ++i)
+        for (auto i = 1; i < field_.m(); ++i)
             t = square(t) + x;
 
         return t;
@@ -39,7 +39,7 @@ namespace dstu4145
         auto t = *this;
         auto x = *this;
 
-        for (auto i = 1u; i <= (field_.m() - 1) / 2; ++i)
+        for (auto i = 1; i <= (field_.m() - 1) / 2; ++i)
             t = square(square(t)) + x;
 
         return t;

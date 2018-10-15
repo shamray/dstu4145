@@ -24,7 +24,7 @@ namespace dstu4145
         if(bitcount % 8)
             ++chunks;
 
-        for(auto i = 0; i < 32 - chunks; ++i)
+        for(auto i = 0u; i < 32 - chunks; ++i)
             *out++ = std::byte{0};
 
         if(!i)

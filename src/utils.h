@@ -10,19 +10,20 @@ namespace dstu4145
     template <class T>
     auto multiply(const integer& d, const T& p)
     {
-        assert (d != 0);
+        auto shift = [](auto x, auto y) {
+            for (auto i = 0u; i < y; ++i)
+                x = x + x;
+            return x;
+        };
+        auto addend = shift(p,boost::multiprecision::lsb(d));
+        auto result = addend;
 
-        if (d == 1)
-            return p;
+        for (auto i = boost::multiprecision::lsb(d) + 1; i <= boost::multiprecision::msb(d); ++i) {
+            addend = addend + addend;
+            if (bit_test(d, i))
+                result = result + addend;
+        }
 
-        auto dl = d >> 1;
-        auto dr = d - dl;
-
-        auto half = multiply(dl, p);
-
-        if (dl == dr)
-          return half + half;
-        else
-          return half + half + p;
+        return result;
     }
-}
+} 

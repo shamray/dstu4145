@@ -1,4 +1,6 @@
+* todo: Move extended_euqlid tests to polynomial.cpp
 * todo: Operator += for point
+* todo: Switch extended_euqlid from recursion to iteration
 * todo: Move test-utils to a dedicated library
 * todo: Eliptic curves with 3 coeffs
 * todo: Full-fledged integer adapter

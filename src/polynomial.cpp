@@ -81,14 +81,42 @@ namespace dstu4145
         return os << std::hex << x.value_;
     }
 
-    auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
+    auto extended_euqlid_r(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
     {
         if (c.is_zero())
             return std::make_tuple(f, polynomial{1}, polynomial{0});
 
         auto [r, q] = f / c;
 
-        auto [d, a, b] = extended_euqlid(c, r, mod);
+        auto [d, a, b] = extended_euqlid_r(c, r, mod);
         return std::make_tuple(d, b, a + q * b % mod);
+
+    }
+    auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
+    {
+        auto a = polynomial{1};
+        auto b = polynomial{0};
+        auto d = f;
+
+        auto cc = c;
+
+        std::vector<std::tuple<polynomial, polynomial, polynomial>> stack;
+        while(c != polynomial{0}) {
+            auto [r, q] = f / c;
+            stack.emplace_back(r, q, c);
+            f = c;
+            c = std::get<0>(stack.back());
+        }
+
+        for (auto i = stack.rbegin(); i != stack.rend(); ++i) {
+            auto [r, q, c] = *i;
+            auto bb = b;
+            auto aa = a;
+            d = std::get<2>(stack.back());
+            a = b;
+            b = aa + q * bb % mod;
+        }
+
+        return std::tuple(d, a, b);
     }
 }

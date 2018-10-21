@@ -43,8 +43,54 @@ TEST(utils, multiply_by_hundred)
 
 TEST(utils, euqlid_simple)
 {
-    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
+    auto [d, a, b] = dstu4145::extended_euqlid_r(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
     a; b;
 
     EXPECT_EQ(d, dstu4145::polynomial{2});
+}
+
+TEST(utils, euqlid_base_case)
+{
+    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{0}, dstu4145::polynomial{6});
+    EXPECT_EQ(d, dstu4145::polynomial{6});
+    EXPECT_EQ(a, dstu4145::polynomial{1});
+    EXPECT_EQ(b, dstu4145::polynomial{0});
+}
+
+TEST(utils, euqlid_base_case2)
+{
+    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{2}, dstu4145::polynomial{0}, dstu4145::polynomial{1});
+    EXPECT_EQ(d, dstu4145::polynomial{2});
+    EXPECT_EQ(a, dstu4145::polynomial{1});
+    EXPECT_EQ(b, dstu4145::polynomial{0});
+}
+
+TEST(utils, euqlid_one_iteration)
+{
+    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{4}, dstu4145::polynomial{2}, dstu4145::polynomial{6});
+    EXPECT_EQ(d, dstu4145::polynomial{2});
+    EXPECT_EQ(a, dstu4145::polynomial{0});
+    EXPECT_EQ(b, dstu4145::polynomial{1});
+}
+
+TEST(utils, euqlid_two_iterations)
+{
+    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
+    EXPECT_EQ(d, dstu4145::polynomial{2});
+    EXPECT_EQ(a, dstu4145::polynomial{1});
+    EXPECT_EQ(b, dstu4145::polynomial{1});
+}
+
+#include <random>
+TEST(utils, euqlid_acceptance)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_int_distribution<unsigned short> dis(0);
+    for (auto i = 0; i < 1000; ++i) {
+        auto x =    dstu4145::polynomial{ dstu4145::integer{ (int)dis(gen) % 100 }};
+        auto y =    dstu4145::polynomial{ dstu4145::integer{ (int)dis(gen) % 100 }};
+        auto mod =  dstu4145::polynomial{ dstu4145::integer{ 1 + (int)dis(gen) % 99 }};
+        EXPECT_EQ(dstu4145::extended_euqlid(x,y,mod), dstu4145::extended_euqlid_r(x,y,mod));
+    }
 }

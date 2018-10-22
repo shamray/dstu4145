@@ -43,7 +43,7 @@ TEST(utils, multiply_by_hundred)
 
 TEST(utils, euqlid_simple)
 {
-    auto [d, a, b] = dstu4145::extended_euqlid_r(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
+    auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
     a; b;
 
     EXPECT_EQ(d, dstu4145::polynomial{2});

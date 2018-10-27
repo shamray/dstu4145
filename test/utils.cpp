@@ -80,17 +80,3 @@ TEST(utils, euqlid_two_iterations)
     EXPECT_EQ(a, dstu4145::polynomial{1});
     EXPECT_EQ(b, dstu4145::polynomial{1});
 }
-
-#include <random>
-TEST(utils, euqlid_acceptance)
-{
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    std::uniform_int_distribution<unsigned short> dis(0);
-    for (auto i = 0; i < 1000; ++i) {
-        auto x =    dstu4145::polynomial{ dstu4145::integer{ (int)dis(gen) % 100 }};
-        auto y =    dstu4145::polynomial{ dstu4145::integer{ (int)dis(gen) % 100 }};
-        auto mod =  dstu4145::polynomial{ dstu4145::integer{ 1 + (int)dis(gen) % 99 }};
-        EXPECT_EQ(dstu4145::extended_euqlid(x,y,mod), dstu4145::extended_euqlid_r(x,y,mod));
-    }
-}

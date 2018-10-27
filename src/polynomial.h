@@ -29,6 +29,5 @@ namespace dstu4145
     };
 
     auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>;
-    auto extended_euqlid_r(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>;
 }
 

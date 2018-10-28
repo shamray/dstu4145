@@ -108,11 +108,13 @@ namespace dstu4145
             c = std::get<0>(stack.back());
         }
 
+        if (!stack.empty())
+            d = std::get<2>(stack.back());
+
         for (auto i = stack.rbegin(); i != stack.rend(); ++i) {
             auto [r, q, c] = *i;
             auto bb = b;
             auto aa = a;
-            d = std::get<2>(stack.back());
             a = b;
             b = aa + q * bb % mod;
         }

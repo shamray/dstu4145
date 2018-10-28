@@ -81,17 +81,6 @@ namespace dstu4145
         return os << std::hex << x.value_;
     }
 
-    auto extended_euqlid_r(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
-    {
-        if (c.is_zero())
-            return std::make_tuple(f, polynomial{1}, polynomial{0});
-
-        auto [r, q] = f / c;
-
-        auto [d, a, b] = extended_euqlid_r(c, r, mod);
-        return std::make_tuple(d, b, a + q * b % mod);
-
-    }
     auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
     {
         auto a = polynomial{1};

@@ -18,9 +18,6 @@ namespace dstu4145
         auto [d, a, b] = extended_euqlid(field_.basis(), value_, field_.basis());
         d; a;
         return field_.create_element(b);
-//        auto [d, a, b] = extended_euqlid(field_.create_element(field_.basis()), *this, field_.create_element(field_.basis()));
-//        d; a;
-//        return b;
     }
 
     auto gf2m_element::trace() -> gf2m_element

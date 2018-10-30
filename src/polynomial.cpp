@@ -102,10 +102,10 @@ namespace dstu4145
 
         for (auto i = stack.rbegin(); i != stack.rend(); ++i) {
             auto [r, q, c] = *i;
-            auto bb = b;
-            auto aa = a;
-            a = b;
-            b = aa + q * bb % mod;
+
+            std::tie(a, b) = [a, b, &q, &mod] () { 
+                return std::tuple{b, a + q * b % mod}; 
+            }();
         }
 
         return std::tuple(d, a, b);

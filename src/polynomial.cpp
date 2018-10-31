@@ -1,4 +1,5 @@
 #include "polynomial.h"
+#include <numeric>
 
 namespace dstu4145
 {
@@ -83,11 +84,7 @@ namespace dstu4145
 
     auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
     {
-        auto a = polynomial{1};
-        auto b = polynomial{0};
         auto d = f;
-
-        auto cc = c;
 
         std::vector<std::tuple<polynomial, polynomial, polynomial>> stack;
         while(c != polynomial{0}) {
@@ -100,13 +97,15 @@ namespace dstu4145
         if (!stack.empty())
             d = std::get<2>(stack.back());
 
-        for (auto i = stack.rbegin(); i != stack.rend(); ++i) {
-            auto [r, q, c] = *i;
-
-            std::tie(a, b) = [a, b, &q, &mod] () { 
-                return std::tuple{b, a + q * b % mod}; 
-            }();
-        }
+        auto [a, b] = std::accumulate(
+            stack.rbegin(), stack.rend(),
+            std::tuple{polynomial{1}, polynomial{0}},
+            [&mod](auto prev, auto item) {
+                auto& [r, q, c] = item;
+                auto& [a, b] = prev;
+                return std::tuple{b, a + q * b % mod};
+            }
+        );
 
         return std::tuple(d, a, b);
     }

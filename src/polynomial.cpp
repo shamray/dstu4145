@@ -89,13 +89,14 @@ namespace dstu4145
         std::vector<std::tuple<polynomial, polynomial, polynomial>> stack;
         while(c != polynomial{0}) {
             auto [r, q] = f / c;
+            d = c;
             stack.emplace_back(r, q, c);
             f = c;
             c = std::get<0>(stack.back());
         }
 
-        if (!stack.empty())
-            d = std::get<2>(stack.back());
+        // if (!stack.empty())
+        //     d = std::get<2>(stack.back());
 
         auto [a, b] = std::accumulate(
             stack.rbegin(), stack.rend(),
@@ -107,6 +108,6 @@ namespace dstu4145
             }
         );
 
-        return std::tuple(d, a, b);
+        return std::tuple(f, a, b);
     }
 }

@@ -84,19 +84,13 @@ namespace dstu4145
 
     auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
     {
-        auto d = f;
-
         std::vector<std::tuple<polynomial, polynomial, polynomial>> stack;
         while(c != polynomial{0}) {
             auto [r, q] = f / c;
-            d = c;
             stack.emplace_back(r, q, c);
             f = c;
-            c = std::get<0>(stack.back());
+            c = r;
         }
-
-        // if (!stack.empty())
-        //     d = std::get<2>(stack.back());
 
         auto [a, b] = std::accumulate(
             stack.rbegin(), stack.rend(),

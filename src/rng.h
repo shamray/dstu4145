@@ -13,7 +13,6 @@ namespace dstu4145
             buffer.push_back(rng());
 
         auto result = buffer_to_integer(buffer);
-        std::cout << std::hex << std::endl << "x= " << result << std::endl;
 
         for (unsigned i = msb; i < 256; ++i)
             bit_unset(result, i);

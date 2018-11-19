@@ -82,7 +82,7 @@ namespace dstu4145
         return os << std::hex << x.value_;
     }
 
-    auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
+    auto compute_remainders(polynomial& f,  polynomial c) 
     {
         std::vector<polynomial> remainders;
         while(c != polynomial{0}) {
@@ -91,7 +91,12 @@ namespace dstu4145
             c = r;
             remainders.emplace_back(q);
         }
+        return remainders;
+    }
 
+    auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
+    {
+        auto remainders = compute_remainders(f, c);
         auto [a, b] = std::accumulate(
             remainders.rbegin(), remainders.rend(),
             std::tuple{polynomial{1}, polynomial{0}},

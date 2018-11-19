@@ -82,21 +82,21 @@ namespace dstu4145
         return os << std::hex << x.value_;
     }
 
-    auto compute_remainders(polynomial& f,  polynomial c) 
+    auto compute_remainders(polynomial& x,  polynomial y) 
     {
         std::vector<polynomial> remainders;
-        while(c != polynomial{0}) {
-            auto [r, q] = f / c;
-            f = c;
-            c = r;
+        while(y != polynomial{0}) {
+            auto [r, q] = x / y;
+            x = y;
+            y = r;
             remainders.emplace_back(q);
         }
         return remainders;
     }
 
-    auto extended_euqlid(polynomial f,  polynomial c, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
+    auto extended_euqlid(polynomial x,  polynomial y, polynomial mod) -> std::tuple<polynomial, polynomial, polynomial>
     {
-        auto remainders = compute_remainders(f, c);
+        auto remainders = compute_remainders(x, y);
         auto [a, b] = std::accumulate(
             remainders.rbegin(), remainders.rend(),
             std::tuple{polynomial{1}, polynomial{0}},
@@ -106,6 +106,6 @@ namespace dstu4145
             }
         );
 
-        return std::tuple(f, a, b);
+        return std::tuple(x, a, b);
     }
 }

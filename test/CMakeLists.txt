@@ -2,6 +2,7 @@ add_executable(dstu-test
   test-utils.cpp
   test-utils-test.cpp
   utils.cpp
+  polynomial.cpp
   gf2m.cpp
   integer.cpp
   ecurve.cpp

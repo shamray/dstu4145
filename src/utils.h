@@ -12,14 +12,14 @@ namespace dstu4145
     {
         auto shift = [](auto x, auto y) {
             for (auto i = 0u; i < y; ++i)
-                x = x + x;
+                x += x;
             return x;
         };
         auto addend = shift(p,boost::multiprecision::lsb(d));
         auto result = addend;
 
         for (auto i = boost::multiprecision::lsb(d) + 1; i <= boost::multiprecision::msb(d); ++i) {
-            addend = addend + addend;
+            addend += addend;
             if (bit_test(d, i))
                 result = result + addend;
         }

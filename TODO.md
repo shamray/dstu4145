@@ -1,4 +1,4 @@
-* todo: Move gf2m tests out from ecurve.cpp
+
 * todo: Move large function definitions from ecurve.h to cpp
 * todo: Move test-utils to a dedicated library
 * todo: Eliptic curves with 3 coeffs

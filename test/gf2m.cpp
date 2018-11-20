@@ -3,6 +3,8 @@
 #include "gf2m.h"
 #include "gf2m_element.h"
 
+using namespace testing;
+
 TEST(gf2m_test, inverse)
 {
     auto field = dstu4145::gf2m{7, 5, 2, 1};
@@ -49,4 +51,48 @@ TEST(gf2m_test, add)
     EXPECT_EQ(a + s, expected);
 
     auto r = s + a;
+}
+
+struct field163 : Test
+{
+    dstu4145::gf2m field{163, 7, 6, 3 };
+};
+
+TEST_F(field163, field_element_addition_small)
+{
+    auto a = field.create_element(1);
+    auto b = field.create_element(2);
+
+    EXPECT_EQ(a + b, field.create_element(3));
+}
+
+TEST_F(field163, field_element_addition_small_equal)
+{
+    auto a = field.create_element(1);
+    auto b = field.create_element(1);
+
+    EXPECT_EQ(a + b, field.create_element(0));
+}
+
+TEST_F(field163, field_element_addition_big)
+{
+    auto a = field.create_element(dstu4145::integer{"0x695B3B9D26830943133078EF19FE8A8814F8F7B70"});
+    auto b = field.create_element(dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"});
+
+    EXPECT_EQ(a + b, field.create_element(dstu4145::integer{"0x5ED757308A030E3F43DC5965A137EA9D61F474E14"}));
+}
+
+TEST_F(field163, field_element_multiplication_small)
+{
+    auto a = field.create_element(2);
+    auto b = field.create_element(3);
+
+    EXPECT_EQ(a * b, field.create_element(6));
+}
+
+TEST_F(field163, field_element_multiplication_big) {
+    auto a = field.create_element(dstu4145::integer{"0x695B3B9D26830943133078EF19FE8A8814F8F7B70"});
+    auto b = field.create_element(dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"});
+
+    EXPECT_EQ(a * b, field.create_element(dstu4145::integer{"0x2F44EF2885428821377088E7AB7110467B10B663B"}));
 }

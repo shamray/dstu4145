@@ -2,10 +2,8 @@
 
 #include "ecurve.h"
 
-
 using namespace std::literals;
 using namespace testing;
-
 
 struct simple : Test
 {
@@ -82,45 +80,6 @@ TEST_F(simple, point_addition_not_equal_pluseq)
 
     r+= p;
     EXPECT_EQ(r, expected);
-}
-
-TEST_F(simple, field_element_addition_small)
-{
-    auto a = field.create_element(1);
-    auto b = field.create_element(2);
-
-    EXPECT_EQ(a + b, field.create_element(3));
-}
-
-TEST_F(simple, field_element_addition_small_equal)
-{
-    auto a = field.create_element(1);
-    auto b = field.create_element(1);
-
-    EXPECT_EQ(a + b, field.create_element(0));
-}
-
-TEST_F(simple, field_element_addition_big)
-{
-    auto a = field.create_element(dstu4145::integer{"0x695B3B9D26830943133078EF19FE8A8814F8F7B70"});
-    auto b = field.create_element(dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"});
-
-    EXPECT_EQ(a + b, field.create_element(dstu4145::integer{"0x5ED757308A030E3F43DC5965A137EA9D61F474E14"}));
-}
-
-TEST_F(simple, field_element_multiplication_small)
-{
-    auto a = field.create_element(2);
-    auto b = field.create_element(3);
-
-    EXPECT_EQ(a * b, field.create_element(6));
-}
-
-TEST_F(simple, field_element_multiplication_big) {
-    auto a = field.create_element(dstu4145::integer{"0x695B3B9D26830943133078EF19FE8A8814F8F7B70"});
-    auto b = field.create_element(dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"});
-
-    EXPECT_EQ(a * b, field.create_element(dstu4145::integer{"0x2F44EF2885428821377088E7AB7110467B10B663B"}));
 }
 
 TEST_F(simple, public_key_computation)

@@ -96,6 +96,11 @@ namespace dstu4145
             }
         }
 
+        auto operator+=(ecurve_point q)
+        {
+            *this = *this + q;
+        }
+
         auto validate() const -> bool;
 
         auto operator*(integer d) const

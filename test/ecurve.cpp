@@ -66,6 +66,24 @@ TEST_F(simple, point_addition_not_equal)
     EXPECT_EQ(q, expected);
 }
 
+TEST_F(simple, point_addition_not_equal_pluseq)
+{
+    auto expected = dstu4145::ecurve::point{
+        curve,
+        dstu4145::integer{"0x61DA3389DDA324607BFFCC1EAD469465D033EDE07"},
+        dstu4145::integer{"0x142B39F71B08662634682D26D3A1F4BE543B393E9"}
+    };
+
+    auto r = dstu4145::ecurve::point{
+        curve,
+        dstu4145::integer{"0x5A4397672F0C513E390212AD3825420BE83E3BFDA"},
+        dstu4145::integer{"0x378C6CADAC80077C50EC218AB8C96015750C83564"}
+    };
+
+    r+= p;
+    EXPECT_EQ(r, expected);
+}
+
 TEST_F(simple, field_element_addition_small)
 {
     auto a = field.create_element(1);

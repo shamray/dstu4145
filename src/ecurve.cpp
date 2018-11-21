@@ -19,6 +19,12 @@ namespace dstu4145
         }
     }
 
+    ecurve::ecurve(gf2m gf, int a, integer b)
+        : gf_(gf)
+        , a_(a)
+        , b_(b)
+    {}
+
     auto ecurve::find_point(integer ix) const -> std::optional<point>
     {
         auto u = field().create_element(std::move(ix));
@@ -46,6 +52,79 @@ namespace dstu4145
     auto ecurve::infinity_point() const -> point
     {
         return point{*this};
+    }
+
+    ecurve_point::ecurve_point(ecurve curve)
+        : x(curve.gf_.create_element(0))
+        , y(curve.gf_.create_element(0))
+        , c(curve)
+    {}
+
+    ecurve_point::ecurve_point(ecurve curve, integer ix, integer iy)
+        : x(curve.gf_, ix)
+        , y(curve.gf_, iy)
+        , c(curve)
+    {
+        assert(validate());
+    }
+
+    ecurve_point::ecurve_point(ecurve curve, gf2m::element x, gf2m::element y)
+        : x(x)
+        , y(y)
+        , c(curve)
+    {
+        assert(validate());
+    }
+
+    auto ecurve_point::operator+(ecurve_point q) const -> ecurve_point
+    {
+        auto& p = *this;
+
+        if (p.x == q.x)
+        {
+            auto t = p.y / p.x + p.x;
+            auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
+            if (x == gf2m::element{c.gf_, 0})
+                return c.infinity_point();
+
+            auto y = square(p.x) + t * x + x;
+
+            auto r = ecurve_point{ c, x, y };
+            assert(r.validate());
+            return r;
+        }
+        else
+        {
+            auto t = (p.y + q.y) / (p.x + q.x);
+            auto x = square(t) + t + p.x + q.x + gf2m::element{c.gf_, c.a_};
+            if (x == gf2m::element{c.gf_, 0})
+                return c.infinity_point();
+
+            auto y = t * (p.x + x) + x + p.y;
+            auto r = ecurve_point{ c, x, y };
+            assert(r.validate());
+            return r;
+        }
+    }
+
+    auto ecurve_point::operator+=(ecurve_point q) -> ecurve_point&
+    {
+        *this = *this + q;
+        return *this;
+    }
+
+    auto ecurve_point::operator*(integer d) const -> ecurve_point
+    {
+        auto r = multiply(d, *this);
+        assert(r.validate());
+        return r;
+    }
+
+    auto ecurve_point::operator-() const -> ecurve_point
+    {
+        auto r = ecurve_point{ c, x, x + y };
+        assert(r.validate());
+        return r;
     }
 
     auto ecurve_point::validate() const -> bool

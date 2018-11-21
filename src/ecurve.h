@@ -17,11 +17,7 @@ namespace dstu4145
         using point = ecurve_point;
 
     public:
-        ecurve(gf2m gf, int a, integer b)
-            : gf_(gf)
-            , a_(a)
-            , b_(b)
-        {}
+        ecurve(gf2m gf, int a, integer b);
 
         auto field() const -> const auto& { return gf_; }
         auto a() const { return a_; }
@@ -39,90 +35,26 @@ namespace dstu4145
 
     struct ecurve_point
     {
-        ecurve_point(ecurve curve)
-            : x(curve.gf_.create_element(0))
-            , y(curve.gf_.create_element(0))
-            , c(curve)
-        {}
-
-        ecurve_point(ecurve curve, integer ix, integer iy)
-            : x(curve.gf_, ix)
-            , y(curve.gf_, iy)
-            , c(curve)
-        {
-            assert(validate());
-        }
-
-        ecurve_point(ecurve curve, gf2m::element x, gf2m::element y)
-            : x(x)
-            , y(y)
-            , c(curve)
-        {
-            assert(validate());
-        }
+        ecurve_point(ecurve curve);
+        ecurve_point(ecurve curve, integer ix, integer iy);
+        ecurve_point(ecurve curve, gf2m::element x, gf2m::element y);
 
         gf2m::element x;
         gf2m::element y;
         ecurve c;
 
-        auto operator+ (ecurve_point q) const
-        {
-            auto& p = *this;
+        auto operator+(ecurve_point q) const -> ecurve_point;
+        auto operator+=(ecurve_point q) -> ecurve_point&;
 
-            if (p.x == q.x)
-            {
-                auto t = p.y / p.x + p.x;
-                auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
-                if (x == gf2m::element{c.gf_, 0})
-                    return c.infinity_point();
-
-                auto y = square(p.x) + t * x + x;
-
-                auto r = ecurve_point{ c, x, y };
-                assert(r.validate());
-                return r;
-            }
-            else
-            {
-                auto t = (p.y + q.y) / (p.x + q.x);
-                auto x = square(t) + t + p.x + q.x + gf2m::element{c.gf_, c.a_};
-                if (x == gf2m::element{c.gf_, 0})
-                    return c.infinity_point();
-
-                auto y = t * (p.x + x) + x + p.y;
-                auto r = ecurve_point{ c, x, y };
-                assert(r.validate());
-                return r;
-            }
-        }
-
-        auto operator+=(ecurve_point q)
-        {
-            *this = *this + q;
-        }
+        auto operator*(integer d) const -> ecurve_point;
+        auto operator-() const -> ecurve_point;
 
         auto validate() const -> bool;
-
-        auto operator*(integer d) const
-        {
-            auto r = multiply(d, *this);
-            assert(r.validate());
-            return r;
-        }
-
-        auto operator-() const
-        {
-            auto r = ecurve_point{ c, x, x + y };
-            assert(r.validate());
-            return r;
-        }
     };
 
     inline auto operator* (integer d, ecurve::point p)
     {
-        auto r = p * d;
-        assert(r.validate());
-        return r;
+        return p * d;
     }
 
     inline auto operator== (ecurve::point a, ecurve::point b)
@@ -135,7 +67,7 @@ namespace dstu4145
         return !(a == b);
     }
 
-    inline std::ostream& operator<< (std::ostream& os, const ecurve::point& p)
+    inline auto operator<< (std::ostream& os, const ecurve::point& p) -> std::ostream&
     {
         return os << std::hex << "(" << p.x << ", " << p.y << ")";
     }

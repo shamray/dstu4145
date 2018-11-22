@@ -1,7 +1,6 @@
-#include <map>
-#include <string>
-
 #include "test-utils.h"
+
+#include <map>
 
 namespace
 {

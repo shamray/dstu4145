@@ -5,7 +5,8 @@
 using namespace std::literals;
 using namespace testing;
 
-struct simple : Test
+// Test case from DSTU 4145-2002 Appendix B
+struct curve163 : Test
 {
     dstu4145::gf2m field{163, 7, 6, 3 };
 
@@ -25,7 +26,7 @@ struct simple : Test
     dstu4145::integer n{"0x400000000000000000002BEC12BE2262D39BCF14D"};
 };
 
-TEST_F(simple, point_multiplication)
+TEST_F(curve163, point_multiplication)
 {
     auto expected = dstu4145::ecurve::point{
         curve,
@@ -36,7 +37,7 @@ TEST_F(simple, point_multiplication)
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, point_addition_equal)
+TEST_F(curve163, point_addition_equal)
 {
     auto expected = dstu4145::ecurve::point{
         curve,
@@ -47,7 +48,7 @@ TEST_F(simple, point_addition_equal)
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, point_addition_not_equal)
+TEST_F(curve163, point_addition_not_equal)
 {
     auto expected = dstu4145::ecurve::point{
         curve,
@@ -64,7 +65,7 @@ TEST_F(simple, point_addition_not_equal)
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, point_addition_not_equal_pluseq)
+TEST_F(curve163, point_addition_not_equal_pluseq)
 {
     auto expected = dstu4145::ecurve::point{
         curve,
@@ -82,7 +83,7 @@ TEST_F(simple, point_addition_not_equal_pluseq)
     EXPECT_EQ(r, expected);
 }
 
-TEST_F(simple, public_key_computation)
+TEST_F(curve163, public_key_computation)
 {
     auto expected = dstu4145::ecurve::point{
         curve,
@@ -94,7 +95,7 @@ TEST_F(simple, public_key_computation)
     EXPECT_EQ(q, expected);
 }
 
-TEST_F(simple, hash_to_field_element)
+TEST_F(curve163, hash_to_field_element)
 {
     auto hash = ::dstu4145::integer{"0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
     auto h = field.create_element(hash);
@@ -102,7 +103,7 @@ TEST_F(simple, hash_to_field_element)
     EXPECT_EQ(static_cast<dstu4145::integer>(h), dstu4145::integer{"0x03A2EB95B7180166DDF73532EEB76EDAEF52247FF" });
 }
 
-TEST_F(simple, presignature_calculation)
+TEST_F(curve163, presignature_calculation)
 {
     auto expected = dstu4145::ecurve::point{
         curve,
@@ -118,7 +119,7 @@ TEST_F(simple, presignature_calculation)
     EXPECT_EQ(fe, dstu4145::integer{ "0x42A7D756D70E1C9BA62D2CB43707C35204EF3C67C" });
 }
 
-TEST_F(simple, signature_calculation)
+TEST_F(curve163, signature_calculation)
 {
     auto hash = ::dstu4145::integer{ "0x09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF" };
 
@@ -135,7 +136,7 @@ TEST_F(simple, signature_calculation)
     EXPECT_EQ(s, dstu4145::integer{"0x2100D86957331832B8E8C230F5BD6A332B3615ACA"});
 }
 
-TEST_F(simple, signature_verification)
+TEST_F(curve163, signature_verification)
 {
     auto q = -(d * p);
 
@@ -152,7 +153,7 @@ TEST_F(simple, signature_verification)
     EXPECT_EQ(static_cast<dstu4145::integer>(y), r);
 }
 
-TEST_F(simple, find_point)
+TEST_F(curve163, find_point)
 {
     auto actual = curve.find_point(dstu4145::integer{"0x72D867F93A93AC27DF9FF01AFFE74885C8C540420"});
     EXPECT_EQ(actual, p);

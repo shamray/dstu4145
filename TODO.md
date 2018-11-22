@@ -1,5 +1,4 @@
 
-* todo: Move test-utils to a dedicated library
 * todo: Eliptic curves with 3 coeffs
 * todo: Full-fledged integer adapter
 * todo: Switch from Boost Multiprecision to OpenSSL?

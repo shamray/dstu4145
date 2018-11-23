@@ -1,5 +1,4 @@
 
-* todo: Eliptic curves with 3 coeffs
 * todo: Full-fledged integer adapter
 * todo: Switch from Boost Multiprecision to OpenSSL?
 * todo: Compressed keys

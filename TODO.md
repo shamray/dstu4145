@@ -3,6 +3,7 @@
 * todo: Full-fledged integer adapter
 * todo: Switch from Boost Multiprecision to OpenSSL?
 * todo: Compressed keys
+* todo: Generate keys
 * todo: Fast square optimization
 * todo: Performance testing
 * todo: Fast multiplication optimization (Karatsuba?)

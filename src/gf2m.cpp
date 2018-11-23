@@ -9,6 +9,12 @@ namespace dstu4145
     {
     }
 
+    gf2m::gf2m(int m, int x)
+        : m_(m)
+        , basis_(m, x)
+    {
+    }
+
     auto gf2m::create_element(integer value) const -> element
     {
         return element(*this, value % (integer{ 1 } << m_));

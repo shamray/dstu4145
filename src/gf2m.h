@@ -11,6 +11,7 @@ namespace dstu4145
     public:
         using element = gf2m_element;
         gf2m(int m, int x1, int x2, int x3);
+        gf2m(int m, int x);
 
         auto create_element(integer value) const -> element;
         auto create_element(polynomial value) const -> element;

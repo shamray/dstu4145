@@ -12,6 +12,13 @@ namespace dstu4145
         bit_set(value_, 0);
     }
 
+    polynomial::polynomial(int m, int x)
+    {
+        bit_set(value_, m);
+        bit_set(value_, x);
+        bit_set(value_, 0);
+    }
+
     polynomial::polynomial(dstu4145::integer value)
         : value_(std::move(value))
     {}

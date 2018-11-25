@@ -15,6 +15,9 @@ namespace dstu4145
         public:
             integer(long long value);
 
+            explicit
+            integer(std::string_view hex);
+
         private:
             using impl_t = boost::multiprecision::number<
                 boost::multiprecision::cpp_int_backend<

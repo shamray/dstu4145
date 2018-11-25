@@ -47,9 +47,9 @@ TEST(integer, not_equals_plus_one)
 
 TEST(integer, addition_large)
 {
-    const auto a = dstu4145::integer{"0x50505050505050505050505050505050"};
-    const auto b = dstu4145::integer{"0x51515151515151515151515151515151"};
-    const auto s = dstu4145::integer{"0xA1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"};
+    const auto a = integer{"50505050505050505050505050505050"};
+    const auto b = integer{"51515151515151515151515151515151"};
+    const auto s = integer{"A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"};
     EXPECT_EQ(a + b, s);
 }
 

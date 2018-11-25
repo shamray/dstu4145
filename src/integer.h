@@ -9,6 +9,7 @@ namespace dstu4145
         class integer
         {
             friend auto operator+ (const integer& a, const integer& b) -> integer;
+            friend auto operator* (const integer& a, const integer& b) -> integer;
             friend auto operator==(const integer& a, const integer& b) -> bool;
             friend auto operator!=(const integer& a, const integer& b) -> bool;
 

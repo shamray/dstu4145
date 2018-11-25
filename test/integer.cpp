@@ -55,12 +55,12 @@ TEST(integer, addition_large)
 
 TEST(integer, multiplication_by_2_is_two_additions)
 {
-    const auto a = dstu4145::integer{0x1234567890ABCD13};
+    const auto a = integer{0x1234567890ABCD13};
     EXPECT_EQ(a + a, 2 * a);
 }
 
 TEST(integer, multiplication_by_3_is_three_additions)
 {
-    const auto a = dstu4145::integer{0x1234567890ABCD13};
+    const auto a = integer{0x1234567890ABCD13};
     EXPECT_EQ(a + a + a, 3 * a);
 }

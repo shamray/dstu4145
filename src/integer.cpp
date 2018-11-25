@@ -35,6 +35,11 @@ namespace dstu4145
         {
             return a.impl_ != b.impl_;
         }
+
+        auto operator*(const integer &a, const integer &b) -> integer
+        {
+            return integer{a.impl_ * b.impl_};
+        }
     }
 }
 

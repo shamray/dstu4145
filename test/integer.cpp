@@ -22,10 +22,10 @@ TEST(integer, int_to_buffer)
 
 TEST(integer, buffer_to_int)
 {
-    const auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
     const auto rbuf = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
 
-    EXPECT_EQ(r, dstu4145::buffer_to_integer(rbuf));
+    EXPECT_EQ(r, integer{rbuf});
 }
 
 TEST(integer, addition_small)

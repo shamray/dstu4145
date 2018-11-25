@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/multiprecision/cpp_int.hpp>
+#include "is_container.h"
 
 namespace dstu4145
 {
@@ -17,6 +18,9 @@ namespace dstu4145
     template <class iterator>
     void integer_to_buffer(const integer& i, iterator out);
 
+    template <class iterator1, class iterator2>
+    auto buffer_to_integer(const iterator1& begin, const iterator2& end);
+
     namespace adapter
     {
         class integer
@@ -32,6 +36,11 @@ namespace dstu4145
             explicit
             integer(std::string_view hex);
 
+            template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
+            integer (const container& c)
+                : impl_(buffer_to_integer(std::begin(c), std::end(c)))
+            {
+            }
 
             template <class iterator>
             void to_buffer(iterator out) const;

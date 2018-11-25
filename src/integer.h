@@ -36,8 +36,14 @@ namespace dstu4145
             explicit
             integer(std::string_view hex);
 
+            template <class iterator1, class iterator2>
+            integer(const iterator1& begin, const iterator2& end)
+                : impl_(buffer_to_integer(begin, end))
+            {
+            }
+
             template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
-            integer (const container& c)
+            integer(const container& c)
                 : impl_(buffer_to_integer(std::begin(c), std::end(c)))
             {
             }

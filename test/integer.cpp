@@ -61,6 +61,20 @@ TEST(integer, bit_test)
     EXPECT_TRUE (x.bit_test(2));
 }
 
+TEST(integer, msb_lsb_5)
+{
+    auto x = integer{5};
+    EXPECT_EQ(x.msb(), 2);
+    EXPECT_EQ(x.lsb(), 0);
+}
+
+TEST(integer, msb_lsb_2)
+{
+    auto x = integer{2};
+    EXPECT_EQ(x.msb(), 1);
+    EXPECT_EQ(x.lsb(), 1);
+}
+
 TEST(integer, addition_small)
 {
     const auto a = integer{2};

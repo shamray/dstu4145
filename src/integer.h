@@ -55,6 +55,8 @@ namespace dstu4145
 
             void bit_set(size_t n);
             auto bit_test(size_t n) const -> bool;
+            auto msb() const -> size_t;
+            auto lsb() const -> size_t;
 
         private:
             using impl_t = boost::multiprecision::number<

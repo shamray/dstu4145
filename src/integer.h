@@ -4,6 +4,36 @@
 
 namespace dstu4145
 {
+    namespace adapter
+    {
+        class integer
+        {
+            friend auto operator+ (const integer& a, const integer& b) -> integer;
+            friend auto operator==(const integer& a, const integer& b) -> bool;
+            friend auto operator!=(const integer& a, const integer& b) -> bool;
+
+        public:
+            integer(long long value);
+
+        private:
+            using impl_t = boost::multiprecision::number<
+                boost::multiprecision::cpp_int_backend<
+                    256,
+                    4096,
+                    boost::multiprecision::unsigned_magnitude,
+                    boost::multiprecision::unchecked,
+                    void
+                >
+            >;
+
+            integer(impl_t impl);
+
+        private:
+            impl_t impl_;
+        };
+    }
+
+
     using integer = boost::multiprecision::number<
         boost::multiprecision::cpp_int_backend<
             256,

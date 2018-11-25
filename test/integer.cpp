@@ -5,6 +5,8 @@
 
 using namespace std::literals;
 
+using dstu4145::adapter::integer;
+
 TEST(integer, int_to_buffer)
 {
     const auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
@@ -26,8 +28,8 @@ TEST(integer, buffer_to_int)
 
 TEST(integer, addition_small)
 {
-    const auto a = dstu4145::integer{2};
-    const auto b = dstu4145::integer{3};
+    const auto a = integer{2};
+    const auto b = integer{3};
     EXPECT_EQ(a + b, 5);
 }
 

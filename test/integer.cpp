@@ -53,6 +53,14 @@ TEST(integer, bit_set_middle)
     EXPECT_EQ(x, 0xC);
 }
 
+TEST(integer, bit_test)
+{
+    auto x = integer{5};
+    EXPECT_TRUE (x.bit_test(0));
+    EXPECT_FALSE(x.bit_test(1));
+    EXPECT_TRUE (x.bit_test(2));
+}
+
 TEST(integer, addition_small)
 {
     const auto a = integer{2};

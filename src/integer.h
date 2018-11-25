@@ -54,6 +54,7 @@ namespace dstu4145
             void to_buffer(iterator out) const;
 
             void bit_set(size_t n);
+            auto bit_test(size_t n) const -> bool;
 
         private:
             using impl_t = boost::multiprecision::number<

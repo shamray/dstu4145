@@ -31,6 +31,8 @@ namespace dstu4145
             friend auto operator!=(const integer& a, const integer& b) -> bool;
 
         public:
+            integer() = default;
+
             integer(long long value);
 
             explicit
@@ -50,6 +52,8 @@ namespace dstu4145
 
             template <class iterator>
             void to_buffer(iterator out) const;
+
+            void bit_set(size_t n);
 
         private:
             using impl_t = boost::multiprecision::number<

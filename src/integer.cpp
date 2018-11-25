@@ -21,6 +21,11 @@ namespace dstu4145
         {
         }
 
+        void integer::bit_set(size_t n)
+        {
+            boost::multiprecision::bit_set(impl_, n);
+        }
+
         auto operator+(const integer &a, const integer &b) -> integer
         {
             return integer{a.impl_ + b.impl_};

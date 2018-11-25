@@ -36,6 +36,23 @@ TEST(integer, construct_from_buffer_iterators)
     EXPECT_EQ(r, integer(rbuf.begin(), rbuf.end()));
 }
 
+TEST(integer, bit_set_first)
+{
+    auto x = integer{};
+    x.bit_set(0);
+
+    EXPECT_EQ(x, 1);
+}
+
+TEST(integer, bit_set_middle)
+{
+    auto x = integer{};
+    x.bit_set(3);
+    x.bit_set(2);
+
+    EXPECT_EQ(x, 0xC);
+}
+
 TEST(integer, addition_small)
 {
     const auto a = integer{2};

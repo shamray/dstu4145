@@ -3,17 +3,19 @@
 #include "test-utils.h"
 #include "integer.h"
 
+#include <vector>
+
 using namespace std::literals;
 
 using dstu4145::adapter::integer;
 
 TEST(integer, int_to_buffer)
 {
-    const auto r = dstu4145::integer{"0x274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
     const auto expected = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
 
     auto rbuf = std::vector<std::byte>{};
-    dstu4145::integer_to_buffer(r, std::back_inserter(rbuf));
+    r.to_buffer(std::back_inserter(rbuf));
 
     EXPECT_EQ(rbuf, expected);
 }

@@ -4,6 +4,19 @@
 
 namespace dstu4145
 {
+    using integer = boost::multiprecision::number<
+        boost::multiprecision::cpp_int_backend<
+            256,
+            4096,
+            boost::multiprecision::unsigned_magnitude,
+            boost::multiprecision::unchecked,
+            void
+        >
+    >;
+
+    template <class iterator>
+    void integer_to_buffer(const integer& i, iterator out);
+
     namespace adapter
     {
         class integer
@@ -18,6 +31,10 @@ namespace dstu4145
 
             explicit
             integer(std::string_view hex);
+
+
+            template <class iterator>
+            void to_buffer(iterator out) const;
 
         private:
             using impl_t = boost::multiprecision::number<
@@ -35,23 +52,18 @@ namespace dstu4145
         private:
             impl_t impl_;
         };
+
+        template<class iterator>
+        void integer::to_buffer(iterator out) const
+        {
+            return integer_to_buffer(impl_, out);
+        }
     }
-
-
-    using integer = boost::multiprecision::number<
-        boost::multiprecision::cpp_int_backend<
-            256,
-            4096,
-            boost::multiprecision::unsigned_magnitude,
-            boost::multiprecision::unchecked,
-            void
-        >
-    >;
 
     template <class iterator>
     void integer_to_buffer(const integer& i, iterator out)
     {
-        unsigned bitcount = boost::multiprecision::backends::eval_msb_imp(i.backend()) + 1;
+        unsigned bitcount = boost::multiprecision::msb(i) + 1;
         constexpr auto chunk_size = uint8_t{8};
         constexpr bool msv_first = true;
         unsigned chunks = bitcount / chunk_size;
@@ -64,8 +76,8 @@ namespace dstu4145
         if(!i)
             return;
 
-        int bit_location = msv_first ? bitcount - chunk_size : 0;
-        int bit_step = msv_first ? -static_cast<int>(chunk_size) : chunk_size;
+        int bit_location = bitcount - chunk_size;
+        int bit_step = -static_cast<int>(chunk_size);
         while(bit_location % bit_step) ++bit_location;
 
         do

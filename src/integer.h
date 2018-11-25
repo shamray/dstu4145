@@ -44,7 +44,7 @@ namespace dstu4145
 
             template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
             integer(const container& c)
-                : impl_(buffer_to_integer(std::begin(c), std::end(c)))
+                : integer(std::begin(c), std::end(c))
             {
             }
 

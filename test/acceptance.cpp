@@ -17,10 +17,10 @@ struct acceptance163 : Test
     dstu4145::ecurve curve {
         dstu4145::gf2m {163, 7, 6, 3 },
         1,
-        dstu4145::integer{"0x5FF6108462A2DC8210AB403925E638A19C1455D21"}
+        dstu4145::integer{"5FF6108462A2DC8210AB403925E638A19C1455D21"}
     };
 
-    dstu4145::integer n{"0x400000000000000000002BEC12BE2262D39BCF14D"};
+    dstu4145::integer n{"400000000000000000002BEC12BE2262D39BCF14D"};
 
     dstu4145::rng_t rng{
         [] () {
@@ -73,9 +73,9 @@ struct acceptance167 : Test
     dstu4145::ecurve curve{
         dstu4145::gf2m {167, 6 },
         1,
-        dstu4145::integer{"0x6EE3CEEB230811759F20518A0930F1A4315A827DAC"}
+        dstu4145::integer{"6EE3CEEB230811759F20518A0930F1A4315A827DAC"}
     };
-    dstu4145::integer n {"0x3FFFFFFFFFFFFFFFFFFFFFB12EBCC7D7F29FF7701F"};
+    dstu4145::integer n {"3FFFFFFFFFFFFFFFFFFFFFB12EBCC7D7F29FF7701F"};
 
     dstu4145::rng_t rng {
         [] () {
@@ -128,9 +128,9 @@ struct acceptance233 : Test
     dstu4145::ecurve curve{
         dstu4145::gf2m {233, 9, 4, 1 },
         1,
-        dstu4145::integer{"0x06973B15095675534C7CF7E64A21BD54EF5DD3B8A0326AA936ECE454D2C"}
+        dstu4145::integer{"06973B15095675534C7CF7E64A21BD54EF5DD3B8A0326AA936ECE454D2C"}
     };
-    dstu4145::integer n {"0x1000000000000000000000000000013E974E72F8A6922031D2603CFE0D7"};
+    dstu4145::integer n{"1000000000000000000000000000013E974E72F8A6922031D2603CFE0D7"};
 
     dstu4145::rng_t rng {
         [] () {
@@ -149,7 +149,7 @@ struct acceptance233 : Test
 
 TEST_F(acceptance233, fail_to_find_point)
 {
-    auto x = dstu4145::integer{"0xA3FFF2AD7DD48D72D726549C112BB5DCEB725009F4EBC236ECC69EAE0B4F056"};
+    auto x = dstu4145::integer{"A3FFF2AD7DD48D72D726549C112BB5DCEB725009F4EBC236ECC69EAE0B4F056"};
     auto base_point = curve.find_point(x);
 
     EXPECT_EQ(base_point, std::nullopt);

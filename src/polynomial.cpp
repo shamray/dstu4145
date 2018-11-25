@@ -5,18 +5,18 @@ namespace dstu4145
 {
     polynomial::polynomial(int m, int x1, int x2, int x3)
     {
-        bit_set(value_, m);
-        bit_set(value_, x1);
-        bit_set(value_, x2);
-        bit_set(value_, x3);
-        bit_set(value_, 0);
+        value_.bit_set(m);
+        value_.bit_set(x1);
+        value_.bit_set(x2);
+        value_.bit_set(x3);
+        value_.bit_set(0);
     }
 
     polynomial::polynomial(int m, int x)
     {
-        bit_set(value_, m);
-        bit_set(value_, x);
-        bit_set(value_, 0);
+        value_.bit_set(m);
+        value_.bit_set(x);
+        value_.bit_set(0);
     }
 
     polynomial::polynomial(dstu4145::integer value)
@@ -40,10 +40,10 @@ namespace dstu4145
         if (b == polynomial{})
             return result;
 
-        for (long i = boost::multiprecision::msb(b.value_); i >= 0; i--)
+        for (long i = b.value_.msb(); i >= 0; i--)
         {
             result.value_ <<= 1;
-            if (boost::multiprecision::bit_test(b.value_, static_cast<unsigned>(i)))
+            if (b.value_.bit_test(static_cast<unsigned>(i)))
                 result.value_ ^= a.value_;
         }
 
@@ -60,17 +60,17 @@ namespace dstu4145
         if (dividend == polynomial{})
             return std::make_tuple(remainder, quotient);
 
-        long degree = boost::multiprecision::msb(divisor.value_);
+        long degree = divisor.value_.msb();
 
-        for (long i = boost::multiprecision::msb(dividend.value_); i>=0; i--)
+        for (long i = dividend.value_.msb(); i>=0; i--)
         {
             remainder.value_ <<= 1;
-            if (boost::multiprecision::bit_test(dividend.value_, static_cast<unsigned>(i)))
-                boost::multiprecision::bit_set(remainder.value_, 0);
+            if (dividend.value_.bit_test(static_cast<unsigned>(i)))
+                remainder.value_.bit_set(0);
 
-            if (boost::multiprecision::bit_test(remainder.value_, static_cast<unsigned>(degree))) {
+            if (remainder.value_.bit_test(static_cast<unsigned>(degree))) {
                 remainder.value_ ^= divisor.value_;
-                boost::multiprecision::bit_set(quotient.value_, static_cast<unsigned>(i));
+                quotient.value_.bit_set(static_cast<unsigned>(i));
             }
         }
 

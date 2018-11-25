@@ -5,30 +5,23 @@
 
 namespace dstu4145
 {
-    using integer = boost::multiprecision::number<
-        boost::multiprecision::cpp_int_backend<
-            256,
-            4096,
-            boost::multiprecision::unsigned_magnitude,
-            boost::multiprecision::unchecked,
-            void
-        >
-    >;
-
-    template <class iterator>
-    void integer_to_buffer(const integer& i, iterator out);
-
-    template <class iterator1, class iterator2>
-    auto buffer_to_integer(const iterator1& begin, const iterator2& end);
-
     namespace adapter
     {
         class integer
         {
             friend auto operator+ (const integer& a, const integer& b) -> integer;
             friend auto operator* (const integer& a, const integer& b) -> integer;
+            friend auto operator/ (const integer& a, const integer& b) -> integer;
+            friend auto operator% (const integer& a, const integer& b) -> integer;
+            friend auto operator^ (const integer& a, const integer& b) -> integer;
+            friend auto operator<<(const integer& a, size_t bits) -> integer;
+            friend auto operator< (const integer& a, const integer& b) -> bool;
+            friend auto operator> (const integer& a, const integer& b) -> bool;
+            friend auto operator<=(const integer& a, const integer& b) -> bool;
+            friend auto operator>=(const integer& a, const integer& b) -> bool;
             friend auto operator==(const integer& a, const integer& b) -> bool;
             friend auto operator!=(const integer& a, const integer& b) -> bool;
+            friend auto operator<<(std::ostream& os, const integer& a) -> std::ostream&;
 
         public:
             integer() = default;
@@ -40,8 +33,10 @@ namespace dstu4145
 
             template <class iterator1, class iterator2>
             integer(const iterator1& begin, const iterator2& end)
-                : impl_(buffer_to_integer(begin, end))
+                : impl_{0}
             {
+                auto result = integer{0};
+                import_bits(impl_, begin, end, 8);
             }
 
             template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
@@ -54,9 +49,15 @@ namespace dstu4145
             void to_buffer(iterator out) const;
 
             void bit_set(size_t n);
+            void bit_unset(size_t n);
             auto bit_test(size_t n) const -> bool;
             auto msb() const -> size_t;
             auto lsb() const -> size_t;
+
+            auto& operator+= (const integer& x)  { impl_ += x.impl_; return *this; }
+            auto& operator*= (const integer& x)  { impl_ *= x.impl_; return *this; }
+            auto& operator^= (const integer& x)  { impl_ ^= x.impl_; return *this; }
+            auto& operator<<=(size_t x)          { impl_ <<= x;      return *this; }
 
         private:
             using impl_t = boost::multiprecision::number<
@@ -78,49 +79,30 @@ namespace dstu4145
         template<class iterator>
         void integer::to_buffer(iterator out) const
         {
-            return integer_to_buffer(impl_, out);
-        }
+            unsigned bitcount = boost::multiprecision::msb(impl_) + 1;
+            constexpr auto chunk_size = uint8_t{8};
+            constexpr bool msv_first = true;
+            unsigned chunks = bitcount / chunk_size;
+            if(bitcount % 8)
+                ++chunks;
+
+            for(auto i = 0u; i < 32 - chunks; ++i)
+                *out++ = std::byte{0};
+
+            if(!impl_)
+                return;
+
+            int bit_location = bitcount - chunk_size;
+            int bit_step = -static_cast<int>(chunk_size);
+            while(bit_location % bit_step) ++bit_location;
+
+            do
+            {
+                *out = static_cast<std::byte>(boost::multiprecision::detail::extract_bits(impl_.backend(), bit_location, chunk_size, boost::mpl::false_()));
+                ++out;
+                bit_location += bit_step;
+            } while((bit_location >= 0) && (bit_location < (int)bitcount));        }
     }
 
-    template <class iterator>
-    void integer_to_buffer(const integer& i, iterator out)
-    {
-        unsigned bitcount = boost::multiprecision::msb(i) + 1;
-        constexpr auto chunk_size = uint8_t{8};
-        constexpr bool msv_first = true;
-        unsigned chunks = bitcount / chunk_size;
-        if(bitcount % 8)
-            ++chunks;
-
-        for(auto i = 0u; i < 32 - chunks; ++i)
-            *out++ = std::byte{0};
-
-        if(!i)
-            return;
-
-        int bit_location = bitcount - chunk_size;
-        int bit_step = -static_cast<int>(chunk_size);
-        while(bit_location % bit_step) ++bit_location;
-
-        do
-        {
-            *out = static_cast<std::byte>(boost::multiprecision::detail::extract_bits(i.backend(), bit_location, chunk_size, boost::mpl::false_()));
-            ++out;
-            bit_location += bit_step;
-        } while((bit_location >= 0) && (bit_location < (int)bitcount));
-    }
-
-    template <class iterator1, class iterator2>
-    auto buffer_to_integer(const iterator1& begin, const iterator2& end)
-    {
-        auto result = integer{0};
-        import_bits(result, begin, end, 8);
-        return result;
-    }
-
-    template <class container>
-    auto buffer_to_integer(const container& c)
-    {
-        return buffer_to_integer(std::begin(c), std::end(c));
-    }
+    using integer = adapter::integer;
 }

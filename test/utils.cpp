@@ -6,10 +6,10 @@ using namespace std::literals;
 
 TEST(utils, modulo_small)
 {
-    auto a = dstu4145::polynomial{dstu4145::integer{"0x63"}};
-    auto b = dstu4145::polynomial{dstu4145::integer{"0x2A"}};
+    auto a = dstu4145::polynomial{dstu4145::integer{"63"}};
+    auto b = dstu4145::polynomial{dstu4145::integer{"2A"}};
 
-    EXPECT_EQ(a % b, dstu4145::polynomial{dstu4145::integer{"0x1D"}});
+    EXPECT_EQ(a % b, dstu4145::polynomial{dstu4145::integer{"1D"}});
 
 }
 

@@ -26,6 +26,11 @@ namespace dstu4145
             boost::multiprecision::bit_set(impl_, n);
         }
 
+        void integer::bit_unset(size_t n)
+        {
+            boost::multiprecision::bit_unset(impl_, n);
+        }
+
         auto integer::bit_test(size_t n) const -> bool
         {
             return boost::multiprecision::bit_test(impl_, n);
@@ -46,6 +51,31 @@ namespace dstu4145
             return integer{a.impl_ + b.impl_};
         }
 
+        auto operator*(const integer &a, const integer &b) -> integer
+        {
+            return integer{a.impl_ * b.impl_};
+        }
+
+        auto operator/(const integer &a, const integer &b) -> integer
+        {
+            return integer{a.impl_ / b.impl_};
+        }
+
+        auto operator%(const integer &a, const integer &b) -> integer
+        {
+            return integer{a.impl_ % b.impl_};
+        }
+
+        auto operator^(const integer &a, const integer &b) -> integer
+        {
+            return integer{a.impl_ ^ b.impl_};
+        }
+
+        auto operator<<(const integer &a, size_t bits) -> integer
+        {
+            return a.impl_ << bits;
+        }
+
         auto operator==(const integer &a, const integer &b) -> bool
         {
             return a.impl_ == b.impl_;
@@ -56,9 +86,29 @@ namespace dstu4145
             return a.impl_ != b.impl_;
         }
 
-        auto operator*(const integer &a, const integer &b) -> integer
+        auto operator<(const integer &a, const integer &b) -> bool
         {
-            return integer{a.impl_ * b.impl_};
+            return a.impl_ < b.impl_;
+        }
+
+        auto operator>(const integer &a, const integer &b) -> bool
+        {
+            return a.impl_ > b.impl_;
+        }
+
+        auto operator<=(const integer &a, const integer &b) -> bool
+        {
+            return a.impl_ <= b.impl_;
+        }
+
+        auto operator>=(const integer &a, const integer &b) -> bool
+        {
+            return a.impl_ >= b.impl_;
+        }
+
+        auto operator<<(std::ostream& os, const integer& a) -> std::ostream&
+        {
+            return os << a.impl_;
         }
     }
 }

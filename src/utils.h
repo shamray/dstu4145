@@ -15,12 +15,12 @@ namespace dstu4145
                 x += x;
             return x;
         };
-        auto addend = shift(p,boost::multiprecision::lsb(d));
+        auto addend = shift(p,d.lsb());
         auto result = addend;
 
-        for (auto i = boost::multiprecision::lsb(d) + 1; i <= boost::multiprecision::msb(d); ++i) {
+        for (auto i = d.lsb() + 1; i <= d.msb(); ++i) {
             addend += addend;
-            if (bit_test(d, i))
+            if (d.bit_test(i))
                 result = result + addend;
         }
 

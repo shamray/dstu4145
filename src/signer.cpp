@@ -2,6 +2,7 @@
 #include "rng.h"
 
 #include <map>
+#include <vector>
 
 using namespace std::string_literals;
 
@@ -24,12 +25,12 @@ namespace dstu4145
 
         const auto& d = static_cast<integer>(prvkey_);
 
-        auto e = gen_random_integer(random_, boost::multiprecision::msb(n)-1);
+        auto e = gen_random_integer(random_, n.msb() - 1);
         assert(e < n);
         auto fe = (e * p).x;
         assert(!fe.is_zero());
 
-        auto h = field.create_element(buffer_to_integer(hash));
+        auto h = field.create_element(integer{hash});
         assert(!h.is_zero());
         auto y = h * fe;
         auto r = static_cast<integer>(y);
@@ -41,8 +42,8 @@ namespace dstu4145
 
         auto result = std::vector<std::byte>{};
 
-        integer_to_buffer(s, std::back_inserter(result));
-        integer_to_buffer(r, std::back_inserter(result));
+        s.to_buffer(std::back_inserter(result));
+        r.to_buffer(std::back_inserter(result));
 
         return result;
     }

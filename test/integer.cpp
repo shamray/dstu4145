@@ -33,6 +33,18 @@ TEST(integer, addition_small)
     EXPECT_EQ(a + b, 5);
 }
 
+TEST(integer, equals_to_itself)
+{
+    const auto x = integer{42};
+    EXPECT_EQ(x, x);
+}
+
+TEST(integer, not_equals_plus_one)
+{
+    const auto x = integer{42};
+    EXPECT_NE(x, x + 1);
+}
+
 TEST(integer, addition_large)
 {
     const auto a = dstu4145::integer{"0x50505050505050505050505050505050"};

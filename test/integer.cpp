@@ -135,6 +135,13 @@ TEST(integer, xor_with_itself)
     EXPECT_EQ(a ^ a, 0);
 }
 
+TEST(integer, xor_with_itself_and_assign)
+{
+    auto a = integer{42};
+    a ^= a;
+    EXPECT_EQ(a, 0);
+}
+
 TEST(integer, equals_to_itself)
 {
     const auto x = integer{42};

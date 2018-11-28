@@ -82,6 +82,27 @@ TEST(integer, addition_small)
     EXPECT_EQ(a + b, 5);
 }
 
+TEST(integer, xor_different)
+{
+    const auto a = integer{5};
+    const auto b = integer{3};
+    EXPECT_EQ(a ^ b, 6);
+}
+
+TEST(integer, division)
+{
+    const auto a = integer{42};
+    const auto b = integer{24};
+    EXPECT_EQ(a / b, 1);
+    EXPECT_EQ(a % b, 18);
+}
+
+TEST(integer, xor_with_itself)
+{
+    const auto a = integer{42};
+    EXPECT_EQ(a ^ a, 0);
+}
+
 TEST(integer, equals_to_itself)
 {
     const auto x = integer{42};

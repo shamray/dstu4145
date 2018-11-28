@@ -7,7 +7,7 @@
 
 using namespace std::literals;
 
-using dstu4145::adapter::integer;
+using dstu4145::integer;
 
 TEST(integer, int_to_buffer)
 {

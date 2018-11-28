@@ -99,6 +99,14 @@ TEST(integer, addition_small)
     EXPECT_EQ(a + b, 5);
 }
 
+TEST(integer, addition_large)
+{
+    const auto a = integer{"50505050505050505050505050505050"};
+    const auto b = integer{"51515151515151515151515151515151"};
+    const auto s = integer{"A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"};
+    EXPECT_EQ(a + b, s);
+}
+
 TEST(integer, xor_different)
 {
     const auto a = integer{5};
@@ -130,14 +138,6 @@ TEST(integer, not_equals_plus_one)
 {
     const auto x = integer{42};
     EXPECT_NE(x, x + 1);
-}
-
-TEST(integer, addition_large)
-{
-    const auto a = integer{"50505050505050505050505050505050"};
-    const auto b = integer{"51515151515151515151515151515151"};
-    const auto s = integer{"A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"};
-    EXPECT_EQ(a + b, s);
 }
 
 TEST(integer, multiplication_by_2_is_two_additions)

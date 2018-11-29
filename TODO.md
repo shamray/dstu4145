@@ -1,5 +1,4 @@
 
-* todo: Add missing integer tests
 * todo: Switch from Boost Multiprecision to OpenSSL?
 * todo: Compressed keys
 * todo: Generate keys

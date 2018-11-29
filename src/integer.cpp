@@ -2,7 +2,7 @@
 
 using namespace std::string_literals;
 
-namespace dstu4145
+namespace dstu4145::bmp
 {
     integer::integer(long long value)
         : impl_(value)

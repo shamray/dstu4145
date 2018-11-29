@@ -1,9 +1,10 @@
 #pragma once
 
 #include <boost/multiprecision/cpp_int.hpp>
+#include <openssl/bn.h>
 #include "is_container.h"
 
-namespace dstu4145
+namespace dstu4145::bmp
 {
     class integer
     {
@@ -101,4 +102,17 @@ namespace dstu4145
             bit_location += bit_step;
         } while((bit_location >= 0) && (bit_location < (int)bitcount));
     }
+}
+
+namespace dstu4145::ossl
+{
+    class integer
+    {
+        BIGNUM* impl_;
+    };
+}
+
+namespace dstu4145
+{
+    using bmp::integer;
 }

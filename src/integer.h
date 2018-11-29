@@ -108,6 +108,10 @@ namespace dstu4145::ossl
 {
     class integer
     {
+    public:
+        integer();
+
+    private:
         BIGNUM* impl_;
     };
 }

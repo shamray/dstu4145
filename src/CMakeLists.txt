@@ -22,7 +22,8 @@ target_include_directories(dstu4145 PUBLIC
     $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(dstu4145
-    Boost::boost)
+    Boost::boost
+    OpenSSL::Crypto)
 
 target_compile_features(dstu4145 PUBLIC cxx_std_17)
 

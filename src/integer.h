@@ -108,9 +108,24 @@ namespace dstu4145::ossl
 {
     class integer
     {
+        friend auto operator+ (const integer& a, const integer& b) -> integer;
+        friend auto operator* (const integer& a, const integer& b) -> integer;
+        friend auto operator/ (const integer& a, const integer& b) -> integer;
+        friend auto operator% (const integer& a, const integer& b) -> integer;
+        friend auto operator^ (const integer& a, const integer& b) -> integer;
+        friend auto operator<<(const integer& a, size_t bits) -> integer;
+        friend auto operator< (const integer& a, const integer& b) -> bool;
+        friend auto operator> (const integer& a, const integer& b) -> bool;
+        friend auto operator<=(const integer& a, const integer& b) -> bool;
+        friend auto operator>=(const integer& a, const integer& b) -> bool;
+        friend auto operator==(const integer& a, const integer& b) -> bool;
+        friend auto operator!=(const integer& a, const integer& b) -> bool;
+        friend auto operator<<(std::ostream& os, const integer& a) -> std::ostream&;
+
     public:
         ~integer();
         integer();
+        integer(long long value);
 
     private:
         BIGNUM* impl_;

@@ -122,6 +122,22 @@ namespace dstu4145::ossl
     {
 
     }
+
+    integer::integer(long long value)
+        : impl_(BN_bin2bn(reinterpret_cast<const unsigned char*>(&value), sizeof(value), nullptr))
+    {
+
+    }
+
+    auto operator<<(std::ostream &os, const integer &a) -> std::ostream&
+    {
+        return os;
+    }
+
+    auto operator==(const integer &a, const integer &b) -> bool
+    {
+        return BN_cmp(a.impl_, b.impl_) == 0;
+    }
 }
 
 

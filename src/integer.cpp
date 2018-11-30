@@ -112,6 +112,11 @@ namespace dstu4145::bmp
 
 namespace dstu4145::ossl
 {
+    integer::~integer()
+    {
+        BN_free(impl_);
+    }
+
     integer::integer()
         : impl_(BN_new())
     {

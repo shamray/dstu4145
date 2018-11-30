@@ -45,7 +45,7 @@ namespace dstu4145::bmp
         }
 
         template <class iterator>
-        void to_buffer(iterator out) const;
+        void to_buffer(iterator out, size_t size = 256) const;
 
         void bit_set(size_t n);
         void bit_unset(size_t n);
@@ -76,16 +76,16 @@ namespace dstu4145::bmp
     };
 
     template<class iterator>
-    void integer::to_buffer(iterator out) const
+    void integer::to_buffer(iterator out, size_t size) const
     {
         unsigned bitcount = boost::multiprecision::msb(impl_) + 1;
         constexpr auto chunk_size = uint8_t{8};
         constexpr bool msv_first = true;
         unsigned chunks = bitcount / chunk_size;
-        if(bitcount % 8)
+        if(bitcount % chunk_size)
             ++chunks;
 
-        for(auto i = 0u; i < 32 - chunks; ++i)
+        for(auto i = 0u; i < size / chunk_size - chunks; ++i)
             *out++ = std::byte{0};
 
         if(!impl_)

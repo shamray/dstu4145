@@ -9,12 +9,14 @@ namespace dstu4145
     {
         auto buffer = std::vector<std::byte>{};
 
-        while(buffer.size() < 32)
+        const auto maxsize = msb % 8 ? msb / 8 + 1 : msb / 8;
+
+        while(buffer.size() < maxsize)
             buffer.push_back(rng());
 
         auto result = integer{buffer};
 
-        for (auto i = msb; i < 256; ++i)
+        for (auto i = msb; i < buffer.size() * 8; ++i)
             result.bit_unset(i);
 
         return result;

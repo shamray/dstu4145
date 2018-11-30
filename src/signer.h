@@ -12,7 +12,7 @@ namespace dstu4145
     {
     public:
         signer(private_key key, domain_params params, rng_t random);
-        auto sign_hash(const std::vector<std::byte>& hash) -> std::vector<std::byte>;
+        auto sign_hash(const std::vector<std::byte>& hash, size_t signature_size = 512) -> std::vector<std::byte>;
 
     private:
         private_key prvkey_;

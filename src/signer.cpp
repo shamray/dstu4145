@@ -16,7 +16,7 @@ namespace dstu4145
 
     }
 
-    auto signer::sign_hash(const std::vector<std::byte>& hash) -> std::vector<std::byte>
+    auto signer::sign_hash(const std::vector<std::byte>& hash, size_t signature_size) -> std::vector<std::byte>
     {
         const auto& curve = params_.curve;
         const auto& field = curve.field();
@@ -42,8 +42,8 @@ namespace dstu4145
 
         auto result = std::vector<std::byte>{};
 
-        s.to_buffer(std::back_inserter(result));
-        r.to_buffer(std::back_inserter(result));
+        s.to_buffer(std::back_inserter(result), signature_size / 2);
+        r.to_buffer(std::back_inserter(result), signature_size / 2);
 
         return result;
     }

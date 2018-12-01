@@ -5,6 +5,8 @@
 #include "rng_interface.h"
 #include "utils.h"
 
+#include <optional>
+
 namespace dstu4145
 {
     struct ecurve_point;

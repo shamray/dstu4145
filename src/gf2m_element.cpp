@@ -62,7 +62,7 @@ namespace dstu4145
             throw std::logic_error("invalid operation");
 
         auto field = a.field_;
-        return field.create_element((a.value_* b.value_) % field.basis());
+        return gf2m_element(field, (a.value_* b.value_) % field.basis());
     }
 
     auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element

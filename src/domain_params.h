@@ -17,7 +17,8 @@ namespace dstu4145
             , n{n}
             , p{p}
         {
-            assert(p * n != curve.infinity_point());
+            assert(p != curve.infinity_point());
+            assert(p * n == curve.infinity_point());
         }
 
         domain_params(ecurve curve, integer n, rng_t rng)

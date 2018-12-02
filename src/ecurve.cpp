@@ -43,8 +43,8 @@ namespace dstu4145
     auto ecurve::find_point(rng_t rng, integer n) const -> point
     {
         for (;;) {
-            auto p = find_point(gen_random_integer(rng, field().m() - 1));
-            if (p.has_value() && p.value() * n != infinity_point())
+            auto p = find_point(gen_random_integer(rng, field().m()));
+            if (p.has_value() && p != infinity_point() && p.value() * n == infinity_point())
                 return p.value();
         }
     }
@@ -79,6 +79,15 @@ namespace dstu4145
     auto ecurve_point::operator+(ecurve_point q) const -> ecurve_point
     {
         auto& p = *this;
+
+        if (p == c.infinity_point())
+            return q;
+
+        if (q == c.infinity_point())
+            return p;
+
+        if (q == -p)
+            return c.infinity_point();
 
         if (p.x == q.x)
         {

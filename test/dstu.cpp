@@ -32,7 +32,7 @@ struct dstu : Test
     dstu4145::rng_t rng {
         [] () {
             static auto buffer = hex_buffer(
-                "000000000000000000000001025E40BD97DB012B7A1D79DE8E12932D247F61C6"s
+                "01025E40BD97DB012B7A1D79DE8E12932D247F61C6"s
             );
             static auto current = std::begin(buffer);
 

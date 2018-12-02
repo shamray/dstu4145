@@ -37,6 +37,17 @@ TEST_F(curve163, point_multiplication)
     EXPECT_EQ(q, expected);
 }
 
+TEST_F(curve163, point_multiplication_result_is_not_infinity)
+{
+    auto expected = dstu4145::ecurve::point{
+        curve,
+        dstu4145::integer{"759190F459A9C886F400D35F67AE6484577F1579A"},
+        dstu4145::integer{"2594BA98D7357B01A8ADFECC0E519A38AB93B8BBC"}
+    };
+    auto q = n * p;
+    EXPECT_NE(q, curve.infinity_point());
+}
+
 TEST_F(curve163, point_addition_equal)
 {
     auto expected = dstu4145::ecurve::point{

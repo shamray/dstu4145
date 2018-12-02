@@ -25,7 +25,8 @@ namespace dstu4145
 
         const auto& d = static_cast<integer>(prvkey_);
 
-        auto e = gen_random_integer(random_, n.msb() - 1);
+        auto e = gen_random_integer(random_, n.msb());
+
         assert(e < n);
         auto fe = (e * p).x;
         assert(!fe.is_zero());

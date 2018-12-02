@@ -86,14 +86,11 @@ namespace dstu4145
         if (q == c.infinity_point())
             return p;
 
-        //if (q == -p)
-        //    return c.infinity_point();
+        if (q == -p)
+            return c.infinity_point();
 
         if (p.x == q.x)
         {
-            if (p.y != q.y)
-                return c.infinity_point();
-
             if (p.x.is_zero())
                 return c.infinity_point();
 

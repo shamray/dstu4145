@@ -86,15 +86,19 @@ namespace dstu4145
         if (q == c.infinity_point())
             return p;
 
-        if (q == -p)
-            return c.infinity_point();
+        //if (q == -p)
+        //    return c.infinity_point();
 
         if (p.x == q.x)
         {
+            if (p.y != q.y)
+                return c.infinity_point();
+
+            if (p.x.is_zero())
+                return c.infinity_point();
+
             auto t = p.y / p.x + p.x;
             auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
-            if (x == gf2m::element{c.gf_, 0})
-                return c.infinity_point();
 
             auto y = square(p.x) + t * x + x;
 
@@ -106,8 +110,6 @@ namespace dstu4145
         {
             auto t = (p.y + q.y) / (p.x + q.x);
             auto x = square(t) + t + p.x + q.x + gf2m::element{c.gf_, c.a_};
-            if (x == gf2m::element{c.gf_, 0})
-                return c.infinity_point();
 
             auto y = t * (p.x + x) + x + p.y;
             auto r = ecurve_point{ c, x, y };

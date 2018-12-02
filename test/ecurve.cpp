@@ -37,9 +37,15 @@ TEST_F(curve163, point_multiplication)
     EXPECT_EQ(q, expected);
 }
 
+TEST_F(curve163, point_multiplication_result_is_infinity)
+{
+    auto q = n * p;
+    EXPECT_EQ(q, curve.infinity_point());
+}
+
 TEST_F(curve163, point_multiplication_result_is_not_infinity)
 {
-    auto expected = dstu4145::ecurve::point{
+    auto p = dstu4145::ecurve::point{
         curve,
         dstu4145::integer{"759190F459A9C886F400D35F67AE6484577F1579A"},
         dstu4145::integer{"2594BA98D7357B01A8ADFECC0E519A38AB93B8BBC"}
@@ -168,26 +174,4 @@ TEST_F(curve163, find_point)
 {
     auto actual = curve.find_point(dstu4145::integer{"72D867F93A93AC27DF9FF01AFFE74885C8C540420"});
     EXPECT_EQ(actual, p);
-}
-
-
-struct curve233 : Test
-{
-    dstu4145::ecurve curve{
-        dstu4145::gf2m {233, 9, 4, 1 },
-        1,
-        dstu4145::integer{"06973B15095675534C7CF7E64A21BD54EF5DD3B8A0326AA936ECE454D2C"}
-    };
-    dstu4145::integer n {"1000000000000000000000000000013E974E72F8A6922031D2603CFE0D7"};
-};
-
-TEST_F(curve233, multiply_result_is_infinity)
-{
-    auto p = dstu4145::ecurve::point{
-        curve,
-        dstu4145::integer{"DA0B320C36CD1002DF8C7ED0B39CE6F34AA3FFCC265735590B55FDAC8E"},
-        dstu4145::integer{"AAD851588085A83ABC90A7E4C3AD55246DF6C629EE15FB5D11D1CDC2DD"}
-    };
-    auto q = n * p;
-    EXPECT_EQ(q, curve.infinity_point());
 }

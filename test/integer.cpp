@@ -60,15 +60,15 @@ TEST(integer, bit_set_first)
     EXPECT_EQ(x, 1);
 }
 
-//TEST(integer, bit_set_middle)
-//{
-//    auto x = integer{};
-//    x.bit_set(3);
-//    x.bit_set(2);
-//
-//    EXPECT_EQ(x, 0xC);
-//}
-//
+TEST(integer, bit_set_middle)
+{
+    auto x = integer{};
+    x.bit_set(3);
+    x.bit_set(2);
+
+    EXPECT_EQ(x, 0xC);
+}
+
 //TEST(integer, bit_unset_first)
 //{
 //    auto x = integer{1};

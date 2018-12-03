@@ -186,3 +186,57 @@ TEST_F(acceptance233, sign_and_verify)
 
     EXPECT_EQ(0, fails);
 }
+
+struct acceptance509 : Test
+{
+    dstu4145::ecurve curve{
+        dstu4145::gf2m {509, 23, 3, 2 },
+        1,
+        dstu4145::integer{"03CE10490F6A708FC26DFE8C3D27C4F94E690134D5BFF988D8D28AAEAEDE975936C66BAC536B18AE2DC312CA493117DAA469C640CAF3"}
+    };
+    dstu4145::integer n{"3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBA3175458009A8C0A724F02F81AA8A1FCBAF80D90C7A95110504CF"};
+
+    dstu4145::rng_t rng {
+        [] () {
+            static std::random_device rd;
+            static std::mt19937 gen(rd());
+            std::uniform_int_distribution<unsigned char> dis(0);
+
+            return std::byte{ dis(gen) };
+        }
+    };
+
+    dstu4145::private_key prv_key{hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s)};
+};
+
+TEST_F(acceptance509, sign_and_verify)
+{
+    auto fails = 0;
+    for (auto i = 0; i < 1; ++i) {
+        auto base_point = curve.find_point(rng, n);
+
+        dstu4145::domain_params params {
+            curve,
+            n,
+            base_point
+        };
+
+        dstu4145::public_key pub_key{params, prv_key};
+
+        auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+        auto s = dstu4145::signer{prv_key, params, rng};
+        auto v = dstu4145::verifier{pub_key, params};
+
+        auto signature = s.sign_hash(h, 1024);
+
+        if (!v.verify_hash(h, signature)) {
+            ++fails;
+
+            ADD_FAILURE() << std::hex
+                          << "p.x= " << params.p.x << std::endl
+                          << "p.y= " << params.p.y;
+        }
+    }
+
+    EXPECT_EQ(0, fails);
+}

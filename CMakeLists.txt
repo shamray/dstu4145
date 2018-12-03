@@ -3,7 +3,6 @@ project(dstu4145 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 
-set (GTEST_MSVC_SEARCH "MT")
 find_package(Boost 1.62 REQUIRED QUIET)
 find_package(GTest REQUIRED QUIET)
 find_package(OpenSSL REQUIRED QUIET)

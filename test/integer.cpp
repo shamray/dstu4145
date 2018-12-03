@@ -14,6 +14,17 @@ TEST(integer, default_constructor)
     EXPECT_EQ(integer{}, 0);
 }
 
+TEST(integer, from_long_and_default)
+{
+    EXPECT_NE(integer{}, 1);
+}
+
+TEST(integer, from_long)
+{
+    EXPECT_NE(integer{42}, 1);
+    EXPECT_EQ(integer{42}, 42);
+}
+
 //TEST(integer, int_to_buffer)
 //{
 //    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
@@ -41,14 +52,14 @@ TEST(integer, default_constructor)
 //    EXPECT_EQ(r, integer(rbuf.begin(), rbuf.end()));
 //}
 //
-//TEST(integer, bit_set_first)
-//{
-//    auto x = integer{};
-//    x.bit_set(0);
-//
-//    EXPECT_EQ(x, 1);
-//}
-//
+TEST(integer, bit_set_first)
+{
+    auto x = integer{};
+    x.bit_set(0);
+
+    EXPECT_EQ(x, 1);
+}
+
 //TEST(integer, bit_set_middle)
 //{
 //    auto x = integer{};

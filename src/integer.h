@@ -127,6 +127,13 @@ namespace dstu4145::ossl
         integer();
         integer(long long value);
 
+        void bit_set(size_t n);
+        void bit_unset(size_t n);
+        auto bit_test(size_t n) const -> bool;
+        auto msb() const -> size_t;
+        auto lsb() const -> size_t;
+
+
     private:
         BIGNUM* impl_;
     };

@@ -112,6 +112,22 @@ namespace dstu4145::bmp
 
 namespace dstu4145::ossl
 {
+    namespace
+    {
+        template <class T>
+        class mem_guard
+        {
+        public:
+            mem_guard(const T* ptr) : ptr_(ptr) {}
+            ~mem_guard() { OPENSSL_free(const_cast<T*>(ptr_)); }
+
+            auto get()  { return ptr_; }
+
+        private:
+            const T* ptr_;
+        };
+    }
+
     integer::~integer()
     {
         BN_free(impl_);
@@ -124,19 +140,33 @@ namespace dstu4145::ossl
     }
 
     integer::integer(long long value)
-        : impl_(BN_bin2bn(reinterpret_cast<const unsigned char*>(&value), sizeof(value), nullptr))
+        : impl_(BN_new())
     {
-
+        BN_set_word(impl_, value);
     }
 
     auto operator<<(std::ostream &os, const integer &a) -> std::ostream&
     {
-        return os;
+        auto s = mem_guard{ BN_bn2hex(a.impl_) };
+        return os << s.get();
     }
 
     auto operator==(const integer &a, const integer &b) -> bool
     {
-        return BN_cmp(a.impl_, b.impl_) == 0;
+        auto x = BN_cmp(a.impl_, b.impl_);
+        return x == 0;
+    }
+
+    void integer::bit_set(size_t n)
+    {
+        auto r = BN_set_bit(impl_, n);
+        if (r == 0)
+            throw std::runtime_error("error");
+    }
+
+    auto operator!=(const integer &a, const integer &b) -> bool
+    {
+        return BN_cmp(a.impl_, b.impl_) != 0;
     }
 }
 

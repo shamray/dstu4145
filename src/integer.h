@@ -125,7 +125,11 @@ namespace dstu4145::ossl
     public:
         ~integer();
         integer();
+
         integer(long long value);
+
+        explicit
+        integer(const std::string& hex);
 
         void bit_set(size_t n);
         void bit_unset(size_t n);
@@ -133,10 +137,23 @@ namespace dstu4145::ossl
         auto msb() const -> size_t;
         auto lsb() const -> size_t;
 
+        template <class iterator>
+        void to_buffer(iterator out, size_t size = 256) const;
 
     private:
         BIGNUM* impl_;
     };
+
+    template<class iterator>
+    void integer::to_buffer(iterator out, size_t size) const
+    {
+        for(auto i = 0u; i < size / 8 - BN_num_bytes(impl_); ++i)
+            *out++ = std::byte{0};
+
+        auto result = std::vector<std::byte>(BN_num_bytes(impl_));
+        BN_bn2bin(impl_, reinterpret_cast<unsigned char*>(result.data()));
+        std::copy(std::begin(result), std::end(result), out);
+    }
 }
 
 namespace dstu4145

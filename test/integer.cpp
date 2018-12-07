@@ -4,6 +4,7 @@
 #include "integer.h"
 
 #include <vector>
+#include <iterator>
 
 using namespace std::literals;
 
@@ -25,17 +26,17 @@ TEST(integer, from_long)
     EXPECT_EQ(integer{42}, 42);
 }
 
-//TEST(integer, int_to_buffer)
-//{
-//    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
-//    const auto expected = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
-//
-//    auto rbuf = std::vector<std::byte>{};
-//    r.to_buffer(std::back_inserter(rbuf));
-//
-//    EXPECT_EQ(rbuf, expected);
-//}
-//
+TEST(integer, int_to_buffer)
+{
+    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    const auto expected = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
+
+    auto rbuf = std::vector<std::byte>{};
+    r.to_buffer(std::back_inserter(rbuf));
+
+    EXPECT_EQ(rbuf, expected);
+}
+
 //TEST(integer, construct_from_buffer)
 //{
 //    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};

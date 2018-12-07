@@ -145,6 +145,12 @@ namespace dstu4145::ossl
         BN_set_word(impl_, value);
     }
 
+    integer::integer(const std::string& hex)
+        : impl_(BN_new())
+    {
+        BN_hex2bn(&impl_, hex.c_str());
+    }
+
     auto operator<<(std::ostream &os, const integer &a) -> std::ostream&
     {
         auto s = mem_guard{ BN_bn2hex(a.impl_) };

@@ -235,10 +235,10 @@ TEST_F(acceptance257, sign_and_verify)
     EXPECT_EQ(0, fails);
 }
 
-struct acceptance509 : Test
+struct acceptance431 : Test
 {
     dstu4145::ecurve curve{
-        dstu4145::gf2m {509, 23, 3, 2 },
+        dstu4145::gf2m {431, 5, 3, 1 },
         1,
         dstu4145::integer{"03CE10490F6A708FC26DFE8C3D27C4F94E690134D5BFF988D8D28AAEAEDE975936C66BAC536B18AE2DC312CA493117DAA469C640CAF3"}
     };
@@ -257,10 +257,10 @@ struct acceptance509 : Test
     dstu4145::private_key prv_key{hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s)};
 };
 
-TEST_F(acceptance509, sign_and_verify)
+TEST_F(acceptance431, sign_and_verify)
 {
     auto fails = 0;
-    for (auto i = 0; i < 1; ++i) {
+    for (auto i = 0; i < 10; ++i) {
         auto base_point = curve.find_point(rng, n);
 
         dstu4145::domain_params params {

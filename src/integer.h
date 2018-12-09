@@ -34,7 +34,6 @@ namespace dstu4145::bmp
         integer(const iterator1& begin, const iterator2& end)
             : impl_{0}
         {
-            auto result = integer{0};
             import_bits(impl_, begin, end, 8);
         }
 
@@ -130,6 +129,21 @@ namespace dstu4145::ossl
 
         explicit
         integer(const std::string& hex);
+
+        template <class iterator1, class iterator2>
+        integer(const iterator1& begin, const iterator2& end)
+            : impl_(BN_new())
+        {
+            auto temp = std::vector<std::byte>{};
+            std::copy(begin, end, std::back_inserter(temp));
+            auto result = BN_bin2bn(reinterpret_cast<unsigned char*>(temp.data()), temp.size(), impl_);
+        }
+
+        template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
+        integer(const container& c)
+            : integer(std::begin(c), std::end(c))
+        {
+        }
 
         void bit_set(size_t n);
         void bit_unset(size_t n);

@@ -37,22 +37,22 @@ TEST(integer, int_to_buffer)
     EXPECT_EQ(rbuf, expected);
 }
 
-//TEST(integer, construct_from_buffer)
-//{
-//    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
-//    const auto rbuf = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
-//
-//    EXPECT_EQ(r, integer{rbuf});
-//}
-//
-//TEST(integer, construct_from_buffer_iterators)
-//{
-//    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
-//    const auto rbuf = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
-//
-//    EXPECT_EQ(r, integer(rbuf.begin(), rbuf.end()));
-//}
-//
+TEST(integer, construct_from_buffer)
+{
+    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    const auto rbuf = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
+
+    EXPECT_EQ(r, integer{rbuf});
+}
+
+TEST(integer, construct_from_buffer_iterators)
+{
+    const auto r = integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
+    const auto rbuf = hex_buffer("00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s);
+
+    EXPECT_EQ(r, integer(rbuf.begin(), rbuf.end()));
+}
+
 TEST(integer, bit_set_first)
 {
     auto x = integer{};

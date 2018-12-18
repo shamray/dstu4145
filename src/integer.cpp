@@ -186,6 +186,26 @@ namespace dstu4145::ossl
     {
         return BN_is_bit_set(impl_, n) != 0;
     }
+
+    auto integer::msb() const -> size_t
+    {
+        auto r = BN_num_bytes(impl_) * 8;
+
+        for (auto i = signed { r }; i > 0; --i) {
+            if (bit_test(i))
+                return i;
+        }
+        return 0;
+    }
+
+    auto integer::lsb() const -> size_t
+    {
+        for (auto i = 0; i <  BN_num_bytes(impl_) * 8; ++i) {
+            if (bit_test(i))
+                return i;
+        }
+        return 0;
+    }
 }
 
 

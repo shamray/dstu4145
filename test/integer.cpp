@@ -102,6 +102,14 @@ TEST(integer, msb_lsb_5)
     EXPECT_EQ(x.lsb(), 0);
 }
 
+TEST(integer, msb_lsb_0)
+{
+    auto x = integer{0};
+    EXPECT_THROW(x.msb(), std::exception);
+    EXPECT_THROW(x.lsb(), std::exception);
+}
+
+
 //TEST(integer, msb_lsb_2)
 //{
 //    auto x = integer{2};

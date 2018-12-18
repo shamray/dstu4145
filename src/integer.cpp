@@ -195,7 +195,8 @@ namespace dstu4145::ossl
             if (bit_test(i))
                 return i;
         }
-        return 0;
+
+        throw std::runtime_error("No bits were set in the operand");
     }
 
     auto integer::lsb() const -> size_t
@@ -204,7 +205,8 @@ namespace dstu4145::ossl
             if (bit_test(i))
                 return i;
         }
-        return 0;
+
+        throw std::runtime_error("No bits were set in the operand");
     }
 }
 

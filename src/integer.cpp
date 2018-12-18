@@ -174,6 +174,13 @@ namespace dstu4145::ossl
     {
         return BN_cmp(a.impl_, b.impl_) != 0;
     }
+
+    void integer::bit_unset(size_t n)
+    {
+        auto r = BN_clear_bit(impl_, n);
+        if (r == 0)
+            throw std::runtime_error("error");
+    }
 }
 
 

@@ -70,14 +70,14 @@ TEST(integer, bit_set_middle)
     EXPECT_EQ(x, 0xC);
 }
 
-//TEST(integer, bit_unset_first)
-//{
-//    auto x = integer{1};
-//    x.bit_unset(0);
-//
-//    EXPECT_EQ(x, 0);
-//}
-//
+TEST(integer, bit_unset_first)
+{
+    auto x = integer{1};
+    x.bit_unset(0);
+
+    EXPECT_EQ(x, 0);
+}
+
 //TEST(integer, bit_unset_middle)
 //{
 //    auto x = integer{0xF};

@@ -87,14 +87,14 @@ TEST(integer, bit_unset_middle)
     EXPECT_EQ(x, 3);
 }
 
-//TEST(integer, bit_test)
-//{
-//    auto x = integer{5};
-//    EXPECT_TRUE (x.bit_test(0));
-//    EXPECT_FALSE(x.bit_test(1));
-//    EXPECT_TRUE (x.bit_test(2));
-//}
-//
+TEST(integer, bit_test)
+{
+    auto x = integer{5};
+    EXPECT_TRUE (x.bit_test(0));
+    EXPECT_FALSE(x.bit_test(1));
+    EXPECT_TRUE (x.bit_test(2));
+}
+
 //TEST(integer, msb_lsb_5)
 //{
 //    auto x = integer{5};

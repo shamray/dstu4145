@@ -181,6 +181,11 @@ namespace dstu4145::ossl
         if (r == 0)
             throw std::runtime_error("error");
     }
+
+    auto integer::bit_test(size_t n) const -> bool
+    {
+        return BN_is_bit_set(impl_, n) != 0;
+    }
 }
 
 

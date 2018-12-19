@@ -106,7 +106,7 @@ namespace dstu4145::bmp
 
     auto operator<<(std::ostream& os, const integer& a) -> std::ostream&
     {
-        return os << a.impl_;
+        return os << std::hex << a.impl_;
     }
 }
 

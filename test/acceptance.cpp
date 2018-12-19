@@ -261,12 +261,10 @@ TEST_F(acceptance431, sign_and_verify)
 {
     auto fails = 0;
     for (auto i = 0; i < 10; ++i) {
-        auto base_point = curve.find_point(rng, n);
-
         dstu4145::domain_params params {
             curve,
             n,
-            base_point
+            rng
         };
 
         dstu4145::public_key pub_key{params, prv_key};

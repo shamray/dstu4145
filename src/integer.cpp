@@ -208,6 +208,17 @@ namespace dstu4145::ossl
 
         throw std::runtime_error("No bits were set in the operand");
     }
+
+    auto operator+(const integer &a, const integer &b) -> integer
+    {
+        auto result = integer{};
+
+        auto r = BN_add(result.impl_, a.impl_, b.impl_);
+        if (r == 0)
+            throw std::runtime_error("error");
+
+        return result;
+    }
 }
 
 

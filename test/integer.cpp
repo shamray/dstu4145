@@ -138,6 +138,13 @@ TEST(integer, addition_small_with_assignment)
     EXPECT_EQ(a, 5);
 }
 
+TEST(integer, addition_small_with_reusing_result)
+{
+    auto a = integer{2};
+    a = a + 3;
+    EXPECT_EQ(a, 5);
+}
+
 //TEST(integer, xor_different)
 //{
 //    const auto a = integer{5};

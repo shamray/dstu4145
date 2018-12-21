@@ -228,6 +228,36 @@ namespace dstu4145::ossl
 
         return *this;
     }
+
+    integer::integer(const integer& x)
+        : impl_(BN_dup(x.impl_))
+    {
+        if (impl_ == nullptr)
+            throw std::runtime_error("error");
+    }
+
+    integer& integer::operator=(const integer& x)
+    {
+        auto r = BN_copy(impl_, x.impl_);
+        if (r == nullptr)
+            throw std::runtime_error("error");
+
+        return *this;
+    }
+
+    integer::integer(integer&& x)
+        : impl_(x.impl_)
+    {
+        x.impl_ = nullptr;
+    }
+
+    integer &integer::operator=(integer&& x)
+    {
+        impl_ = x.impl_;
+        x.impl_ = nullptr;
+
+        return *this;
+    }
 }
 
 

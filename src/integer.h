@@ -145,6 +145,11 @@ namespace dstu4145::ossl
         {
         }
 
+        integer(integer&&);
+        integer& operator=(integer&&);
+        integer(const integer&);
+        integer& operator=(const integer&);
+
         auto operator+= (const integer& x) -> integer&;
 
         void bit_set(size_t n);

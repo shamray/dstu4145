@@ -131,13 +131,13 @@ TEST(integer, addition_large)
     EXPECT_EQ(a + b, s);
 }
 
-//TEST(integer, addition_small_with_assignment)
-//{
-//    auto a = integer{2};
-//    a += 3;
-//    EXPECT_EQ(a, 5);
-//}
-//
+TEST(integer, addition_small_with_assignment)
+{
+    auto a = integer{2};
+    a += 3;
+    EXPECT_EQ(a, 5);
+}
+
 //TEST(integer, xor_different)
 //{
 //    const auto a = integer{5};

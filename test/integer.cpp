@@ -116,21 +116,21 @@ TEST(integer, msb_lsb_2)
     EXPECT_EQ(x.lsb(), 1);
 }
 
-//TEST(integer, addition_small)
-//{
-//    const auto a = integer{2};
-//    const auto b = integer{3};
-//    EXPECT_EQ(a + b, 5);
-//}
-//
-//TEST(integer, addition_large)
-//{
-//    const auto a = integer{"50505050505050505050505050505050"};
-//    const auto b = integer{"51515151515151515151515151515151"};
-//    const auto s = integer{"A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"};
-//    EXPECT_EQ(a + b, s);
-//}
-//
+TEST(integer, addition_small)
+{
+    const auto a = integer{2};
+    const auto b = integer{3};
+    EXPECT_EQ(a + b, 5);
+}
+
+TEST(integer, addition_large)
+{
+    const auto a = integer{"50505050505050505050505050505050"};
+    const auto b = integer{"51515151515151515151515151515151"};
+    const auto s = integer{"A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"};
+    EXPECT_EQ(a + b, s);
+}
+
 //TEST(integer, addition_small_with_assignment)
 //{
 //    auto a = integer{2};

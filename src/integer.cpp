@@ -293,6 +293,32 @@ namespace dstu4145::ossl
     {
         return *this = *this ^ x;
     }
+
+    auto operator<=(const integer &a, const integer &b) -> bool
+    {
+        auto x = BN_cmp(a.impl_, b.impl_);
+        return x <= 0;
+    }
+
+    auto operator>=(const integer &a, const integer &b) -> bool
+    {
+        auto x = BN_cmp(a.impl_, b.impl_);
+        return x >= 0;
+    }
+
+    auto operator>(const integer &a, const integer &b) -> bool
+    {
+        auto x = BN_cmp(a.impl_, b.impl_);
+        return x > 0;
+
+    }
+
+    auto operator<(const integer &a, const integer &b) -> bool
+    {
+        auto x = BN_cmp(a.impl_, b.impl_);
+        return x < 0;
+
+    }
 }
 
 

@@ -177,8 +177,8 @@ TEST(integer, equals_to_itself)
 {
     const auto x = integer{42};
     EXPECT_EQ(x, x);
-//    EXPECT_TRUE(x >= x);
-//    EXPECT_TRUE(x <= x);
+    EXPECT_TRUE(x >= x);
+    EXPECT_TRUE(x <= x);
 }
 
 TEST(integer, not_equals_plus_one)

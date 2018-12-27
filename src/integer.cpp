@@ -263,18 +263,15 @@ namespace dstu4145::ossl
     {
         auto result = integer{};
 
-        const BIGNUM *at, *bt;
-
         bn_check_top(a.impl_);
         bn_check_top(b.impl_);
 
-        if (a.impl_->top < b.impl_->top) {
-            at = b.impl_;
-            bt = a.impl_;
-        } else {
-            at = a.impl_;
-            bt = b.impl_;
-        }
+        const auto [at, bt] = [&a,&b]() {
+            if (a.impl_->top < b.impl_->top)
+                return std::tuple{b.impl_, a.impl_};
+            else
+                return std::tuple{a.impl_, b.impl_};
+        }();
 
         if (bn_wexpand(result.impl_, at->top) == nullptr)
             throw std::runtime_error("error");

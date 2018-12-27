@@ -187,13 +187,13 @@ TEST(integer, not_equals_plus_one)
     EXPECT_NE(x, x + 1);
 }
 
-//TEST(integer, plus_one_is_greater)
-//{
-//    const auto x = integer{42};
-//    EXPECT_TRUE(x + 1 > x);
-//    EXPECT_TRUE(x + 1 >= x);
-//}
-//
+TEST(integer, plus_one_is_greater)
+{
+    const auto x = integer{42};
+    EXPECT_TRUE(x + 1 > x);
+    EXPECT_TRUE(x + 1 >= x);
+}
+
 //TEST(integer, smaller_than_plus_one)
 //{
 //    const auto x = integer{42};

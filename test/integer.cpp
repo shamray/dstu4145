@@ -145,13 +145,13 @@ TEST(integer, addition_small_with_reusing_result)
     EXPECT_EQ(a, 5);
 }
 
-//TEST(integer, xor_different)
-//{
-//    const auto a = integer{5};
-//    const auto b = integer{3};
-//    EXPECT_EQ(a ^ b, 6);
-//}
-//
+TEST(integer, xor_different)
+{
+    const auto a = integer{5};
+    const auto b = integer{3};
+    EXPECT_EQ(a ^ b, 6);
+}
+
 //TEST(integer, division)
 //{
 //    const auto a = integer{42};

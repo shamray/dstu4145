@@ -258,6 +258,37 @@ namespace dstu4145::ossl
 
         return *this;
     }
+
+    auto operator^(const integer &a, const integer &b) -> integer
+    {
+        auto result = integer{};
+
+        const BIGNUM *at, *bt;
+
+        bn_check_top(a.impl_);
+        bn_check_top(b.impl_);
+
+        if (a.impl_->top < b.impl_->top) {
+            at = b.impl_;
+            bt = a.impl_;
+        } else {
+            at = a.impl_;
+            bt = b.impl_;
+        }
+
+        if (bn_wexpand(result.impl_, at->top) == nullptr)
+            throw std::runtime_error("error");
+
+        for (auto i = 0; i < bt->top; ++i) {
+            result.impl_->d[i] = at->d[i] ^ bt->d[i];
+        }
+        for (auto i = bt->top; i < at->top; ++i) {
+            result.impl_->d[i] = at->d[i];
+        }
+
+        result.impl_->top = at->top;
+        return result;
+    }
 }
 
 

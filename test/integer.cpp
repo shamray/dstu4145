@@ -194,13 +194,13 @@ TEST(integer, plus_one_is_greater)
     EXPECT_TRUE(x + 1 >= x);
 }
 
-//TEST(integer, smaller_than_plus_one)
-//{
-//    const auto x = integer{42};
-//    EXPECT_TRUE(x < x + 1);
-//    EXPECT_TRUE(x <= x + 1);
-//}
-//
+TEST(integer, smaller_than_plus_one)
+{
+    const auto x = integer{42};
+    EXPECT_TRUE(x < x + 1);
+    EXPECT_TRUE(x <= x + 1);
+}
+
 //TEST(integer, multiplication_by_2_is_two_additions)
 //{
 //    const auto a = integer{0x1234567890ABCD13};

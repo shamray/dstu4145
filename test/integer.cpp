@@ -181,12 +181,12 @@ TEST(integer, equals_to_itself)
 //    EXPECT_TRUE(x <= x);
 }
 
-//TEST(integer, not_equals_plus_one)
-//{
-//    const auto x = integer{42};
-//    EXPECT_NE(x, x + 1);
-//}
-//
+TEST(integer, not_equals_plus_one)
+{
+    const auto x = integer{42};
+    EXPECT_NE(x, x + 1);
+}
+
 //TEST(integer, plus_one_is_greater)
 //{
 //    const auto x = integer{42};

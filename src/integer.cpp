@@ -288,6 +288,11 @@ namespace dstu4145::ossl
 
         return result;
     }
+
+    auto integer::operator^=(const integer &x) -> integer&
+    {
+        return *this = *this ^ x;
+    }
 }
 
 

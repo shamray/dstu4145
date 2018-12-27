@@ -284,6 +284,8 @@ namespace dstu4145::ossl
         }
 
         result.impl_->top = at->top;
+        bn_correct_top(result.impl_);
+
         return result;
     }
 }

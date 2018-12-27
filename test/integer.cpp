@@ -160,12 +160,12 @@ TEST(integer, xor_different)
 //    EXPECT_EQ(a % b, 18);
 //}
 //
-//TEST(integer, xor_with_itself)
-//{
-//    const auto a = integer{42};
-//    EXPECT_EQ(a ^ a, 0);
-//}
-//
+TEST(integer, xor_with_itself)
+{
+    const auto a = integer{42};
+    EXPECT_EQ(a ^ a, 0);
+}
+
 //TEST(integer, xor_with_itself_and_assign)
 //{
 //    auto a = integer{42};

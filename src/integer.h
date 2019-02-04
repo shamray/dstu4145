@@ -133,6 +133,7 @@ namespace dstu4145::ossl
         template <class iterator1, class iterator2>
         integer(const iterator1& begin, const iterator2& end)
             : impl_(BN_new())
+            , ctx_(BN_CTX_new())
         {
             auto temp = std::vector<std::byte>{};
             std::copy(begin, end, std::back_inserter(temp));
@@ -164,6 +165,7 @@ namespace dstu4145::ossl
 
     private:
         BIGNUM* impl_;
+        BN_CTX* ctx_;
     };
 
     template<class iterator>

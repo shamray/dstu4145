@@ -131,22 +131,26 @@ namespace dstu4145::ossl
     integer::~integer()
     {
         BN_free(impl_);
+        BN_CTX_free(ctx_);
     }
 
     integer::integer()
         : impl_(BN_new())
+        , ctx_(BN_CTX_new())
     {
 
     }
 
     integer::integer(long long value)
         : impl_(BN_new())
+        , ctx_(BN_CTX_new())
     {
         BN_set_word(impl_, value);
     }
 
     integer::integer(const std::string& hex)
         : impl_(BN_new())
+        , ctx_(BN_CTX_new())
     {
         BN_hex2bn(&impl_, hex.c_str());
     }
@@ -231,6 +235,7 @@ namespace dstu4145::ossl
 
     integer::integer(const integer& x)
         : impl_(BN_dup(x.impl_))
+        , ctx_(BN_CTX_new())
     {
         if (impl_ == nullptr)
             throw std::runtime_error("error");
@@ -247,6 +252,7 @@ namespace dstu4145::ossl
 
     integer::integer(integer&& x)
         : impl_(x.impl_)
+        , ctx_(BN_CTX_new())
     {
         x.impl_ = nullptr;
     }
@@ -318,6 +324,17 @@ namespace dstu4145::ossl
         auto x = BN_cmp(a.impl_, b.impl_);
         return x < 0;
 
+    }
+
+    auto operator*(const integer &a, const integer &b) -> integer
+    {
+        auto result = integer{};
+
+        auto r = BN_mul(result.impl_, a.impl_, b.impl_, a.ctx_);
+        if (r == 0)
+            throw std::runtime_error("error");
+
+        return result;
     }
 }
 

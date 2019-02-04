@@ -201,18 +201,18 @@ TEST(integer, smaller_than_plus_one)
     EXPECT_TRUE(x <= x + 1);
 }
 
-//TEST(integer, multiplication_by_2_is_two_additions)
-//{
-//    const auto a = integer{0x1234567890ABCD13};
-//    EXPECT_EQ(a + a, 2 * a);
-//}
-//
-//TEST(integer, multiplication_by_3_is_three_additions)
-//{
-//    const auto a = integer{0x1234567890ABCD13};
-//    EXPECT_EQ(a + a + a, 3 * a);
-//}
-//
+TEST(integer, multiplication_by_2_is_two_additions)
+{
+    const auto a = integer{0x1234567890ABCD13};
+    EXPECT_EQ(a + a, 2 * a);
+}
+
+TEST(integer, multiplication_by_3_is_three_additions)
+{
+    const auto a = integer{0x1234567890ABCD13};
+    EXPECT_EQ(a + a + a, 3 * a);
+}
+
 //TEST(integer, multiplication_with_assignment)
 //{
 //    auto a = integer{11};

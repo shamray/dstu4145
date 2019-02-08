@@ -153,6 +153,7 @@ namespace dstu4145::ossl
 
         auto operator+= (const integer& x) -> integer&;
         auto operator^= (const integer& x) -> integer&;
+        auto operator*= (const integer& x) -> integer&;
 
         void bit_set(size_t n);
         void bit_unset(size_t n);

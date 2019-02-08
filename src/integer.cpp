@@ -336,6 +336,15 @@ namespace dstu4145::ossl
 
         return result;
     }
+
+    auto integer::operator*=(const integer &x) -> integer &
+    {
+        auto r = BN_mul(impl_, impl_, x.impl_, ctx_);
+        if (r == 0)
+            throw std::runtime_error("error");
+
+        return *this;
+    }
 }
 
 

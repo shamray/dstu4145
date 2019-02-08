@@ -213,13 +213,13 @@ TEST(integer, multiplication_by_3_is_three_additions)
     EXPECT_EQ(a + a + a, 3 * a);
 }
 
-//TEST(integer, multiplication_with_assignment)
-//{
-//    auto a = integer{11};
-//    a *= 3;
-//    EXPECT_EQ(a, 33);
-//}
-//
+TEST(integer, multiplication_with_assignment)
+{
+    auto a = integer{11};
+    a *= 3;
+    EXPECT_EQ(a, 33);
+}
+
 //TEST(integer, bit_shift_left)
 //{
 //    const auto a = integer{3};

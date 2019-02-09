@@ -345,6 +345,30 @@ namespace dstu4145::ossl
 
         return *this;
     }
+
+    auto divide(const integer &a, const integer &b) -> std::pair<integer, integer>
+    {
+        auto dv = integer{};
+        auto rm = integer{};
+
+        auto r = BN_div(dv.impl_, rm.impl_, a.impl_, b.impl_, a.ctx_);
+        if (r == 0)
+            throw std::runtime_error("error");
+
+        return std::pair(dv, rm);
+    }
+
+    auto operator/(const integer &a, const integer &b) -> integer
+    {
+        auto [dv, rm] =  divide(a, b);
+        return dv;
+    }
+
+    auto operator%(const integer &a, const integer &b) -> integer
+    {
+        auto [dv, rm] =  divide(a, b);
+        return rm;
+    }
 }
 
 

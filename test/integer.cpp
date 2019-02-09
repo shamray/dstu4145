@@ -152,14 +152,14 @@ TEST(integer, xor_different)
     EXPECT_EQ(a ^ b, 6);
 }
 
-//TEST(integer, division)
-//{
-//    const auto a = integer{42};
-//    const auto b = integer{24};
-//    EXPECT_EQ(a / b, 1);
-//    EXPECT_EQ(a % b, 18);
-//}
-//
+TEST(integer, division)
+{
+    const auto a = integer{42};
+    const auto b = integer{24};
+    EXPECT_EQ(a / b, 1);
+    EXPECT_EQ(a % b, 18);
+}
+
 TEST(integer, xor_with_itself)
 {
     const auto a = integer{42};

@@ -120,6 +120,7 @@ namespace dstu4145::ossl
         friend auto operator==(const integer& a, const integer& b) -> bool;
         friend auto operator!=(const integer& a, const integer& b) -> bool;
         friend auto operator<<(std::ostream& os, const integer& a) -> std::ostream&;
+        friend auto divide(const integer &a, const integer &b) -> std::pair<integer, integer>;
 
     public:
         ~integer();

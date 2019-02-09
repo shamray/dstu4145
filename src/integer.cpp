@@ -369,6 +369,17 @@ namespace dstu4145::ossl
         auto [dv, rm] =  divide(a, b);
         return rm;
     }
+
+    auto operator<<(const integer &a, int bits) -> integer
+    {
+        auto result = integer{};
+
+        auto r = BN_lshift(result.impl_, a.impl_, bits);
+        if (r == 0)
+            throw std::runtime_error("error");
+
+        return result;
+    }
 }
 
 

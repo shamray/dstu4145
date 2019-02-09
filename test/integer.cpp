@@ -220,12 +220,12 @@ TEST(integer, multiplication_with_assignment)
     EXPECT_EQ(a, 33);
 }
 
-//TEST(integer, bit_shift_left)
-//{
-//    const auto a = integer{3};
-//    EXPECT_EQ(a << 2, 0xC);
-//}
-//
+TEST(integer, bit_shift_left)
+{
+    const auto a = integer{3};
+    EXPECT_EQ(a << 2, 0xC);
+}
+
 //TEST(integer, bit_shift_left_with_assignment)
 //{
 //

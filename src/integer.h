@@ -112,7 +112,7 @@ namespace dstu4145::ossl
         friend auto operator/ (const integer& a, const integer& b) -> integer;
         friend auto operator% (const integer& a, const integer& b) -> integer;
         friend auto operator^ (const integer& a, const integer& b) -> integer;
-        friend auto operator<<(const integer& a, size_t bits) -> integer;
+        friend auto operator<<(const integer& a, int bits) -> integer;
         friend auto operator< (const integer& a, const integer& b) -> bool;
         friend auto operator> (const integer& a, const integer& b) -> bool;
         friend auto operator<=(const integer& a, const integer& b) -> bool;

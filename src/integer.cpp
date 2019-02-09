@@ -195,7 +195,7 @@ namespace dstu4145::ossl
     {
         auto r = BN_num_bytes(impl_) * 8;
 
-        for (auto i = signed { r }; i > 0; --i) {
+        for (auto i = signed { r }; i >= 0; --i) {
             if (bit_test(i))
                 return i;
         }

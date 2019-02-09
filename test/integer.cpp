@@ -102,6 +102,13 @@ TEST(integer, msb_lsb_5)
     EXPECT_EQ(x.lsb(), 0);
 }
 
+TEST(integer, msb_lsb_1)
+{
+    auto x = integer{1};
+    EXPECT_EQ(x.msb(), 0);
+    EXPECT_EQ(x.lsb(), 0);
+}
+
 TEST(integer, msb_lsb_0)
 {
     auto x = integer{0};

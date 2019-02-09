@@ -380,6 +380,15 @@ namespace dstu4145::ossl
 
         return result;
     }
+
+    auto integer::operator<<=(int bits) -> integer&
+    {
+        auto r = BN_lshift(impl_, impl_, bits);
+        if (r == 0)
+            throw std::runtime_error("error");
+
+        return *this;
+    }
 }
 
 

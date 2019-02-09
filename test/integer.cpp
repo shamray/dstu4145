@@ -226,10 +226,10 @@ TEST(integer, bit_shift_left)
     EXPECT_EQ(a << 2, 0xC);
 }
 
-//TEST(integer, bit_shift_left_with_assignment)
-//{
-//
-//    auto a = integer{3};
-//    a <<= 2;
-//    EXPECT_EQ(a, 0xC);
-//}
+TEST(integer, bit_shift_left_with_assignment)
+{
+
+    auto a = integer{3};
+    a <<= 2;
+    EXPECT_EQ(a, 0xC);
+}

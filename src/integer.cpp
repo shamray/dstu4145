@@ -181,6 +181,9 @@ namespace dstu4145::ossl
 
     void integer::bit_unset(size_t n)
     {
+        if (n > msb())
+            return;
+
         auto r = BN_clear_bit(impl_, n);
         if (r == 0)
             throw std::runtime_error("error");

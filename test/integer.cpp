@@ -78,6 +78,22 @@ TEST(integer, bit_unset_first)
     EXPECT_EQ(x, 0);
 }
 
+TEST(integer, bit_unset_beyond_msb)
+{
+    auto x = integer{1};
+    x.bit_unset(1024);
+
+    EXPECT_EQ(x, 1);
+}
+
+TEST(integer, bit_set_beyond_msb)
+{
+    auto x = integer{1};
+    x.bit_set(x.msb() + 1);
+
+    EXPECT_EQ(x, 3);
+}
+
 TEST(integer, bit_unset_middle)
 {
     auto x = integer{0xF};

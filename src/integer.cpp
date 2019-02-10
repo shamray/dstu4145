@@ -259,6 +259,7 @@ namespace dstu4145::ossl
 
     integer &integer::operator=(integer&& x)
     {
+        BN_free(impl_);
         impl_ = x.impl_;
         x.impl_ = nullptr;
 

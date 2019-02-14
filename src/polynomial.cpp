@@ -110,7 +110,10 @@ namespace dstu4145::vec
 
     polynomial::polynomial(dstu4145::integer value)
     {
-        for (auto i = 0; i < value.msb(); ++i) {
+        if (value == 0)
+            return;
+
+        for (auto i = 0; i <= value.msb(); ++i) {
             if (value.bit_test(i))
                 bit_set(i);
         }
@@ -218,7 +221,7 @@ namespace dstu4145::vec
 
     std::ostream& operator<<(std::ostream& os, const polynomial& x)
     {
-        return os << "???";
+        return os << static_cast<integer>(x);
     }
 
     void polynomial::bit_set(size_t m)
@@ -226,10 +229,12 @@ namespace dstu4145::vec
         auto ix = m / sizeof(decltype(value_)::value_type);
         auto bi = m % sizeof(decltype(value_)::value_type);
 
-        if (value_.size() < ix)
+        if (value_.size() <= ix)
             value_.resize(ix + 1);
 
-        value_[ix] |= (1 << (bi - 1));
+        auto x = (1 << bi);
+
+        value_[ix] |= x;
     }
 
     void polynomial::bit_unset(size_t m)
@@ -257,15 +262,15 @@ namespace dstu4145::vec
         auto ix = m / sizeof(decltype(value_)::value_type);
         auto bi = m % sizeof(decltype(value_)::value_type);
 
-        if (value_.size() < ix)
+        if (value_.size() <= ix)
             return false;
 
-        return (value_[ix] & (1 << bi - 1)) != 0;
+        return (value_[ix] & (1 << bi)) != 0;
     }
 
     size_t polynomial::msb() const
     {
-        for (long i = value_.size(); i >= 0; ++i) {
+        for (long i = value_.size() - 1; i >= 0; ++i) {
             if (value_[i] == 0)
                 continue;
 
@@ -284,10 +289,10 @@ namespace dstu4145::vec
         }
     }
 
-    polynomial::operator integer()
+    polynomial::operator integer() const
     {
         auto result = integer();
-        for (auto i = 0; i <= msb(); ++i) {
+        for (auto i = 0; !value_.empty() && i <= msb(); ++i) {
             if (bit_test(i))
                 result.bit_set(i);
         }

@@ -21,9 +21,13 @@ namespace dstu4145::in
         polynomial(int m, int x);
         explicit polynomial(integer value);
 
-        explicit operator integer() { return value_; }
+        explicit operator integer()     { return value_; }
 
-        auto is_zero() const { return value_ == 0; }
+        auto is_zero() const            { return value_ == 0; }
+        void bit_set(size_t m)          { value_.bit_set(m); }
+        void bit_unset(size_t m)        { value_.bit_unset(m); }
+        bool bit_test(size_t m) const   { return value_.bit_test(m); };
+        auto msb() const                { return value_.msb(); }
 
     private:
         integer value_;
@@ -48,7 +52,7 @@ namespace dstu4145::vec
         polynomial(int m, int x);
         explicit polynomial(integer value);
 
-        explicit operator integer();
+        explicit operator integer() const;
 
         auto is_zero() const -> bool;
         void bit_set(size_t m);

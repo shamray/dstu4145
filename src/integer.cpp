@@ -21,17 +21,17 @@ namespace dstu4145::bmp
 
     void integer::bit_set(size_t n)
     {
-        boost::multiprecision::bit_set(impl_, n);
+        boost::multiprecision::bit_set(impl_, static_cast<unsigned>(n));
     }
 
     void integer::bit_unset(size_t n)
     {
-        boost::multiprecision::bit_unset(impl_, n);
+        boost::multiprecision::bit_unset(impl_, static_cast<unsigned>(n));
     }
 
     auto integer::bit_test(size_t n) const -> bool
     {
-        return boost::multiprecision::bit_test(impl_, n);
+        return boost::multiprecision::bit_test(impl_, static_cast<unsigned>(n));
     }
 
     auto integer::msb() const -> size_t
@@ -169,7 +169,7 @@ namespace dstu4145::ossl
 
     void integer::bit_set(size_t n)
     {
-        auto r = BN_set_bit(impl_, n);
+        auto r = BN_set_bit(impl_, static_cast<int>(n));
         if (r == 0)
             throw std::runtime_error("error");
     }
@@ -184,14 +184,14 @@ namespace dstu4145::ossl
         if (n > msb())
             return;
 
-        auto r = BN_clear_bit(impl_, n);
+        auto r = BN_clear_bit(impl_, static_cast<int>(n));
         if (r == 0)
             throw std::runtime_error("error");
     }
 
     auto integer::bit_test(size_t n) const -> bool
     {
-        return BN_is_bit_set(impl_, n) != 0;
+        return BN_is_bit_set(impl_, static_cast<int>(n)) != 0;
     }
 
     auto integer::msb() const -> size_t

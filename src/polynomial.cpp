@@ -40,7 +40,7 @@ namespace dstu4145::in
         if (b == polynomial{})
             return result;
 
-        for (long i = b.value_.msb(); i >= 0; i--)
+        for (auto i = static_cast<long>(b.value_.msb()); i >= 0; i--)
         {
             result.value_ <<= 1;
             if (b.value_.bit_test(static_cast<unsigned>(i)))
@@ -60,9 +60,9 @@ namespace dstu4145::in
         if (dividend == polynomial{})
             return std::make_tuple(remainder, quotient);
 
-        long degree = divisor.value_.msb();
+        auto degree = static_cast<long>(divisor.value_.msb());
 
-        for (long i = dividend.value_.msb(); i>=0; i--)
+        for (auto i = static_cast<long>(dividend.value_.msb()); i>=0; i--)
         {
             remainder.value_ <<= 1;
             if (dividend.value_.bit_test(static_cast<unsigned>(i)))
@@ -175,7 +175,7 @@ namespace dstu4145::vec
 
         result.value_.resize(std::max(a.value_.size(), b.value_.size()));
 
-        for (long i = b.value_.size() * sizeof(decltype(a.value_)::value_type); i >= 0; i--)
+        for (auto i = static_cast<long>(b.value_.size()) * sizeof(decltype(a.value_)::value_type); i >= 0; i--)
         {
             left_shift(result.value_);
             if (b.bit_test(static_cast<unsigned>(i)))
@@ -195,9 +195,9 @@ namespace dstu4145::vec
         if (dividend == polynomial{})
             return std::make_tuple(remainder, quotient);
 
-        long degree = divisor.msb();
+        auto degree = static_cast<long>(divisor.msb());
 
-        for (long i = dividend.msb(); i>=0; i--)
+        for (auto i = static_cast<long>(dividend.msb()); i>=0; i--)
         {
             left_shift(remainder.value_);
             if (dividend.bit_test(static_cast<unsigned>(i)))
@@ -270,7 +270,7 @@ namespace dstu4145::vec
 
     size_t polynomial::msb() const
     {
-        for (long i = value_.size() - 1; i >= 0; ++i) {
+        for (auto i = static_cast<long>(value_.size() - 1); i >= 0; ++i) {
             if (value_[i] == 0)
                 continue;
 
@@ -287,6 +287,8 @@ namespace dstu4145::vec
 
             return i * sizeof(decltype(value_)::value_type) + bi;
         }
+
+        throw std::runtime_error("No bits were set in the operand");
     }
 
     polynomial::operator integer() const

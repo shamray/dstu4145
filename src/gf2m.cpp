@@ -22,7 +22,7 @@ namespace dstu4145
 
     auto gf2m::create_element(polynomial value) const -> element
     {
-        for (auto i = m_; i <= value.msb(); ++i)
+        for (auto i = m_; !value.is_zero() && i <= value.msb(); ++i)
             value.bit_unset(i);
         return element(*this, polynomial{value});
     }

@@ -273,7 +273,7 @@ namespace dstu4145::ossl
     {
         auto result = integer{};
 
-        bn_check_top(a.impl_);
+        /*bn_check_top(a.impl_);
         bn_check_top(b.impl_);
 
         const auto [at, bt] = [&a,&b]() {
@@ -294,8 +294,20 @@ namespace dstu4145::ossl
         }
 
         result.impl_->top = at->top;
-        bn_correct_top(result.impl_);
+        bn_correct_top(result.impl_);*/
 
+        auto size = std::max(BN_num_bytes(a.impl_), BN_num_bytes(b.impl_));
+
+        auto abuf = std::vector<unsigned char>(size);
+        auto bbuf = std::vector<unsigned char>(size);
+
+        BN_bn2binpad(a.impl_, abuf.data(), size);
+        BN_bn2binpad(b.impl_, bbuf.data(), size);
+
+        for (auto i = 0; i < size; ++i) {
+            abuf[i] ^= bbuf[i];
+        }
+        BN_bin2bn(abuf.data(), size, result.impl_);
         return result;
     }
 

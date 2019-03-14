@@ -273,29 +273,6 @@ namespace dstu4145::ossl
     {
         auto result = integer{};
 
-        /*bn_check_top(a.impl_);
-        bn_check_top(b.impl_);
-
-        const auto [at, bt] = [&a,&b]() {
-            if (a.impl_->top < b.impl_->top)
-                return std::tuple{b.impl_, a.impl_};
-            else
-                return std::tuple{a.impl_, b.impl_};
-        }();
-
-        if (bn_wexpand(result.impl_, at->top) == nullptr)
-            throw std::runtime_error("error");
-
-        for (auto i = 0; i < bt->top; ++i) {
-            result.impl_->d[i] = at->d[i] ^ bt->d[i];
-        }
-        for (auto i = bt->top; i < at->top; ++i) {
-            result.impl_->d[i] = at->d[i];
-        }
-
-        result.impl_->top = at->top;
-        bn_correct_top(result.impl_);*/
-
         auto size = std::max(BN_num_bytes(a.impl_), BN_num_bytes(b.impl_));
 
         auto abuf = std::vector<unsigned char>(size);

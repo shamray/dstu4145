@@ -58,7 +58,7 @@ TEST(polynomial, euqlid_one_iteration)
     EXPECT_EQ(b, dstu4145::polynomial{1});
 }
 
-TEST(polynomial, DISABLED_euqlid_two_iterations)
+TEST(polynomial, euqlid_two_iterations)
 {
     auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
     EXPECT_EQ(d, dstu4145::polynomial{2});

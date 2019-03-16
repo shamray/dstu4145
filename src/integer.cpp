@@ -290,7 +290,20 @@ namespace dstu4145::ossl
 
     auto integer::operator^=(const integer &x) -> integer&
     {
-        return *this = *this ^ x;
+        auto size = std::max(BN_num_bytes(impl_), BN_num_bytes(x.impl_));
+
+        auto abuf = std::vector<unsigned char>(size);
+        auto bbuf = std::vector<unsigned char>(size);
+
+        BN_bn2binpad(  impl_, abuf.data(), size);
+        BN_bn2binpad(x.impl_, bbuf.data(), size);
+
+        for (auto i = 0; i < size; ++i) {
+            abuf[i] ^= bbuf[i];
+        }
+        BN_bin2bn(abuf.data(), size, impl_);
+        
+        return *this;
     }
 
     auto operator<=(const integer &a, const integer &b) -> bool

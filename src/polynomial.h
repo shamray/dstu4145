@@ -3,6 +3,7 @@
 #include "integer.h"
 
 #include <tuple>
+#include <boost/operators.hpp>
 
 namespace dstu4145::in
 {

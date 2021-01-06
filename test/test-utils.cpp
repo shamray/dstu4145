@@ -1,6 +1,7 @@
 #include "test-utils.h"
 
 #include <map>
+#include <stdexcept>
 
 namespace
 {

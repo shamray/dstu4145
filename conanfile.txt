@@ -1,4 +1,6 @@
 [requires]
-openssl/[>=1.1.1a]
 boost/[>=1.62.0]
 gtest/[>=1.8.1]
+
+[options]
+boost:without_test=True

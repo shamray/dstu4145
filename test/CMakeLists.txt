@@ -16,9 +16,7 @@ add_executable(dstu-test
 target_link_libraries(dstu-test
   test-utils
   dstu4145
-  Boost::boost
-  GTest::GTest
-  GTest::Main)
+  ${CONAN_LIBS})
 
 add_test(NAME DstuTest COMMAND dstu-test)
 
@@ -28,8 +26,6 @@ add_executable(dstu-acceptance-test
 target_link_libraries(dstu-acceptance-test
   dstu4145
   test-utils
-  Boost::boost
-  GTest::GTest
-  GTest::Main)
+  ${CONAN_LIBS})
 
 add_test(NAME DstuAcceptanceTest COMMAND dstu-acceptance-test)

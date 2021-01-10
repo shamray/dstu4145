@@ -16,9 +16,8 @@ conan_cmake_run(CONANFILE conanfile.txt  # or relative build/conanfile.txt
     BASIC_SETUP CMAKE_TARGETS
     BUILD missing)
 
-find_package(Boost 1.62 REQUIRED QUIET)
-find_package(GTest REQUIRED QUIET)
-find_package(OpenSSL REQUIRED QUIET)
+conan_load_buildinfo()
+conan_basic_setup()
 
 enable_testing()
 add_subdirectory(src)

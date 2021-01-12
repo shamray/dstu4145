@@ -8,7 +8,7 @@
 
 using namespace std::literals;
 
-using dstu4145::integer;
+using dstu4145::ossl::integer;
 
 TEST(integer, default_constructor)
 {

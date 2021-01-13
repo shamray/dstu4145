@@ -1,6 +1,7 @@
 [requires]
 boost/[>=1.62.0]
 gtest/[>=1.8.1]
+openssl/[>=1.1.1a]
 
 [options]
 boost:without_test=True

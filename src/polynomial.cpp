@@ -226,8 +226,8 @@ namespace dstu4145::vec
 
     void polynomial::bit_set(size_t m)
     {
-        auto ix = m / sizeof(decltype(value_)::value_type);
-        auto bi = m % sizeof(decltype(value_)::value_type);
+        auto ix = m / internal_chunk_size();
+        auto bi = m % internal_chunk_size();
 
         if (value_.size() <= ix)
             value_.resize(ix + 1);
@@ -239,8 +239,8 @@ namespace dstu4145::vec
 
     void polynomial::bit_unset(size_t m)
     {
-        auto ix = m / sizeof(decltype(value_)::value_type);
-        auto bi = m % sizeof(decltype(value_)::value_type);
+        auto ix = m / internal_chunk_size();
+        auto bi = m % internal_chunk_size();
 
         if (value_.size() < ix)
             value_.resize(ix + 1);
@@ -259,8 +259,8 @@ namespace dstu4145::vec
 
     bool polynomial::bit_test(size_t m) const
     {
-        auto ix = m / sizeof(decltype(value_)::value_type);
-        auto bi = m % sizeof(decltype(value_)::value_type);
+        auto ix = m / internal_chunk_size();
+        auto bi = m % internal_chunk_size();
 
         if (value_.size() <= ix)
             return false;
@@ -285,7 +285,7 @@ namespace dstu4145::vec
                 return msb - 1;
             }();
 
-            return i * sizeof(decltype(value_)::value_type) + bi;
+            return i * internal_chunk_size() + bi;
         }
 
         throw std::runtime_error("No bits were set in the operand");

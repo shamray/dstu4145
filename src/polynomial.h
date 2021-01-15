@@ -61,6 +61,8 @@ namespace dstu4145::vec
         bool bit_test(size_t m) const;
         size_t msb() const;
 
+        static constexpr auto internal_chunk_size() { return 8 * sizeof(decltype(value_)::value_type); }
+
     private:
         std::vector<unsigned> value_;
     };

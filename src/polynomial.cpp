@@ -153,18 +153,20 @@ namespace dstu4145::vec
         return result;
     }
 
-    void left_shift(std::vector<unsigned>& vec)
+    bool polynomial::left_shift()
     {
         bool carry = false;
-        for (auto& x: vec) {
-            auto nextCarry = ((1 << (sizeof(std::vector<unsigned>::value_type)-1) ) & x) != 0;
+        for (auto& x: value_) {
+            auto nextCarry = ((1 << (internal_chunk_size() - 1) ) & x) != 0;
             x <<= 1;
             if (carry)
-                x &= 1;
+                x |= 1;
             carry = nextCarry;
         }
         if (carry)
-            vec.push_back(1);
+            value_.push_back(1);
+
+        return carry;
     }
 
     auto operator*(const polynomial& a, const polynomial& b) -> polynomial
@@ -173,11 +175,9 @@ namespace dstu4145::vec
         if (b == polynomial{})
             return result;
 
-        result.value_.resize(std::max(a.value_.size(), b.value_.size()));
-
-        for (auto i = static_cast<long>(b.value_.size()) * sizeof(decltype(a.value_)::value_type); i >= 0; i--)
+        for (auto i = static_cast<long>(b.msb()); i >= 0; i--)
         {
-            left_shift(result.value_);
+            result.left_shift();
             if (b.bit_test(static_cast<unsigned>(i)))
                 result = result + a;
         }
@@ -197,9 +197,9 @@ namespace dstu4145::vec
 
         auto degree = static_cast<long>(divisor.msb());
 
-        for (auto i = static_cast<long>(dividend.msb()); i>=0; i--)
+        for (auto i = static_cast<long>(dividend.msb()); i >= 0; i--)
         {
-            left_shift(remainder.value_);
+            remainder.left_shift();
             if (dividend.bit_test(static_cast<unsigned>(i)))
                 remainder.bit_set(0);
 
@@ -270,7 +270,7 @@ namespace dstu4145::vec
 
     size_t polynomial::msb() const
     {
-        for (auto i = static_cast<long>(value_.size() - 1); i >= 0; ++i) {
+        for (auto i = static_cast<long>(value_.size() - 1); i >= 0; --i) {
             if (value_[i] == 0)
                 continue;
 

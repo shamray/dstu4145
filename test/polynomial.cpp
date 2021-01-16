@@ -2,6 +2,38 @@
 
 #include "polynomial.h"
 
+TEST(polynomial, left_shift)
+{
+	using p = dstu4145::vec::polynomial;
+
+    auto x = p{ dstu4145::integer{"8000908011a3"} };
+    x.left_shift();
+    EXPECT_EQ(x, p{ dstu4145::integer{"1000121002346"} });
+
+}
+TEST(polynomial, multiplication)
+{
+    using p = dstu4145::vec::polynomial;
+
+    EXPECT_EQ(p{ 1 } * p{ 1 }, p{ 1 });
+    EXPECT_EQ(p{ 0 } * p{ 0 }, p{ 0 });
+    EXPECT_EQ(p{ 1 } * p{ 0 }, p{ 0 });
+    EXPECT_EQ(p{ 0 } * p{ 1 }, p{ 0 });
+
+    EXPECT_EQ(p{ 1 } * p{ 42 }, p{ 42 });
+    EXPECT_EQ(p{ 42 } * p{ 1 }, p{ 42 });
+    EXPECT_EQ(p{ 0 } * p{ 42 }, p{ 0 });
+    EXPECT_EQ(p{ 42 } * p{ 0 }, p{ 0 });
+
+	EXPECT_EQ(p{ 42 } *p{ 2 }, p{ 84 });
+	EXPECT_EQ(p{ 42 } *p{ 42 }, p{ 1092 });
+
+	EXPECT_EQ(
+        p{ dstu4145::integer{"1000023"} } * p{ dstu4145::integer{"1000102"} }, 
+        p{ dstu4145::integer{"1000121002346"} }
+    );
+}
+
 TEST(polynomial, internal_chunk_size)
 {
     EXPECT_EQ(dstu4145::vec::polynomial::internal_chunk_size(), 32);
@@ -76,7 +108,7 @@ TEST(polynomial, euqlid_one_iteration)
     EXPECT_EQ(b, dstu4145::polynomial{1});
 }
 
-TEST(polynomial, DISABLED_euqlid_two_iterations)
+TEST(polynomial, euqlid_two_iterations)
 {
     auto [d, a, b] = dstu4145::extended_euqlid(dstu4145::polynomial{6}, dstu4145::polynomial{4}, dstu4145::polynomial{6});
     EXPECT_EQ(d, dstu4145::polynomial{2});

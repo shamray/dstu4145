@@ -1,5 +1,4 @@
 
-* todo: Switch from Boost Multiprecision to OpenSSL?
 * todo: Compressed keys
 * todo: Generate keys
 * todo: Separate signature precomputation

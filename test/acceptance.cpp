@@ -38,7 +38,7 @@ struct acceptance163 : Test
 TEST_F(acceptance163, sign_and_verify)
 {
     auto fails = 0;
-    for (auto i = 0; i < 20; ++i) {
+    for (auto i = 0; i < 10; ++i) {
 
         dstu4145::domain_params params{
             curve,
@@ -92,7 +92,7 @@ struct acceptance167 : Test
 TEST_F(acceptance167, sign_and_verify)
 {
     auto fails = 0;
-    for (auto i = 0; i < 20; ++i) {
+    for (auto i = 0; i < 10; ++i) {
         dstu4145::domain_params params {
             curve,
             n,
@@ -155,7 +155,7 @@ TEST_F(acceptance233, fail_to_find_point)
 TEST_F(acceptance233, sign_and_verify)
 {
     auto fails = 0;
-    for (auto i = 0; i < 20; ++i) {
+    for (auto i = 0; i < 10; ++i) {
         dstu4145::domain_params params {
             curve,
             n,

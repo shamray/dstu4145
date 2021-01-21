@@ -138,7 +138,7 @@ namespace dstu4145::ossl
         {
             auto temp = std::vector<std::byte>{};
             std::copy(begin, end, std::back_inserter(temp));
-            auto result = BN_bin2bn(reinterpret_cast<unsigned char*>(temp.data()), temp.size(), impl_);
+            auto result = BN_bin2bn(reinterpret_cast<unsigned char*>(temp.data()), static_cast<int>(temp.size()), impl_);
         }
 
         template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
@@ -185,5 +185,5 @@ namespace dstu4145::ossl
 
 namespace dstu4145
 {
-    using bmp::integer;
+    using ossl::integer;
 }

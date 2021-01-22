@@ -21,6 +21,11 @@ namespace dstu4145
     public:
         ecurve(gf2m gf, int a, integer b);
 
+        ecurve(ecurve&&) = default;
+        ecurve& operator=(ecurve&&) = default;
+        ecurve(const ecurve&) = default;
+        ecurve& operator=(const ecurve&) = default;
+
         auto field() const -> const auto& { return gf_; }
         auto a() const { return a_; }
         auto b() const { return b_; }
@@ -41,6 +46,11 @@ namespace dstu4145
         ecurve_point(ecurve curve, integer ix, integer iy);
         ecurve_point(ecurve curve, gf2m::element x, gf2m::element y);
 
+        ecurve_point(ecurve_point&&) = default;
+        ecurve_point& operator=(ecurve_point&&) = default;
+        ecurve_point(const ecurve_point&) = default;
+        ecurve_point& operator=(const ecurve_point&) = default;
+
         gf2m::element x;
         gf2m::element y;
         ecurve c;
@@ -54,17 +64,17 @@ namespace dstu4145
         auto validate() const -> bool;
     };
 
-    inline auto operator* (integer d, ecurve::point p)
+    inline auto operator* (const integer& d, const ecurve::point& p)
     {
         return p * d;
     }
 
-    inline auto operator== (ecurve::point a, ecurve::point b)
+    inline auto operator== (const ecurve::point& a, const ecurve::point& b)
     {
         return a.x == b.x && a.y == b.y;
     }
 
-    inline auto operator!= (ecurve::point a, ecurve::point b)
+    inline auto operator!= (const ecurve::point& a, const ecurve::point& b)
     {
         return !(a == b);
     }

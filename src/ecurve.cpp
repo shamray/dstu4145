@@ -20,9 +20,9 @@ namespace dstu4145
     }
 
     ecurve::ecurve(gf2m gf, int a, integer b)
-        : gf_(gf)
-        , a_(a)
-        , b_(b)
+        : gf_{ std::move(gf) }
+        , a_{a}
+        , b_{std::move(b)}
     {}
 
     auto ecurve::find_point(integer ix) const -> std::optional<point>
@@ -37,7 +37,7 @@ namespace dstu4145
             return std::nullopt;
 
         assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
-        return point{*this, u, z.value()};
+        return point{*this, std::move(u), std::move(z.value())};
     }
 
     auto ecurve::find_point(rng_t rng, integer n) const -> point
@@ -55,23 +55,23 @@ namespace dstu4145
     }
 
     ecurve_point::ecurve_point(ecurve curve)
-        : x(curve.gf_.create_element(0))
-        , y(curve.gf_.create_element(0))
-        , c(curve)
+        : x{curve.gf_.create_element(0)}
+        , y{curve.gf_.create_element(0)}
+        , c{std::move(curve)}
     {}
 
     ecurve_point::ecurve_point(ecurve curve, integer ix, integer iy)
-        : x(curve.gf_, ix)
-        , y(curve.gf_, iy)
-        , c(curve)
+        : x{curve.gf_, ix}
+        , y{curve.gf_, iy}
+        , c{std::move(curve)}
     {
         assert(validate());
     }
 
     ecurve_point::ecurve_point(ecurve curve, gf2m::element x, gf2m::element y)
-        : x(x)
-        , y(y)
-        , c(curve)
+        : x{std::move(x)}
+        , y{std::move(y)}
+        , c{std::move(curve)}
     {
         assert(validate());
     }

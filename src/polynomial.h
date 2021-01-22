@@ -53,6 +53,11 @@ namespace dstu4145::vec
         polynomial(int m, int x);
         explicit polynomial(integer value);
 
+        polynomial(polynomial&&) = default;
+        polynomial& operator=(polynomial&&) = default;
+		polynomial(const polynomial&) = default;
+		polynomial& operator=(const polynomial&) = default;
+
         explicit operator integer() const;
 
         auto is_zero() const -> bool;

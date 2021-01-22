@@ -19,7 +19,7 @@ namespace dstu4145
         auto operator== (const gf2m& other) const  -> bool;
 
         auto m() const { return m_; }
-        auto basis() const { return basis_; }
+        auto basis() const -> const auto& { return basis_; }
 
     private:
         int m_;

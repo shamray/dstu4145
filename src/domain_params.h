@@ -13,12 +13,12 @@ namespace dstu4145
         ecurve::point p;
 
         domain_params(ecurve curve, integer n, ecurve::point p)
-            : curve{(curve)}
-            , n{n}
-            , p{p}
+            : curve{std::move(curve)}
+            , n{std::move(n)}
+            , p{std::move(p)}
         {
-            assert(p != curve.infinity_point());
-            assert(p * n == curve.infinity_point());
+            assert(this->p != curve.infinity_point());
+            assert(this->p * this->n == curve.infinity_point());
         }
 
         domain_params(ecurve curve, integer n, rng_t rng)

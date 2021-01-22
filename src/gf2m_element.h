@@ -18,8 +18,13 @@ namespace dstu4145
         gf2m_element(gf2m field, integer value);
         gf2m_element(gf2m field, polynomial value);
 
+        gf2m_element(gf2m_element&&) = default;
+        gf2m_element& operator=(gf2m_element&&) = default;
+        gf2m_element(const gf2m_element&) = default;
+        gf2m_element& operator=(const gf2m_element&) = default;
+
         auto is_zero() const { return value_.is_zero(); }
-        auto field() const { return field_; }
+        auto field() const -> const auto& { return field_; }
         auto inverse() const -> gf2m_element;
         auto trace() -> gf2m_element;
         auto half_trace() -> gf2m_element;

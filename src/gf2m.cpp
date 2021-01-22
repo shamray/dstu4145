@@ -24,7 +24,7 @@ namespace dstu4145
     {
         for (auto i = m_; !value.is_zero() && i <= value.msb(); ++i)
             value.bit_unset(i);
-        return element(*this, polynomial{value});
+        return element(*this, polynomial{std::move(value)});
     }
 
     auto gf2m::operator== (const gf2m& other) const  -> bool

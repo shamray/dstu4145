@@ -1,6 +1,8 @@
 language: cpp
 sudo: false
 
+dist: bionic
+
 install: 
  - pip install conan
  - conan remote update conan-center https://center.conan.io

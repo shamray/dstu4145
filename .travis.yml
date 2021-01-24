@@ -5,4 +5,8 @@ install:
  - pip install conan
  - conan remote update conan-center https://center.conan.io
 
-script: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build .
+script: 
+ - mkdir build && cd build 
+ - conan install .. --build missing --remote conan-center -s build_type=Debug
+ - cmake .. -DCMAKE_BUILD_TYPE=Debug 
+ - cmake --build .

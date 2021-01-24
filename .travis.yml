@@ -1,0 +1,4 @@
+language: cpp
+sudo: false
+
+script: mkdir build && cd build && cmake .. && cmake --build .

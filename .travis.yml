@@ -1,6 +1,8 @@
 language: cpp
 sudo: false
 
-install: pip install conan
+install: 
+ - pip install conan
+ - conan remote update conan-center https://center.conan.io
 
 script: mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build .

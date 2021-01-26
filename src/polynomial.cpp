@@ -108,7 +108,7 @@ namespace dstu4145::vec
         bit_set(0);
     }
 
-    polynomial::polynomial(dstu4145::integer value)
+    polynomial::polynomial(const dstu4145::integer& value)
     {
         if (value == 0)
             return;
@@ -328,6 +328,6 @@ namespace dstu4145
             }
         );
 
-        return std::tuple(x, a, b);
+        return std::tuple{ x, a, b };
     }
 }

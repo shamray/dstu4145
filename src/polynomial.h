@@ -51,7 +51,7 @@ namespace dstu4145::vec
         polynomial() = default;
         polynomial(int m, int x1, int x2, int x3);
         polynomial(int m, int x);
-        explicit polynomial(integer value);
+        explicit polynomial(const integer& value);
 
         polynomial(polynomial&&) = default;
         polynomial& operator=(polynomial&&) = default;

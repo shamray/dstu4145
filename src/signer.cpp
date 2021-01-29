@@ -9,9 +9,9 @@ using namespace std::string_literals;
 namespace dstu4145
 {
     signer::signer(private_key sign_key, domain_params params, rng_t random)
-        : prvkey_(std::move(sign_key))
-        , params_(std::move(params))
-        , random_(std::move(random))
+        : prvkey_{std::move(sign_key)}
+        , params_{std::move(params)}
+        , random_{std::move(random)}
     {
 
     }

@@ -1,4 +1,3 @@
-* todo: Generate keys
 * todo: Calculate signature size from domain params
 * todo: Compressed keys
 * todo: Separate signature precomputation

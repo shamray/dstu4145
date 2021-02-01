@@ -1,6 +1,6 @@
 * todo: Calculate signature size from domain params
-* todo: Compressed keys
 * todo: Separate signature precomputation
+* todo: Compressed keys
 * todo: Fast square optimization
 * todo: Performance testing
 * todo: Fast multiplication optimization (Karatsuba?)

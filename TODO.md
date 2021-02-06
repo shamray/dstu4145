@@ -11,4 +11,5 @@
 * todo: Sign buffer? (hash as functor?)
 * todo: Free function adapters?
 * todo: List of approved curves
+* todo: Create a package consumable with Conan and CMake
 * todo: Wiki

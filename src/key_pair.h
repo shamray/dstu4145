@@ -2,7 +2,10 @@
 
 #include "integer.h"
 #include "ecurve.h"
+#include "rng_interface.h"
+
 #include <vector>
+#include <tuple>
 
 namespace dstu4145
 {
@@ -30,4 +33,7 @@ namespace dstu4145
     private:
         ecurve::point q_;
     };
+
+    auto generate_private_key(const domain_params& params, rng_t random) -> private_key;
+	auto generate_key_pair(const domain_params& params, rng_t random) -> std::tuple<private_key, public_key>;
 }

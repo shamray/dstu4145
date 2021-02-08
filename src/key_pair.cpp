@@ -12,4 +12,12 @@ namespace dstu4145
         : q_{-(params.p * value)}
     {
     }
+    auto generate_private_key(const domain_params& params, rng_t random) -> private_key
+    {
+        return private_key();
+    }
+    auto generate_key_pair(const domain_params& params, rng_t random) -> std::tuple<private_key, public_key>
+    {
+        return std::tuple<private_key, public_key>();
+    }
 }

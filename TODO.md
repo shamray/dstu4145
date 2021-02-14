@@ -1,4 +1,3 @@
-* todo: Calculate signature size from domain params
 * todo: Separate signature precomputation
 * todo: Compressed keys
 * todo: Optimal normal basis fields implementation

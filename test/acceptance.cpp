@@ -221,7 +221,7 @@ TEST_F(acceptance257, sign_and_verify)
         auto s = dstu4145::signer{ prv_key, params, rng };
         auto v = dstu4145::verifier{ pub_key, params };
 
-        auto signature = s.sign_hash(h, 1024);
+        auto signature = s.sign_hash(h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;
@@ -273,7 +273,7 @@ TEST_F(acceptance431, sign_and_verify)
         auto s = dstu4145::signer{prv_key, params, rng};
         auto v = dstu4145::verifier{pub_key, params};
 
-        auto signature = s.sign_hash(h, 1024);
+        auto signature = s.sign_hash(h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;

@@ -166,6 +166,8 @@ namespace dstu4145::ossl
         template <class iterator>
         void to_buffer(iterator out, size_t size = 256) const;
 
+        auto size_in_bytes() const -> size_t;
+
     private:
         BIGNUM* impl_;
         BN_CTX* ctx_;

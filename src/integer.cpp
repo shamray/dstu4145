@@ -216,6 +216,11 @@ namespace dstu4145::ossl
         throw std::runtime_error("No bits were set in the operand");
     }
 
+    auto integer::size_in_bytes() const -> size_t
+    {
+        return BN_num_bytes(impl_);
+    }
+
     auto operator+(const integer &a, const integer &b) -> integer
     {
         auto result = integer{};

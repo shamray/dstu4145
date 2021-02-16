@@ -16,12 +16,14 @@ namespace dstu4145
 
     }
 
-    auto signer::sign_hash(const std::vector<std::byte>& hash, size_t signature_size) -> std::vector<std::byte>
+    auto signer::sign_hash(const std::vector<std::byte>& hash) -> std::vector<std::byte>
     {
         const auto& curve = params_.curve;
         const auto& field = curve.field();
         const auto& p = params_.p;
         const auto& n = params_.n;
+
+        const auto signature_size = n.size_in_bytes() * 16;
 
         const auto& d = static_cast<integer>(prvkey_);
 

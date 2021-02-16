@@ -17,8 +17,8 @@ namespace dstu4145
             , n{std::move(n)}
             , p{std::move(p)}
         {
-            assert(this->p != curve.infinity_point());
-            assert(this->p * this->n == curve.infinity_point());
+            assert(this->p != this->curve.infinity_point());
+            assert(this->p * this->n == this->curve.infinity_point());
         }
 
         domain_params(ecurve curve, integer n, rng_t rng)

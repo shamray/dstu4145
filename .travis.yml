@@ -12,3 +12,4 @@ script:
  - conan install .. --build missing --remote conan-center -s build_type=Debug
  - cmake .. -DCMAKE_BUILD_TYPE=Debug 
  - cmake --build .
+ - ctest .

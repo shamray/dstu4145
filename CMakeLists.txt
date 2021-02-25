@@ -20,6 +20,7 @@ conan_load_buildinfo()
 conan_basic_setup()
 
 enable_testing()
+
 add_subdirectory(src)
 add_subdirectory(test)
 

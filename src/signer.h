@@ -22,6 +22,18 @@ namespace dstu4145
         rng_t random_;
     };
 
+	using buffer = std::vector<std::byte>;
+
+    class engine
+    {
+    public:
+        engine(domain_params params);
+		auto sign(rng_t random, private_key key, const buffer& hash) const -> buffer;
+
+    private:
+		domain_params params_;
+    };
+
     /*
     struct presignature{};
     using buffer = std::vector<std::byte>;

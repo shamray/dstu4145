@@ -49,10 +49,10 @@ TEST_F(acceptance163, sign_and_verify)
         dstu4145::public_key pub_key{params, prv_key};
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-        auto s = dstu4145::signer{prv_key, params, rng};
+        auto engine = dstu4145::engine{params};
         auto v = dstu4145::verifier{pub_key, params};
 
-        auto signature = s.sign_hash(h);
+		auto signature = engine.sign(rng, prv_key, h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;
@@ -102,10 +102,10 @@ TEST_F(acceptance167, sign_and_verify)
         dstu4145::public_key pub_key{params, prv_key};
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-        auto s = dstu4145::signer{prv_key, params, rng};
+        auto engine = dstu4145::engine{params};
         auto v = dstu4145::verifier{pub_key, params};
 
-        auto signature = s.sign_hash(h);
+		auto signature = engine.sign(rng, prv_key, h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;
@@ -165,10 +165,10 @@ TEST_F(acceptance233, sign_and_verify)
         dstu4145::public_key pub_key{params, prv_key};
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-        auto s = dstu4145::signer{prv_key, params, rng};
+        auto engine = dstu4145::engine{params};
         auto v = dstu4145::verifier{pub_key, params};
 
-        auto signature = s.sign_hash(h);
+		auto signature = engine.sign(rng, prv_key, h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;
@@ -218,10 +218,10 @@ TEST_F(acceptance257, sign_and_verify)
         dstu4145::public_key pub_key{ params, prv_key };
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-        auto s = dstu4145::signer{ prv_key, params, rng };
+        auto engine = dstu4145::engine{params};
         auto v = dstu4145::verifier{ pub_key, params };
 
-        auto signature = s.sign_hash(h);
+		auto signature = engine.sign(rng, prv_key, h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;
@@ -270,10 +270,10 @@ TEST_F(acceptance431, sign_and_verify)
         dstu4145::public_key pub_key{params, prv_key};
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-        auto s = dstu4145::signer{prv_key, params, rng};
+        auto engine = dstu4145::engine{params};
         auto v = dstu4145::verifier{pub_key, params};
 
-        auto signature = s.sign_hash(h);
+		auto signature = engine.sign(rng, prv_key, h);
 
         if (!v.verify_hash(h, signature)) {
             ++fails;

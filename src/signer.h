@@ -8,27 +8,15 @@
 
 namespace dstu4145
 {
-    class signer
-    {
-    public:
-        signer(private_key key, domain_params params, rng_t random);
-
-        void compute_presignature();
-        auto sign_hash(const std::vector<std::byte>& hash) -> std::vector<std::byte>;
-
-    private:
-        private_key prvkey_;
-        domain_params params_;
-        rng_t random_;
-    };
-
 	using buffer = std::vector<std::byte>;
 
     class engine
     {
     public:
         engine(domain_params params);
+
 		auto sign(rng_t random, private_key key, const buffer& hash) const -> buffer;
+        auto verify(public_key key, const buffer& hash, const buffer& signature) const -> bool;
 
     private:
 		domain_params params_;

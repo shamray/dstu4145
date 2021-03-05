@@ -50,7 +50,7 @@ struct dstu : Test
 TEST_F(dstu, signing_hash_produces_correct_signature)
 {
     auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-    auto engine = dstu4145::engine{ params };
+    auto engine = dstu4145::engine{params};
 
     auto signature = engine.sign(rng, prv_key, h);
     auto expected = hex_buffer(
@@ -63,24 +63,24 @@ TEST_F(dstu, signing_hash_produces_correct_signature)
 
 TEST_F(dstu, verifying_correct_signature_is_successful)
 {
-    auto v = dstu4145::verifier{pub_key, params};
+    auto engine = dstu4145::engine{params};
     auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
     auto signature = hex_buffer(
         "02100D86957331832B8E8C230F5BD6A332B3615ACA"s +
         "0274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
     );
 
-    EXPECT_TRUE(v.verify_hash(h, signature));
+    EXPECT_TRUE(engine.verify(pub_key, h, signature));
 }
 
 TEST_F(dstu, verifying_correct_signature_is_successful_longer_signature)
 {
-	auto v = dstu4145::verifier{ pub_key, params };
+    auto engine = dstu4145::engine{params};
 	auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
 	auto signature = hex_buffer(
 		"000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s +
 		"00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
 	);
 
-	EXPECT_TRUE(v.verify_hash(h, signature));
+	EXPECT_TRUE(engine.verify(pub_key, h, signature));
 }

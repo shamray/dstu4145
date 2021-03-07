@@ -3,7 +3,6 @@
 #include "test-utils.h"
 
 #include "signer.h"
-#include "verifier.h"
 #include "rng.h"
 
 #include <random>
@@ -50,11 +49,10 @@ TEST_F(acceptance163, sign_and_verify)
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
         auto engine = dstu4145::engine{params};
-        auto v = dstu4145::verifier{pub_key, params};
 
 		auto signature = engine.sign(rng, prv_key, h);
 
-        if (!v.verify_hash(h, signature)) {
+        if (!engine.verify(pub_key, h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex
@@ -103,11 +101,10 @@ TEST_F(acceptance167, sign_and_verify)
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
         auto engine = dstu4145::engine{params};
-        auto v = dstu4145::verifier{pub_key, params};
 
 		auto signature = engine.sign(rng, prv_key, h);
 
-        if (!v.verify_hash(h, signature)) {
+		if (!engine.verify(pub_key, h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex
@@ -166,11 +163,10 @@ TEST_F(acceptance233, sign_and_verify)
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
         auto engine = dstu4145::engine{params};
-        auto v = dstu4145::verifier{pub_key, params};
 
 		auto signature = engine.sign(rng, prv_key, h);
 
-        if (!v.verify_hash(h, signature)) {
+		if (!engine.verify(pub_key, h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex
@@ -219,11 +215,10 @@ TEST_F(acceptance257, sign_and_verify)
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
         auto engine = dstu4145::engine{params};
-        auto v = dstu4145::verifier{ pub_key, params };
 
 		auto signature = engine.sign(rng, prv_key, h);
 
-        if (!v.verify_hash(h, signature)) {
+		if (!engine.verify(pub_key, h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex
@@ -271,11 +266,10 @@ TEST_F(acceptance431, sign_and_verify)
 
         auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
         auto engine = dstu4145::engine{params};
-        auto v = dstu4145::verifier{pub_key, params};
 
 		auto signature = engine.sign(rng, prv_key, h);
 
-        if (!v.verify_hash(h, signature)) {
+		if (!engine.verify(pub_key, h, signature)) {
             ++fails;
 
             ADD_FAILURE() << std::hex

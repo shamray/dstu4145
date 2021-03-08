@@ -3,7 +3,6 @@
 #include "test-utils.h"
 
 #include "signer.h"
-#include "verifier.h"
 #include "rng.h"
 
 #include <random>

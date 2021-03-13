@@ -8,8 +8,6 @@ add_library(dstu4145
     utils.cpp
     signer.cpp
     signer.h
-    verifier.cpp
-    verifier.h
     rng_interface.h
     key_pair.cpp
     key_pair.h

@@ -13,6 +13,22 @@ namespace dstu4145
     {
     }
 
+	auto engine::generate_private_key(rng_t random) const -> private_key
+	{
+		auto n = params_.n;
+		auto d = gen_random_integer(random, n.msb());
+
+		return d;
+	}
+
+	auto engine::generate_key_pair(rng_t random) const -> std::tuple<private_key, public_key>
+	{
+		auto pri = generate_private_key(random);
+		auto pub = public_key{params_, pri};
+
+		return { pri, pub };
+	}
+
     auto engine::sign(rng_t random, private_key key, const buffer& hash) const -> buffer
     {
 		const auto& curve = params_.curve;

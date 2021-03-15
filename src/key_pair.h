@@ -34,7 +34,4 @@ namespace dstu4145
     private:
         ecurve::point q_;
     };
-
-    auto generate_private_key(const domain_params& params, rng_t random) -> private_key;
-	auto generate_key_pair(const domain_params& params, rng_t random) -> std::tuple<private_key, public_key>;
 }

@@ -1,5 +1,4 @@
 * todo: Separate signature precomputation
-* todo: Free function adapters?
 * todo: Compressed keys
 * todo: Optimal normal basis fields implementation
 * todo: Fast square optimization

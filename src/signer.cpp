@@ -29,7 +29,21 @@ namespace dstu4145
 		return { pri, pub };
 	}
 
-    auto engine::sign(rng_t random, private_key key, const buffer& hash) const -> buffer
+	auto engine::compute_presignature(rng_t random) const -> presignature
+	{
+		const auto& p = params_.p;
+		const auto& n = params_.n;
+
+		auto e = gen_random_integer(random, n.msb());
+
+		assert(e < n);
+		auto fe = (e * p).x;
+		assert(!fe.is_zero());
+
+		return {e, fe};
+	}
+
+	auto engine::sign(rng_t random, private_key key, const buffer& hash) const -> buffer
     {
 		const auto& curve = params_.curve;
 		const auto& field = curve.field();

@@ -21,6 +21,7 @@ namespace dstu4145
 	    auto generate_key_pair(rng_t random) const -> std::tuple<private_key, public_key>;
         
         auto compute_presignature(rng_t random) const -> presignature;
+		auto sign(presignature ps, private_key key, const buffer& hash) const -> buffer;
 		auto sign(rng_t random, private_key key, const buffer& hash) const -> buffer;
         
         auto verify(public_key key, const buffer& hash, const buffer& signature) const -> bool;

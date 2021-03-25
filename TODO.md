@@ -1,4 +1,3 @@
-* todo: Separate signature precomputation
 * todo: Compressed keys
 * todo: Create polynomials from hex buffers
 * todo: Optimal normal basis fields implementation

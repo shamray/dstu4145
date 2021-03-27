@@ -74,37 +74,7 @@ namespace dstu4145
 
 	auto engine::sign(rng_t random, private_key key, const buffer& hash) const -> buffer
     {
-		const auto& curve = params_.curve;
-		const auto& field = curve.field();
-		const auto& p = params_.p;
-		const auto& n = params_.n;
-
-		const auto signature_size = n.size_in_bytes() * 16;
-
-		const auto& d = static_cast<integer>(key);
-
-		auto e = gen_random_integer(random, n.msb());
-
-		assert(e < n);
-		auto fe = (e * p).x;
-		assert(!fe.is_zero());
-
-		auto h = field.create_element(integer{ hash });
-		assert(!h.is_zero());
-		auto y = h * fe;
-		auto r = static_cast<integer>(y);
-		assert(r != integer{ 0 });
-
-		auto dr = (d * r) % n;
-		auto s = (e + dr) % n;
-		assert(s != integer{ 0 });
-
-		auto result = std::vector<std::byte>{};
-
-		s.to_buffer(std::back_inserter(result), signature_size / 2);
-		r.to_buffer(std::back_inserter(result), signature_size / 2);
-
-		return result;
+		return sign(compute_presignature(random), key, hash);
     }
 
 	auto engine::verify(public_key key, const buffer& hash, const buffer& signature) const -> bool

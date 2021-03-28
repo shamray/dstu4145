@@ -6,8 +6,8 @@ add_library(dstu4145
     gf2m_element.cpp 
     integer.cpp 
     utils.cpp
-    signer.cpp
-    signer.h
+    "engine.cpp"
+    "engine.h"
     rng_interface.h
     key_pair.cpp
     key_pair.h

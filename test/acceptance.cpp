@@ -2,7 +2,7 @@
 
 #include "test-utils.h"
 
-#include "signer.h"
+#include "engine.h"
 #include "rng.h"
 
 #include <random>

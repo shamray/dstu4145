@@ -15,7 +15,7 @@ namespace dstu4145
     {
     public:
         private_key(const std::vector<std::byte>& value);
-		private_key(integer d);
+        private_key(integer d);
 
         operator integer() const { return d_; }
 

@@ -55,8 +55,8 @@ namespace dstu4145::vec
 
         polynomial(polynomial&&) = default;
         polynomial& operator=(polynomial&&) = default;
-		polynomial(const polynomial&) = default;
-		polynomial& operator=(const polynomial&) = default;
+        polynomial(const polynomial&) = default;
+        polynomial& operator=(const polynomial&) = default;
 
         explicit operator integer() const;
 
@@ -66,7 +66,7 @@ namespace dstu4145::vec
         bool bit_test(size_t m) const;
         size_t msb() const;
 
-		bool left_shift();
+        bool left_shift();
 
         static constexpr auto internal_chunk_size() { return 8 * sizeof(decltype(value_)::value_type); }
 

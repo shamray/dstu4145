@@ -7,18 +7,22 @@ namespace dstu4145
 {
     inline auto gen_random_integer(rng_t rng, size_t msb)
     {
-        auto buffer = std::vector<std::byte>{};
+        for (;;)
+        {
+            auto buffer = std::vector<std::byte>{};
 
-        const auto maxsize = msb % 8 ? msb / 8 + 1 : msb / 8;
+            const auto maxsize = msb % 8 ? msb / 8 + 1 : msb / 8;
 
-        while(buffer.size() < maxsize)
-            buffer.push_back(rng());
+            while (buffer.size() < maxsize)
+                buffer.push_back(rng());
 
-        auto result = integer{buffer};
+            auto result = integer{ buffer };
 
-        for (auto i = msb; i < buffer.size() * 8; ++i)
-            result.bit_unset(i);
+            for (auto i = msb; i < buffer.size() * 8; ++i)
+                result.bit_unset(i);
 
-        return result;
+            if (result != 0)
+                return result;
+        }
     }
 }

@@ -1,5 +1,6 @@
-* todo: Compressed keys
+* todo: Create polynomials from bin buffers
 * todo: Create polynomials from hex buffers
+* todo: Compressed keys
 * todo: Optimal normal basis fields implementation
 * todo: Fast square optimization
 * todo: Performance testing

@@ -53,6 +53,25 @@ namespace dstu4145::vec
         polynomial(int m, int x);
         explicit polynomial(const integer& value);
 
+        template <class iterator1, class iterator2>
+        polynomial(const iterator1& begin, const iterator2& end)
+        {
+            auto size_in_bits = std::distance(begin, end) * 8;
+            for (auto i = begin; i != end; ++i) {
+                for (auto j = 1; j <= 8; ++j) {
+                    auto bitnum = size_in_bits - 8 * std::distance(begin, i) - j;
+                    if (((std::byte{1} << (8 - j)) & *i) != std::byte{0})
+                        bit_set(bitnum);
+                }
+            }
+        }
+
+        template <class container, class = std::enable_if_t<is_container<container>::value>> explicit
+            polynomial(const container& c)
+            : polynomial(std::begin(c), std::end(c))
+        {
+        }
+
         polynomial(polynomial&&) = default;
         polynomial& operator=(polynomial&&) = default;
         polynomial(const polynomial&) = default;

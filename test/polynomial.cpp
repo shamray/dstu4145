@@ -1,6 +1,60 @@
 #include <gtest/gtest.h>
+#include "test-utils.h"
 
 #include "polynomial.h"
+
+TEST(polynomial, create_from_buffer_zero)
+{
+    auto b = hex_buffer("00");
+    auto p = dstu4145::polynomial{ std::begin(b), std::end(b) };
+
+    dstu4145::polynomial expected{0};
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_buffer_one)
+{
+    auto b = hex_buffer("01");
+    auto p = dstu4145::polynomial{ std::begin(b), std::end(b) };
+
+    dstu4145::polynomial expected;
+    expected.bit_set(0);
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_buffer)
+{
+    auto b = hex_buffer("0120");
+    auto p = dstu4145::polynomial{std::begin(b), std::end(b)};
+
+    dstu4145::polynomial expected;
+    expected.bit_set(5);
+    expected.bit_set(8);
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_buffer_big)
+{
+    auto b = hex_buffer("0800000000000000000000000000000000000000C9");
+    auto p = dstu4145::polynomial{ std::begin(b), std::end(b) };
+
+    auto expected = dstu4145::polynomial{163, 7, 6, 3};
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_container)
+{
+    auto b = hex_buffer("0800000000000000000000000000000000000000C9");
+    auto p = dstu4145::polynomial{ b };
+
+    auto expected = dstu4145::polynomial{ 163, 7, 6, 3 };
+
+    EXPECT_EQ(p, expected);
+}
 
 TEST(polynomial, left_shift)
 {

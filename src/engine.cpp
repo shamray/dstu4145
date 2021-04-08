@@ -54,7 +54,7 @@ namespace dstu4145
 
         auto [e, fe] = std::move(ps);
 
-        auto h = field.create_element(integer{ hash });
+        auto h = field.create_element(polynomial{hash});
         assert(!h.is_zero());
         auto y = h * fe;
         auto r = static_cast<integer>(y);
@@ -84,7 +84,7 @@ namespace dstu4145
         const auto& curve = params_.curve;
         const auto& field = curve.field();
 
-        auto h = field.create_element(integer{hash});
+        auto h = field.create_element(polynomial{hash});
         auto s = integer{std::begin(signature), std::begin(signature) + signature.size() / 2};
         auto r = integer{std::begin(signature) + signature.size() / 2, std::end(signature)};
 

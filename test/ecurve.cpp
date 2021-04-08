@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "ecurve.h"
+#include "test-utils.h"
 
 using namespace std::literals;
 using namespace testing;
@@ -114,8 +115,8 @@ TEST_F(curve163, public_key_computation)
 
 TEST_F(curve163, hash_to_field_element)
 {
-    auto hash = ::dstu4145::integer{"09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF"};
-    auto h = field.create_element(hash);
+    auto hash = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+    auto h = field.create_element(dstu4145::polynomial{hash});
 
     EXPECT_EQ(static_cast<dstu4145::integer>(h), dstu4145::integer{"03A2EB95B7180166DDF73532EEB76EDAEF52247FF"});
 }
@@ -138,12 +139,12 @@ TEST_F(curve163, presignature_calculation)
 
 TEST_F(curve163, signature_calculation)
 {
-    auto hash = ::dstu4145::integer{"09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF"};
+    auto hash = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
 
     auto e = dstu4145::integer{"1025E40BD97DB012B7A1D79DE8E12932D247F61C6"};
     auto fe = (e * p).x;
 
-    auto h = field.create_element(hash);
+    auto h = field.create_element(dstu4145::polynomial{hash});
     auto r = static_cast<dstu4145::integer>(h * fe);
 
     auto dr = (d * r) % n;
@@ -157,9 +158,9 @@ TEST_F(curve163, signature_verification)
 {
     auto q = -(d * p);
 
-    auto hash = ::dstu4145::integer{"09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF"};
+    auto hash = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
 
-    auto h = field.create_element(hash);
+    auto h = field.create_element(dstu4145::polynomial{hash});
     auto r = dstu4145::integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
     auto s = dstu4145::integer{"2100D86957331832B8E8C230F5BD6A332B3615ACA"};
 

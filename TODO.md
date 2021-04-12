@@ -1,4 +1,3 @@
-* todo: Create polynomials from bin buffers
 * todo: Create polynomials from hex buffers
 * todo: Compressed keys
 * todo: Optimal normal basis fields implementation

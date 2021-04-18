@@ -1,5 +1,7 @@
 # DSTU 4145
 
+ [![Build Status](https://travis-ci.com/shamray/dstu4145.svg?branch=master)](https://travis-ci.com/shamray/dstu4145)
+
 This library implements DSTU 4145-2002 - Ukrainian standard for
 eleptic curve cryptography digital signature algorithm. It is
 written in C++17. The library is designed to be compact, efficient
@@ -11,7 +13,16 @@ and easy to use.
 ## Compilation requirements
 * Compiler with C++17 support
 * CMake
+* Conan
 
-## Dependencies
-* Boost 1.62+
-* Google Test 1.7+
+## How to build
+
+The library uses Conan for installing its dependencies and builds
+with CMake. 
+
+```shell
+mkdir build && cd build
+cmake .. 
+cmake -- build .
+```
+

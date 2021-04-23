@@ -1,5 +1,6 @@
 #include "polynomial.h"
 #include <numeric>
+#include <unordered_map>
 
 namespace dstu4145::in
 {
@@ -118,6 +119,47 @@ namespace dstu4145::vec
                 bit_set(i);
         }
     }
+
+    namespace
+    {
+        auto decode_char(char c) -> std::byte
+        {
+            static const auto chars = std::unordered_map<char, unsigned char>{
+                {'0', 0},   {'1', 1},   {'2', 2},   {'3', 3},
+                {'4', 4},   {'5', 5},   {'6', 6},   {'7', 7},
+                {'8', 8},   {'9', 9},   {'A', 10},  {'B', 11},
+                {'C', 12},  {'D', 13},  {'E', 14},  {'F', 15}
+            };
+
+            auto found = chars.find(c);
+            if (found == std::end(chars))
+                throw std::runtime_error("wrong format");
+
+            return std::byte{ found->second };
+        }
+    }
+
+    polynomial::polynomial(std::string_view hex)
+    {
+        assert(std::size(hex) % 2 == 0);
+
+        auto size_in_bits = std::distance(std::begin(hex), std::end(hex)) * 8 / 2;
+
+        for (size_t i = 0; i < std::size(hex); i += 2) {
+
+            auto c1 = decode_char(hex[i]);
+            auto c2 = decode_char(hex[i + 1]);
+
+            auto c = std::byte{ (c1 << 4) | c2 };
+
+            for (auto j = 1; j <= 8; ++j) {
+                auto bitnum = size_in_bits - 8 * (i / 2) - j;
+                if (((std::byte{ 1 } << (8 - j)) & c) != std::byte{ 0 })
+                    bit_set(bitnum);
+            }
+        }
+    }
+
 
     auto operator==(const polynomial& a, const polynomial& b) -> bool
     {

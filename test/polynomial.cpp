@@ -56,6 +56,41 @@ TEST(polynomial, create_from_container)
     EXPECT_EQ(p, expected);
 }
 
+TEST(polynomial, create_from_hex_buffer_zero)
+{
+    auto p = dstu4145::polynomial{ "00" };
+    auto expected = dstu4145::polynomial{ 0 };
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_hex_buffer_one)
+{
+    auto p = dstu4145::polynomial{ "01" };
+    auto expected = dstu4145::polynomial{ 1 };
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_hex_buffer)
+{
+    auto p = dstu4145::polynomial{ "0120" };
+
+    dstu4145::polynomial expected;
+    expected.bit_set(5);
+    expected.bit_set(8);
+
+    EXPECT_EQ(p, expected);
+}
+
+TEST(polynomial, create_from_hex_buffer_big)
+{
+    auto p = dstu4145::polynomial{"0800000000000000000000000000000000000000C9"};
+    auto expected = dstu4145::polynomial{163, 7, 6, 3};
+
+    EXPECT_EQ(p, expected);
+}
+
 TEST(polynomial, left_shift)
 {
     using p = dstu4145::vec::polynomial;

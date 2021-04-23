@@ -52,6 +52,7 @@ namespace dstu4145::vec
         polynomial(int m, int x1, int x2, int x3);
         polynomial(int m, int x);
         explicit polynomial(const integer& value);
+        explicit polynomial(int value) : polynomial(integer{ value }) {}
 
         template <class iterator1, class iterator2>
         polynomial(const iterator1& begin, const iterator2& end)
@@ -71,6 +72,9 @@ namespace dstu4145::vec
             : polynomial(std::begin(c), std::end(c))
         {
         }
+
+        explicit polynomial(std::string_view hex);
+
 
         polynomial(polynomial&&) = default;
         polynomial& operator=(polynomial&&) = default;

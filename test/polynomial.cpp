@@ -95,9 +95,9 @@ TEST(polynomial, left_shift)
 {
     using p = dstu4145::vec::polynomial;
 
-    auto x = p{ dstu4145::integer{"8000908011a3"} };
+    auto x = p{"8000908011a3"};
     x.left_shift();
-    EXPECT_EQ(x, p{ dstu4145::integer{"1000121002346"} });
+    EXPECT_EQ(x, p{"01000121002346"});
 
 }
 TEST(polynomial, multiplication)
@@ -118,8 +118,8 @@ TEST(polynomial, multiplication)
     EXPECT_EQ(p{ 42 } *p{ 42 }, p{ 1092 });
 
     EXPECT_EQ(
-        p{ dstu4145::integer{"1000023"} } * p{ dstu4145::integer{"1000102"} }, 
-        p{ dstu4145::integer{"1000121002346"} }
+        p{"01000023"} * p{"01000102"}, 
+        p{"01000121002346"}
     );
 }
 
@@ -145,7 +145,7 @@ TEST(polynomial, set_bit_several_bits)
     x.bit_set(6);
     EXPECT_EQ(x.msb(), 6);
     EXPECT_EQ(x, dstu4145::polynomial{ 0x63 });
-    EXPECT_EQ(x, dstu4145::polynomial{ dstu4145::integer{"63"} });
+    EXPECT_EQ(x, dstu4145::polynomial{ "63" });
 }
 
 TEST(polynomial, unset_bit)

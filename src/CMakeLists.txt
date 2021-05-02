@@ -5,9 +5,9 @@ add_library(dstu4145
     ecurve.cpp 
     gf2m_element.cpp 
     integer.cpp 
-    utils.cpp
-    "engine.cpp"
-    "engine.h"
+    math.cpp
+    engine.cpp
+    engine.h
     rng_interface.h
     key_pair.cpp
     key_pair.h

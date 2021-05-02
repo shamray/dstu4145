@@ -3,7 +3,7 @@
 #include "gf2m.h"
 #include "gf2m_element.h"
 #include "rng_interface.h"
-#include "utils.h"
+#include "math.h"
 
 #include <optional>
 

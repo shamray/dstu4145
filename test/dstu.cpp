@@ -52,9 +52,20 @@ TEST_F(dstu, signing_hash_produces_correct_signature)
     auto engine = dstu4145::engine{params};
 
     auto signature = engine.sign(rng, prv_key, h);
-    auto expected = hex_buffer(
-        "02100D86957331832B8E8C230F5BD6A332B3615ACA"s +
-        "0274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
+
+    auto expectedL = hex_buffer("02100D86957331832B8E8C230F5BD6A332B3615ACA");
+    auto expectedR = hex_buffer("0274EA2C0CAA014A0D80A424F59ADE7A93068D08A7");
+
+    ASSERT_GE(signature.size(), expectedL.size() + expectedR.size());
+
+    std::vector<std::byte> expected(signature.size(), std::byte{ 0 });
+    std::copy(
+        expectedL.begin(), expectedL.end(),
+        expected.begin() + (expected.size() / 2 - expectedL.size())
+    );
+    std::copy(
+        expectedR.begin(), expectedR.end(),
+        expected.begin() + (expected.size() - expectedR.size())
     );
 
     EXPECT_EQ(signature, expected);

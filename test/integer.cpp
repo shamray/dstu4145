@@ -251,8 +251,13 @@ TEST(integer, bit_shift_left)
 
 TEST(integer, bit_shift_left_with_assignment)
 {
-
     auto a = integer{3};
     a <<= 2;
     EXPECT_EQ(a, 0xC);
+}
+
+TEST(integer, size_in_bytes)
+{
+    auto x = integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
+    EXPECT_GE(x.size_in_bytes(), 21);
 }

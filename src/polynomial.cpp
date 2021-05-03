@@ -2,6 +2,8 @@
 #include <numeric>
 #include <unordered_map>
 
+using namespace std::string_literals;
+
 namespace dstu4145::in
 {
     polynomial::polynomial(int m, int x1, int x2, int x3)
@@ -22,6 +24,10 @@ namespace dstu4145::in
 
     polynomial::polynomial(dstu4145::integer value)
         : value_(std::move(value))
+    {}
+
+    polynomial::polynomial(std::string_view hex)
+        : value_("0x"s.append(hex))
     {}
 
     auto operator==(const polynomial& a, const polynomial& b) -> bool

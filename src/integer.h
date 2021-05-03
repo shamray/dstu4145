@@ -46,6 +46,8 @@ namespace dstu4145::bmp
         template <class iterator>
         void to_buffer(iterator out, size_t size = 256) const;
 
+        auto size_in_bytes() const -> size_t;
+
         void bit_set(size_t n);
         void bit_unset(size_t n);
         auto bit_test(size_t n) const -> bool;
@@ -83,6 +85,8 @@ namespace dstu4145::bmp
         unsigned chunks = bitcount / chunk_size;
         if(bitcount % chunk_size)
             ++chunks;
+
+        assert(size / chunk_size >= chunks);
 
         for(auto i = 0u; i < size / chunk_size - chunks; ++i)
             *out++ = std::byte{0};

@@ -19,6 +19,11 @@ namespace dstu4145::bmp
     {
     }
 
+    auto integer::size_in_bytes() const -> size_t
+    {
+        return impl_.backend().size() * sizeof(boost::multiprecision::limb_type);
+    }
+
     void integer::bit_set(size_t n)
     {
         boost::multiprecision::bit_set(impl_, static_cast<unsigned>(n));

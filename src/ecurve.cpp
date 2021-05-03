@@ -1,5 +1,6 @@
 #include "ecurve.h"
 #include "rng.h"
+#include "arithmetic.h"
 
 namespace dstu4145
 {

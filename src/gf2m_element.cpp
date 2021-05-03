@@ -1,5 +1,4 @@
 #include "gf2m_element.h"
-#include "math.h"
 
 namespace dstu4145
 {

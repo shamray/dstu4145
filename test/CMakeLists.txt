@@ -8,7 +8,7 @@ target_compile_features(test-utils PUBLIC cxx_std_17)
 
 add_executable(dstu-unit-tests
   test-utils-test.cpp
-  math.cpp
+  "arithmetic.cpp"
   polynomial.cpp
   gf2m.cpp
   integer.cpp

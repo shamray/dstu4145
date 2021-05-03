@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "math.h"
+#include "arithmetic.h"
 
 using namespace std::literals;
 

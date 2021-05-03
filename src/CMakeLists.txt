@@ -5,7 +5,7 @@ add_library(dstu4145
     ecurve.cpp 
     gf2m_element.cpp 
     integer.cpp 
-    math.cpp
+    "arithmetic.cpp"
     engine.cpp
     engine.h
     rng_interface.h

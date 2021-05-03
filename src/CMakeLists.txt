@@ -1,11 +1,17 @@
 add_library(dstu4145 
+    is_container.h
     gf2m.cpp
+    gf2m.h
     polynomial.cpp
     polynomial.h
     ecurve.cpp 
+    ecurve.h
     gf2m_element.cpp 
+    gf2m_element.h
     integer.cpp 
-    "arithmetic.cpp"
+    integer.h
+    arithmetic.cpp
+    arithmetic.h
     engine.cpp
     engine.h
     rng_interface.h
@@ -13,6 +19,7 @@ add_library(dstu4145
     key_pair.h
     domain_params.cpp
     domain_params.h
+    rng_interface.h
     rng.h)
 
 target_include_directories(dstu4145 PUBLIC

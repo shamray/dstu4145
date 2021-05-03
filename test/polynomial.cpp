@@ -204,3 +204,11 @@ TEST(polynomial, euqlid_two_iterations)
     EXPECT_EQ(a, dstu4145::polynomial{1});
     EXPECT_EQ(b, dstu4145::polynomial{1});
 }
+
+TEST(polynomial, modulo_small)
+{
+    auto a = dstu4145::polynomial{"63"};
+    auto b = dstu4145::polynomial{"2A"};
+
+    EXPECT_EQ(a % b, dstu4145::polynomial{"1D"});
+}

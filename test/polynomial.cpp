@@ -212,3 +212,11 @@ TEST(polynomial, modulo_small)
 
     EXPECT_EQ(a % b, dstu4145::polynomial{"1D"});
 }
+
+TEST(polynomial, bit_unset_small)
+{
+    auto x = dstu4145::polynomial{"FF"};
+    x.bit_unset(0);
+    
+    EXPECT_EQ(x, dstu4145::polynomial{"FE"});
+}

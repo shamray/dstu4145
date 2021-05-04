@@ -295,7 +295,9 @@ namespace dstu4145::vec
         if (value_.size() < ix)
             value_.resize(ix + 1);
 
-        value_[ix] &= !(1 << (bi - 1));
+        value_[ix] &= ~(1 << bi);
+
+        for (; !value_.empty() && value_.back() == 0; value_.pop_back()) {}
     }
 
     auto polynomial::is_zero() const -> bool

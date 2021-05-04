@@ -176,3 +176,30 @@ TEST_F(curve163, find_point)
     auto actual = curve.find_point(dstu4145::integer{"72D867F93A93AC27DF9FF01AFFE74885C8C540420"});
     EXPECT_EQ(actual, p);
 }
+
+struct curve257: Test
+{
+    dstu4145::gf2m field{257, 12};
+
+    dstu4145::ecurve curve{
+        field,
+        0,
+        dstu4145::integer{"01CEF494720115657E18F938D7A7942394FF9425C1458C57861F9EEA6ADBE3BE10"}
+    };
+
+    dstu4145::ecurve::point p{
+        curve,
+        dstu4145::integer{"2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB7"},
+        dstu4145::integer{"010686D41FF744D4449FCCF6D8EEA03102E6812C93A9D60B978B702CF156D814EF"}
+    };
+
+    dstu4145::integer n{"800000000000000000000000000000006759213AF182E987D3E17714907D470D"};
+};
+
+TEST_F(curve257, expand_point)
+{
+    auto buffer = hex_buffer("2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB6");
+    auto point = curve.expand_point(buffer);
+
+    EXPECT_EQ(point, p);
+}

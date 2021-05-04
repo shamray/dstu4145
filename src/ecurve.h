@@ -33,6 +33,8 @@ namespace dstu4145
         auto find_point(rng_t rng, integer n) const -> point;
         auto infinity_point() const -> point;
 
+        auto expand_point(const std::vector<std::byte>& buffer) const -> point;
+
     private:
         gf2m gf_;
         int a_;

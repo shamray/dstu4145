@@ -21,7 +21,7 @@ struct dstu : Test
     dstu4145::domain_params params {
         curve,
         dstu4145::integer{"400000000000000000002BEC12BE2262D39BCF14D"},
-        dstu4145::ecurve::point {
+        dstu4145::ecurve_point {
             curve,
             dstu4145::integer{"72D867F93A93AC27DF9FF01AFFE74885C8C540420"},
             dstu4145::integer{"0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"}

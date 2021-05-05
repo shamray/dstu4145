@@ -15,9 +15,6 @@ namespace dstu4145
         friend struct ecurve_point;
 
     public:
-        using point = ecurve_point;
-
-    public:
         ecurve(gf2m gf, int a, integer b);
 
         ecurve(ecurve&&) = default;
@@ -29,11 +26,11 @@ namespace dstu4145
         auto a() const { return a_; }
         auto b() const { return b_; }
 
-        auto find_point(integer ix) const -> std::optional<point>;
-        auto find_point(rng_t rng, integer n) const -> point;
-        auto infinity_point() const -> point;
+        auto find_point(integer ix) const -> std::optional<ecurve_point>;
+        auto find_point(rng_t rng, integer n) const -> ecurve_point;
+        auto infinity_point() const -> ecurve_point;
 
-        auto expand_point(gf2m_element compressed) const -> point;
+        auto expand_point(gf2m_element compressed) const -> ecurve_point;
 
     private:
         gf2m gf_;
@@ -66,22 +63,22 @@ namespace dstu4145
         auto compress() const -> gf2m_element;
     };
 
-    inline auto operator* (const integer& d, const ecurve::point& p)
+    inline auto operator* (const integer& d, const ecurve_point& p)
     {
         return p * d;
     }
 
-    inline auto operator== (const ecurve::point& a, const ecurve::point& b)
+    inline auto operator== (const ecurve_point& a, const ecurve_point& b)
     {
         return a.x == b.x && a.y == b.y;
     }
 
-    inline auto operator!= (const ecurve::point& a, const ecurve::point& b)
+    inline auto operator!= (const ecurve_point& a, const ecurve_point& b)
     {
         return !(a == b);
     }
 
-    inline auto operator<< (std::ostream& os, const ecurve::point& p) -> std::ostream&
+    inline auto operator<< (std::ostream& os, const ecurve_point& p) -> std::ostream&
     {
         return os << std::hex << "(" << p.x << ", " << p.y << ")";
     }

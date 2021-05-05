@@ -45,7 +45,7 @@ namespace dstu4145
         public_key(const domain_params& params, const std::vector<std::byte>& value);
         public_key(const domain_params& params, const private_key& priv);
 
-        operator ecurve::point() const { return q_; }
+        operator ecurve_point() const { return q_; }
 
         friend auto operator==(const public_key&, const public_key&) -> bool;
         friend auto operator!=(const public_key&, const public_key&) -> bool;
@@ -58,7 +58,7 @@ namespace dstu4145
         }
 
     private:
-        ecurve::point q_;
+        ecurve_point q_;
     };
 
     inline auto operator==(const public_key& a, const public_key& b) -> bool

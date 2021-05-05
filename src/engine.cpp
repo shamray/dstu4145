@@ -79,7 +79,7 @@ namespace dstu4145
 
     auto engine::verify(public_key key, const buffer& hash, const buffer& signature) const -> bool
     {
-        const auto& q = static_cast<ecurve::point>(key);
+        const auto& q = static_cast<ecurve_point>(key);
         const auto& p = params_.p;
         const auto& curve = params_.curve;
         const auto& field = curve.field();

@@ -10,9 +10,9 @@ namespace dstu4145
     {
         ecurve curve;
         integer n;
-        ecurve::point p;
+        ecurve_point p;
 
-        domain_params(ecurve curve, integer n, ecurve::point p)
+        domain_params(ecurve curve, integer n, ecurve_point p)
             : curve{std::move(curve)}
             , n{std::move(n)}
             , p{std::move(p)}

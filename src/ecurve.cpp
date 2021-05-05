@@ -26,7 +26,7 @@ namespace dstu4145
         , b_{std::move(b)}
     {}
 
-    auto ecurve::find_point(integer ix) const -> std::optional<point>
+    auto ecurve::find_point(integer ix) const -> std::optional<ecurve_point>
     {
         auto u = field().create_element(std::move(ix));
         if (u == field().create_element(0))
@@ -38,10 +38,10 @@ namespace dstu4145
             return std::nullopt;
 
         assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
-        return point{*this, std::move(u), std::move(z.value())};
+        return ecurve_point{*this, std::move(u), std::move(z.value())};
     }
 
-    auto ecurve::find_point(rng_t rng, integer n) const -> point
+    auto ecurve::find_point(rng_t rng, integer n) const -> ecurve_point
     {
         for (;;) {
             auto p = find_point(gen_random_integer(rng, field().m()));
@@ -50,12 +50,12 @@ namespace dstu4145
         }
     }
 
-    auto ecurve::infinity_point() const -> point
+    auto ecurve::infinity_point() const -> ecurve_point
     {
-        return point{*this};
+        return ecurve_point{*this};
     }
 
-    auto ecurve::expand_point(gf2m_element compressed) const -> point
+    auto ecurve::expand_point(gf2m_element compressed) const -> ecurve_point
     {
         auto k = compressed.bit_test(0) ? gf_.create_element(1) : gf_.create_element(0);
 
@@ -66,21 +66,21 @@ namespace dstu4145
             x.bit_set(0);
 
         if (x.is_zero())
-            return point{*this};
+            return ecurve_point{*this};
 
         auto w = x * x * x + gf_.create_element(a_) * x * x + gf_.create_element(b_);
         if (w.is_zero())
-            return point{*this};
+            return ecurve_point{*this};
     
         auto v = w * square(x.inverse());
         auto z = solve_quadratic_equasion(gf_, gf_.create_element(polynomial{1}), v);
         if (!z.has_value())
-            return point{*this};
+            return ecurve_point{*this};
 
         if (z.value().trace() == k)
-            return point{*this, x, z.value() * x};
+            return ecurve_point{*this, x, z.value() * x};
         else
-            return point{*this, x, (z.value() + gf_.create_element(polynomial{1})) * x};
+            return ecurve_point{*this, x, (z.value() + gf_.create_element(polynomial{1})) * x};
     }
 
     ecurve_point::ecurve_point(ecurve curve)

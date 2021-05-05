@@ -15,16 +15,16 @@ namespace dstu4145
     {
     }
 
-    auto gf2m::create_element(integer value) const -> element
+    auto gf2m::create_element(integer value) const -> gf2m_element
     {
-        return element(*this, value % (integer{ 1 } << m_));
+        return gf2m_element{*this, value % (integer{ 1 } << m_)};
     }
 
-    auto gf2m::create_element(polynomial value) const -> element
+    auto gf2m::create_element(polynomial value) const -> gf2m_element
     {
         for (auto i = m_; !value.is_zero() && i <= value.msb(); ++i)
             value.bit_unset(i);
-        return element(*this, polynomial{std::move(value)});
+        return gf2m_element{*this, polynomial{std::move(value)}};
     }
 
     auto gf2m::operator== (const gf2m& other) const  -> bool

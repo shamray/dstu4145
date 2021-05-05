@@ -10,7 +10,7 @@ namespace dstu4145
 {
     using buffer = std::vector<std::byte>;
 
-    using presignature = std::tuple<integer, gf2m::element>;
+    using presignature = std::tuple<integer, gf2m_element>;
 
     class engine
     {

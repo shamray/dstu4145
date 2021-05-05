@@ -41,12 +41,12 @@ namespace dstu4145
         return t;
     }
 
-    auto operator==(const gf2m::element& a, const gf2m::element& b) -> bool
+    auto operator==(const gf2m_element& a, const gf2m_element& b) -> bool
     {
         return a.field_ == b.field_ && a.value_ == b.value_;
     }
 
-    auto operator+(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
+    auto operator+(const gf2m_element& a, const gf2m_element& b) -> gf2m_element
     {
         if (a.field_ != b.field_)
             throw std::logic_error("invalid operation");
@@ -55,7 +55,7 @@ namespace dstu4145
         return field.create_element(a.value_ + b.value_);
     }
 
-    auto operator*(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
+    auto operator*(const gf2m_element& a, const gf2m_element& b) -> gf2m_element
     {
         if (a.field_ != b.field_)
             throw std::logic_error("invalid operation");
@@ -64,12 +64,12 @@ namespace dstu4145
         return gf2m_element(field, (a.value_* b.value_) % field.basis());
     }
 
-    auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element
+    auto operator/(const gf2m_element& a, const gf2m_element& b) -> gf2m_element
     {
         return a * b.inverse();
     }
 
-    auto square(const gf2m::element& a) -> gf2m::element
+    auto square(const gf2m_element& a) -> gf2m_element
     {
         return a * a;
     }

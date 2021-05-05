@@ -7,10 +7,10 @@ namespace dstu4145
     class gf2m_element: boost::equality_comparable<gf2m_element>
     {
     public:
-        friend auto operator==(const gf2m::element&, const gf2m::element&) -> bool;
-        friend auto operator+(const gf2m::element& a, const gf2m::element& b) -> gf2m::element;
-        friend auto operator*(const gf2m::element& a, const gf2m::element& b) -> gf2m::element;
-        friend auto operator/(const gf2m::element& a, const gf2m::element& b) -> gf2m::element;
+        friend auto operator==(const gf2m_element&, const gf2m_element&) -> bool;
+        friend auto operator+(const gf2m_element& a, const gf2m_element& b) -> gf2m_element;
+        friend auto operator*(const gf2m_element& a, const gf2m_element& b) -> gf2m_element;
+        friend auto operator/(const gf2m_element& a, const gf2m_element& b) -> gf2m_element;
         friend auto operator<<(std::ostream& os, const gf2m_element& x) -> std::ostream&;
 
         explicit operator integer() { return static_cast<integer>(value_); }
@@ -44,5 +44,5 @@ namespace dstu4145
         polynomial value_;
     };
 
-    auto square(const gf2m::element& a) -> gf2m::element;
+    auto square(const gf2m_element& a) -> gf2m_element;
 }

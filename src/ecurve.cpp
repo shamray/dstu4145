@@ -6,7 +6,7 @@ namespace dstu4145
 {
     namespace
     {
-        auto solve_quadratic_equasion(const gf2m& gf, const gf2m::element& u, const gf2m::element& w) -> std::optional<gf2m::element>
+        auto solve_quadratic_equasion(const gf2m& gf, const gf2m_element& u, const gf2m_element& w) -> std::optional<gf2m_element>
         {
             assert(u != gf.create_element(0));
             assert(w != gf.create_element(0));
@@ -97,7 +97,7 @@ namespace dstu4145
         assert(validate());
     }
 
-    ecurve_point::ecurve_point(ecurve curve, gf2m::element x, gf2m::element y)
+    ecurve_point::ecurve_point(ecurve curve, gf2m_element x, gf2m_element y)
         : x{std::move(x)}
         , y{std::move(y)}
         , c{std::move(curve)}
@@ -124,7 +124,7 @@ namespace dstu4145
                 return c.infinity_point();
 
             auto t = p.y / p.x + p.x;
-            auto x = square(t) + t + gf2m::element{c.gf_, c.a_};
+            auto x = square(t) + t + gf2m_element{c.gf_, c.a_};
 
             auto y = square(p.x) + t * x + x;
 
@@ -135,7 +135,7 @@ namespace dstu4145
         else
         {
             auto t = (p.y + q.y) / (p.x + q.x);
-            auto x = square(t) + t + p.x + q.x + gf2m::element{c.gf_, c.a_};
+            auto x = square(t) + t + p.x + q.x + gf2m_element{c.gf_, c.a_};
 
             auto y = t * (p.x + x) + x + p.y;
             auto r = ecurve_point{ c, x, y };

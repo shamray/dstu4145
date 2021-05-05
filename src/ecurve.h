@@ -45,15 +45,15 @@ namespace dstu4145
     {
         ecurve_point(ecurve curve);
         ecurve_point(ecurve curve, integer ix, integer iy);
-        ecurve_point(ecurve curve, gf2m::element x, gf2m::element y);
+        ecurve_point(ecurve curve, gf2m_element x, gf2m_element y);
 
         ecurve_point(ecurve_point&&) = default;
         ecurve_point& operator=(ecurve_point&&) = default;
         ecurve_point(const ecurve_point&) = default;
         ecurve_point& operator=(const ecurve_point&) = default;
 
-        gf2m::element x;
-        gf2m::element y;
+        gf2m_element x;
+        gf2m_element y;
         ecurve c;
 
         auto operator+(ecurve_point q) const -> ecurve_point;

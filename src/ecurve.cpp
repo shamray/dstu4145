@@ -57,7 +57,7 @@ namespace dstu4145
 
     auto ecurve::expand_point(const std::vector<std::byte>& buffer) const -> point
     {
-        auto k = buffer.back() & std::byte{1};
+        auto k = std::to_integer<int>(buffer.back()) & 1;
 
         auto xp = polynomial{buffer};
         xp.bit_unset(0);
@@ -75,13 +75,13 @@ namespace dstu4145
     
         auto v = w * square(x.inverse());
         auto z = solve_quadratic_equasion(gf_, gf_.create_element(polynomial{1}), v);
-        if (z.value().trace() == gf_.create_element(polynomial{int(k)})) {
-            return point{*this, x, z.value() * x};
-        } else {
-            return point{*this, x, (z.value() + gf_.create_element(polynomial{1})) * x};
-        }
+        if (!z.has_value())
+            return point{ *this };
 
-        return point{*this};
+        if (z.value().trace() == gf_.create_element(k))
+            return point{*this, x, z.value() * x};
+        else
+            return point{*this, x, (z.value() + gf_.create_element(polynomial{1})) * x};
     }
 
     ecurve_point::ecurve_point(ecurve curve)

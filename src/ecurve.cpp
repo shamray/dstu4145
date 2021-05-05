@@ -66,8 +66,13 @@ namespace dstu4145
             xp.bit_set(0);
             x = gf_.create_element(xp);
         }
+        if (x.is_zero())
+            return point{ *this };
 
         auto w = x * x * x + gf_.create_element(a_) * x * x + gf_.create_element(b_);
+        if (w.is_zero())
+            return point{*this};
+    
         auto v = w * square(x.inverse());
         auto z = solve_quadratic_equasion(gf_, gf_.create_element(polynomial{1}), v);
         if (z.value().trace() == gf_.create_element(polynomial{int(k)})) {

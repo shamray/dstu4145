@@ -203,3 +203,11 @@ TEST_F(curve257, expand_point)
 
     EXPECT_EQ(point, p);
 }
+
+TEST_F(curve257, expand_point_zero)
+{
+    auto buffer = hex_buffer("00");
+    auto point = curve.expand_point(buffer);
+
+    EXPECT_EQ(point, curve.infinity_point());
+}

@@ -292,8 +292,8 @@ namespace dstu4145::vec
         auto ix = m / internal_chunk_size();
         auto bi = m % internal_chunk_size();
 
-        if (value_.size() < ix)
-            value_.resize(ix + 1);
+        if (value_.size() <= ix)
+            return;
 
         value_[ix] &= ~(1 << bi);
 

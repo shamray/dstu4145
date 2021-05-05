@@ -19,7 +19,7 @@ namespace dstu4145
         return field_.create_element(b);
     }
 
-    auto gf2m_element::trace() -> gf2m_element
+    auto gf2m_element::trace() const -> gf2m_element
     {
         auto t = *this;
         auto x = *this;
@@ -30,7 +30,7 @@ namespace dstu4145
         return t;
     }
 
-    auto gf2m_element::half_trace() -> gf2m_element
+    auto gf2m_element::half_trace() const -> gf2m_element
     {
         auto t = *this;
         auto x = *this;

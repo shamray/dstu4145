@@ -26,8 +26,8 @@ namespace dstu4145
         auto is_zero() const { return value_.is_zero(); }
         auto field() const -> const auto& { return field_; }
         auto inverse() const -> gf2m_element;
-        auto trace() -> gf2m_element;
-        auto half_trace() -> gf2m_element;
+        auto trace() const -> gf2m_element;
+        auto half_trace() const -> gf2m_element;
 
         auto bit_set(size_t i) { return value_.bit_set(i); }
         auto bit_unset(size_t i) { return value_.bit_unset(i); }

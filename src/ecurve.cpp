@@ -55,19 +55,18 @@ namespace dstu4145
         return point{*this};
     }
 
-    auto ecurve::expand_point(const std::vector<std::byte>& buffer) const -> point
+    auto ecurve::expand_point(gf2m_element compressed) const -> point
     {
-        auto k = std::to_integer<int>(buffer.back()) & 1;
+        auto k = compressed.bit_test(0) ? gf_.create_element(1) : gf_.create_element(0);
 
-        auto xp = polynomial{buffer};
-        xp.bit_unset(0);
-        auto x = gf_.create_element(xp);
-        if (x.trace() != gf_.create_element(a_)) {
-            xp.bit_set(0);
-            x = gf_.create_element(xp);
-        }
+        compressed.bit_unset(0);
+        auto x = compressed;
+
+        if (compressed.trace() != gf_.create_element(a_))
+            x.bit_set(0);
+
         if (x.is_zero())
-            return point{ *this };
+            return point{*this};
 
         auto w = x * x * x + gf_.create_element(a_) * x * x + gf_.create_element(b_);
         if (w.is_zero())
@@ -76,9 +75,9 @@ namespace dstu4145
         auto v = w * square(x.inverse());
         auto z = solve_quadratic_equasion(gf_, gf_.create_element(polynomial{1}), v);
         if (!z.has_value())
-            return point{ *this };
+            return point{*this};
 
-        if (z.value().trace() == gf_.create_element(k))
+        if (z.value().trace() == k)
             return point{*this, x, z.value() * x};
         else
             return point{*this, x, (z.value() + gf_.create_element(polynomial{1})) * x};

@@ -198,8 +198,10 @@ TEST_F(curve257, expand_point_1)
         dstu4145::integer{"010686D41FF744D4449FCCF6D8EEA03102E6812C93A9D60B978B702CF156D814EF"}
     };
 
-    auto buffer = hex_buffer("2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB6");
-    auto point = curve.expand_point(buffer);
+    auto compressed = field.create_element(
+        dstu4145::polynomial{ "2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB6" }
+    );
+    auto point = curve.expand_point(compressed);
 
     EXPECT_EQ(point, p);
 }
@@ -212,16 +214,20 @@ TEST_F(curve257, expand_point_2)
         dstu4145::integer{"DC058ADA665D99084038B5F914FB9CF7214760A4865B49CAF7F4BE7379F3A395"}
     };
 
-    auto buffer = hex_buffer("01A77131A7C14F9AA6EA8C760D39673D5F0330FAB1118D55B55B7AF0735975485F");
-    auto point = curve.expand_point(buffer);
+    auto compressed = field.create_element(
+        dstu4145::polynomial{"01A77131A7C14F9AA6EA8C760D39673D5F0330FAB1118D55B55B7AF0735975485F"}
+    );
+    auto point = curve.expand_point(compressed);
 
     EXPECT_EQ(point, p);
 }
 
 TEST_F(curve257, expand_point_zero)
 {
-    auto buffer = hex_buffer("00");
-    auto point = curve.expand_point(buffer);
+    auto compressed = field.create_element(
+        dstu4145::polynomial{}
+    );
+    auto point = curve.expand_point(compressed);
 
     EXPECT_EQ(point, curve.infinity_point());
 }

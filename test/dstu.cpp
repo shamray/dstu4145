@@ -131,3 +131,23 @@ TEST_F(dstu, verifying_correct_signature_is_successful_longer_signature)
 
     EXPECT_TRUE(engine.verify(pub_key, h, signature));
 }
+
+TEST_F(dstu, private_key_serialization)
+{
+    std::vector<std::byte> buffer;
+    prv_key.to_buffer(std::back_inserter(buffer));
+
+    auto deserialized = dstu4145::private_key{buffer};
+
+    EXPECT_EQ(prv_key, deserialized);
+}
+
+TEST_F(dstu, public_key_serialization)
+{
+    std::vector<std::byte> buffer;
+    pub_key.to_buffer(std::back_inserter(buffer));
+
+    auto deserialized = dstu4145::public_key{params, buffer};
+
+    EXPECT_EQ(pub_key, deserialized);
+}

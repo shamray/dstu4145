@@ -10,7 +10,12 @@ namespace dstu4145
     }
 
     private_key::private_key(integer d)
-        : d_(std::move(d))
+        : d_{std::move(d)}
+    {
+    }
+
+    public_key::public_key(const domain_params& params, const std::vector<std::byte>& value)
+        : q_{params.curve.expand_point(params.curve.field().create_element(polynomial{value}))}
     {
     }
 

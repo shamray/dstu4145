@@ -173,4 +173,16 @@ namespace dstu4145
         return x * x * x + c.field().create_element(c.a()) * x * x + c.field().create_element(c.b()) == y * y + y * x;
     }
 
+    auto ecurve_point::compress() const -> gf2m_element
+    {
+        if (x.is_zero())
+            return c.field().create_element(polynomial{});
+
+        auto i = (y * x.inverse()).trace();
+
+        auto r = x;
+        i.bit_test(0) ? r.bit_set(0) : r.bit_unset(0);
+        return r;
+    }
+
 }

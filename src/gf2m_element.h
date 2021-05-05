@@ -29,6 +29,10 @@ namespace dstu4145
         auto trace() -> gf2m_element;
         auto half_trace() -> gf2m_element;
 
+        auto bit_set(size_t i) { return value_.bit_set(i); }
+        auto bit_unset(size_t i) { return value_.bit_unset(i); }
+        auto bit_test(size_t i) const { return value_.bit_test(i); }
+
     private:
         gf2m field_;
         polynomial value_;

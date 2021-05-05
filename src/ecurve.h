@@ -63,6 +63,7 @@ namespace dstu4145
         auto operator-() const -> ecurve_point;
 
         auto validate() const -> bool;
+        auto compress() const -> gf2m_element;
     };
 
     inline auto operator* (const integer& d, const ecurve::point& p)

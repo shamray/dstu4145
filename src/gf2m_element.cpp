@@ -16,7 +16,7 @@ namespace dstu4145
     {
         auto [d, a, b] = extended_euqlid(field_.basis(), value_, field_.basis());
         d; a;
-        return field_.create_element(b);
+        return field_.element(b);
     }
 
     auto gf2m_element::trace() const -> gf2m_element
@@ -52,7 +52,7 @@ namespace dstu4145
             throw std::logic_error("invalid operation");
 
         auto field = a.field_;
-        return field.create_element(a.value_ + b.value_);
+        return field.element(a.value_ + b.value_);
     }
 
     auto operator*(const gf2m_element& a, const gf2m_element& b) -> gf2m_element

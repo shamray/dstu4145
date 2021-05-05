@@ -8,12 +8,12 @@ namespace dstu4145
     {
         auto solve_quadratic_equasion(const gf2m& gf, const gf2m_element& u, const gf2m_element& w) -> std::optional<gf2m_element>
         {
-            assert(u != gf.create_element(0));
-            assert(w != gf.create_element(0));
+            assert(u != gf.element(0));
+            assert(w != gf.element(0));
 
             auto v = w * square(u.inverse());
 
-            if (v.trace() == gf.create_element(1))
+            if (v.trace() == gf.element(1))
                 return std::nullopt;
 
             return v.half_trace() * u;
@@ -28,16 +28,16 @@ namespace dstu4145
 
     auto ecurve::find_point(integer ix) const -> std::optional<ecurve_point>
     {
-        auto u = field().create_element(std::move(ix));
-        if (u == field().create_element(0))
+        auto u = field().element(std::move(ix));
+        if (u == field().element(0))
             return infinity_point();
 
-        auto w = u * u * u + field().create_element(a()) * u * u + field().create_element(b());
+        auto w = u * u * u + field().element(a()) * u * u + field().element(b());
         auto z = solve_quadratic_equasion(field(), u, w);
         if (!z.has_value())
             return std::nullopt;
 
-        assert(u * u * u + field().create_element(a()) * u * u + field().create_element(b()) == z.value() * z.value() + z.value() * u);
+        assert(u * u * u + field().element(a()) * u * u + field().element(b()) == z.value() * z.value() + z.value() * u);
         return ecurve_point{*this, std::move(u), std::move(z.value())};
     }
 
@@ -57,35 +57,35 @@ namespace dstu4145
 
     auto ecurve::expand_point(gf2m_element compressed) const -> ecurve_point
     {
-        auto k = compressed.bit_test(0) ? gf_.create_element(1) : gf_.create_element(0);
+        auto k = compressed.bit_test(0) ? gf_.element(1) : gf_.element(0);
 
         compressed.bit_unset(0);
         auto x = compressed;
 
-        if (compressed.trace() != gf_.create_element(a_))
+        if (compressed.trace() != gf_.element(a_))
             x.bit_set(0);
 
         if (x.is_zero())
             return ecurve_point{*this};
 
-        auto w = x * x * x + gf_.create_element(a_) * x * x + gf_.create_element(b_);
+        auto w = x * x * x + gf_.element(a_) * x * x + gf_.element(b_);
         if (w.is_zero())
             return ecurve_point{*this};
     
         auto v = w * square(x.inverse());
-        auto z = solve_quadratic_equasion(gf_, gf_.create_element(polynomial{1}), v);
+        auto z = solve_quadratic_equasion(gf_, gf_.element(polynomial{1}), v);
         if (!z.has_value())
             return ecurve_point{*this};
 
         if (z.value().trace() == k)
             return ecurve_point{*this, x, z.value() * x};
         else
-            return ecurve_point{*this, x, (z.value() + gf_.create_element(polynomial{1})) * x};
+            return ecurve_point{*this, x, (z.value() + gf_.element(polynomial{1})) * x};
     }
 
     ecurve_point::ecurve_point(ecurve curve)
-        : x{curve.gf_.create_element(0)}
-        , y{curve.gf_.create_element(0)}
+        : x{curve.gf_.element(0)}
+        , y{curve.gf_.element(0)}
         , c{std::move(curve)}
     {}
 
@@ -169,13 +169,13 @@ namespace dstu4145
         if (*this == c.infinity_point())
             return true;
 
-        return x * x * x + c.field().create_element(c.a()) * x * x + c.field().create_element(c.b()) == y * y + y * x;
+        return x * x * x + c.field().element(c.a()) * x * x + c.field().element(c.b()) == y * y + y * x;
     }
 
     auto ecurve_point::compress() const -> gf2m_element
     {
         if (x.is_zero())
-            return c.field().create_element(polynomial{});
+            return c.field().element(polynomial{});
 
         auto i = (y * x.inverse()).trace();
 

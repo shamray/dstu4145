@@ -15,12 +15,12 @@ namespace dstu4145
     {
     }
 
-    auto gf2m::create_element(integer value) const -> gf2m_element
+    auto gf2m::element(integer value) const -> gf2m_element
     {
         return gf2m_element{*this, value % (integer{ 1 } << m_)};
     }
 
-    auto gf2m::create_element(polynomial value) const -> gf2m_element
+    auto gf2m::element(polynomial value) const -> gf2m_element
     {
         for (auto i = m_; !value.is_zero() && i <= value.msb(); ++i)
             value.bit_unset(i);

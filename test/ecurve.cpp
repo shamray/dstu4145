@@ -116,7 +116,7 @@ TEST_F(curve163, public_key_computation)
 TEST_F(curve163, hash_to_field_element)
 {
     auto hash = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
-    auto h = field.create_element(dstu4145::polynomial{hash});
+    auto h = field.element(dstu4145::polynomial{hash});
 
     EXPECT_EQ(static_cast<dstu4145::integer>(h), dstu4145::integer{"03A2EB95B7180166DDF73532EEB76EDAEF52247FF"});
 }
@@ -144,7 +144,7 @@ TEST_F(curve163, signature_calculation)
     auto e = dstu4145::integer{"1025E40BD97DB012B7A1D79DE8E12932D247F61C6"};
     auto fe = (e * p).x;
 
-    auto h = field.create_element(dstu4145::polynomial{hash});
+    auto h = field.element(dstu4145::polynomial{hash});
     auto r = static_cast<dstu4145::integer>(h * fe);
 
     auto dr = (d * r) % n;
@@ -160,7 +160,7 @@ TEST_F(curve163, signature_verification)
 
     auto hash = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
 
-    auto h = field.create_element(dstu4145::polynomial{hash});
+    auto h = field.element(dstu4145::polynomial{hash});
     auto r = dstu4145::integer{"274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"};
     auto s = dstu4145::integer{"2100D86957331832B8E8C230F5BD6A332B3615ACA"};
 
@@ -198,7 +198,7 @@ TEST_F(curve257, expand_point_1)
         dstu4145::integer{"010686D41FF744D4449FCCF6D8EEA03102E6812C93A9D60B978B702CF156D814EF"}
     };
 
-    auto compressed = field.create_element(
+    auto compressed = field.element(
         dstu4145::polynomial{ "2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB6" }
     );
     auto point = curve.expand_point(compressed);
@@ -214,7 +214,7 @@ TEST_F(curve257, expand_point_2)
         dstu4145::integer{"DC058ADA665D99084038B5F914FB9CF7214760A4865B49CAF7F4BE7379F3A395"}
     };
 
-    auto compressed = field.create_element(
+    auto compressed = field.element(
         dstu4145::polynomial{"01A77131A7C14F9AA6EA8C760D39673D5F0330FAB1118D55B55B7AF0735975485F"}
     );
     auto point = curve.expand_point(compressed);
@@ -224,7 +224,7 @@ TEST_F(curve257, expand_point_2)
 
 TEST_F(curve257, expand_point_zero)
 {
-    auto compressed = field.create_element(
+    auto compressed = field.element(
         dstu4145::polynomial{}
     );
     auto point = curve.expand_point(compressed);
@@ -239,7 +239,7 @@ TEST_F(curve257, compress_point_1)
         dstu4145::integer{"2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB7"},
         dstu4145::integer{"010686D41FF744D4449FCCF6D8EEA03102E6812C93A9D60B978B702CF156D814EF"}
     };
-    auto expected = field.create_element(
+    auto expected = field.element(
         dstu4145::polynomial{"2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB6"}
     );
 
@@ -255,7 +255,7 @@ TEST_F(curve257, compress_point_2)
         dstu4145::integer{"01A77131A7C14F9AA6EA8C760D39673D5F0330FAB1118D55B55B7AF0735975485F"},
         dstu4145::integer{"DC058ADA665D99084038B5F914FB9CF7214760A4865B49CAF7F4BE7379F3A395"}
     };
-    auto expected = field.create_element(
+    auto expected = field.element(
         dstu4145::polynomial{"01A77131A7C14F9AA6EA8C760D39673D5F0330FAB1118D55B55B7AF0735975485F"}
     );
 
@@ -266,7 +266,7 @@ TEST_F(curve257, compress_point_2)
 
 TEST_F(curve257, compress_point_zero)
 {
-    auto expected = field.create_element(
+    auto expected = field.element(
         dstu4145::polynomial{}
     );
     auto actual = curve.infinity_point().compress();

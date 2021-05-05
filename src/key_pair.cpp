@@ -15,7 +15,7 @@ namespace dstu4145
     }
 
     public_key::public_key(const domain_params& params, const std::vector<std::byte>& value)
-        : q_{params.curve.expand_point(params.curve.field().create_element(polynomial{value}))}
+        : q_{params.curve.expand_point(params.curve.field().element(polynomial{value}))}
     {
     }
 

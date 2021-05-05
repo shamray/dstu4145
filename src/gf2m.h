@@ -12,8 +12,8 @@ namespace dstu4145
         gf2m(int m, int x1, int x2, int x3);
         gf2m(int m, int x);
 
-        auto create_element(integer value) const -> gf2m_element;
-        auto create_element(polynomial value) const -> gf2m_element;
+        auto element(integer value) const -> gf2m_element;
+        auto element(polynomial value) const -> gf2m_element;
 
         auto operator== (const gf2m& other) const  -> bool;
 

@@ -79,7 +79,7 @@ TEST_F(dstu, compute_presignature)
     auto [e, fe] = engine.compute_presignature(rng);
 
     EXPECT_EQ(e, dstu4145::integer{"01025E40BD97DB012B7A1D79DE8E12932D247F61C6"});
-    EXPECT_EQ(fe, curve.field().create_element(dstu4145::integer{"042A7D756D70E1C9BA62D2CB43707C35204EF3C67C"}));
+    EXPECT_EQ(fe, curve.field().element(dstu4145::integer{"042A7D756D70E1C9BA62D2CB43707C35204EF3C67C"}));
 }
 
 TEST_F(dstu, sign_hash_with_presignature)

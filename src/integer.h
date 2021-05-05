@@ -180,6 +180,8 @@ namespace dstu4145::ossl
     template<class iterator>
     void integer::to_buffer(iterator out, size_t size) const
     {
+        assert(size / 8 >= BN_num_bytes(impl_));
+
         for(auto i = 0u; i < size / 8 - BN_num_bytes(impl_); ++i)
             *out++ = std::byte{0};
 

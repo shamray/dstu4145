@@ -244,3 +244,69 @@ TEST(polynomial, bit_unset_small)
     
     EXPECT_EQ(x, dstu4145::polynomial{"FE"});
 }
+
+TEST(polynomial, to_buffer_one_byte)
+{
+    auto x = dstu4145::polynomial{"01"};
+    auto expected = hex_buffer("01");
+
+    std::vector<std::byte> actual;
+    x.to_buffer(std::back_inserter(actual));
+    
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(polynomial, to_buffer_one_byte_ff)
+{
+    auto x = dstu4145::polynomial{ "FF" };
+    auto expected = hex_buffer("FF");
+
+    std::vector<std::byte> actual;
+    x.to_buffer(std::back_inserter(actual));
+
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(polynomial, to_buffer_two_bytes)
+{
+    auto x = dstu4145::polynomial{"0102"};
+    auto expected = hex_buffer("0102");
+
+    std::vector<std::byte> actual;
+    x.to_buffer(std::back_inserter(actual));
+    
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(polynomial, to_buffer_four_bytes)
+{
+    auto x = dstu4145::polynomial{"01020304"};
+    auto expected = hex_buffer("01020304");
+
+    std::vector<std::byte> actual;
+    x.to_buffer(std::back_inserter(actual));
+    
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(polynomial, to_buffer_five_bytes)
+{
+    auto x = dstu4145::polynomial{"0102030405"};
+    auto expected = hex_buffer("0102030405");
+
+    std::vector<std::byte> actual;
+    x.to_buffer(std::back_inserter(actual));
+    
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(polynomial, to_buffer_ten_bytes)
+{
+    auto x = dstu4145::polynomial{"0102030405060708090A"};
+    auto expected = hex_buffer("0102030405060708090A");
+
+    std::vector<std::byte> actual;
+    x.to_buffer(std::back_inserter(actual));
+
+    EXPECT_EQ(actual, expected);
+}

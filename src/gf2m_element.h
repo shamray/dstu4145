@@ -33,6 +33,12 @@ namespace dstu4145
         auto bit_unset(size_t i) { return value_.bit_unset(i); }
         auto bit_test(size_t i) const { return value_.bit_test(i); }
 
+        template<class iterator>
+        void to_buffer(iterator out) const
+        {
+            value_.to_buffer(out);
+        }
+
     private:
         gf2m field_;
         polynomial value_;

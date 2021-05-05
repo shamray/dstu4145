@@ -113,6 +113,27 @@ namespace dstu4145::vec
 
         bool left_shift();
 
+        template<class iterator>
+        void to_buffer(iterator out) const
+        {
+            auto bits = is_zero() ? 0 : (msb() + 1);
+            auto size = (bits % 8) ? (bits / 8 + 1) : (bits / 8);
+            auto chunk_size = sizeof(decltype(value_)::value_type);
+            auto to_copy = (size % chunk_size) ? (size % chunk_size) : chunk_size;
+
+            for (auto v = value_.rbegin(); v != value_.rend(); ++v) {
+                auto chunk = *v;
+                std::vector<std::byte> chunk_bytes;
+                for (auto i = 0; i < to_copy; ++i) {
+                    chunk_bytes.push_back(std::byte{ chunk & 0xFF });
+                    chunk = chunk >> 8;
+                }
+                out = std::copy(chunk_bytes.rbegin(), chunk_bytes.rend(), out);
+                to_copy = chunk_size;
+            }
+        }
+
+
         static constexpr auto internal_chunk_size() { return 8 * sizeof(decltype(value_)::value_type); }
 
     private:

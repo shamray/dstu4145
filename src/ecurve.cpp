@@ -21,7 +21,7 @@ namespace dstu4145
     }
 
     ecurve::ecurve(gf2m gf, int a, integer b)
-        : gf_{ std::move(gf) }
+        : gf_{std::move(gf)}
         , a_{a}
         , b_{std::move(b)}
     {}
@@ -32,12 +32,12 @@ namespace dstu4145
         if (u == field().element(0))
             return infinity_point();
 
-        auto w = u * u * u + field().element(a()) * u * u + field().element(b());
+        auto w = u * u * u + a() * u * u + b();
         auto z = solve_quadratic_equasion(field(), u, w);
         if (!z.has_value())
             return std::nullopt;
 
-        assert(u * u * u + field().element(a()) * u * u + field().element(b()) == z.value() * z.value() + z.value() * u);
+        assert(u * u * u + a() * u * u + b() == z.value() * z.value() + z.value() * u);
         return ecurve_point{*this, std::move(u), std::move(z.value())};
     }
 
@@ -62,18 +62,18 @@ namespace dstu4145
         compressed.bit_unset(0);
         auto x = compressed;
 
-        if (compressed.trace() != gf_.element(a_))
+        if (compressed.trace() != a())
             x.bit_set(0);
 
         if (x.is_zero())
             return ecurve_point{*this};
 
-        auto w = x * x * x + gf_.element(a_) * x * x + gf_.element(b_);
+        auto w = x * x * x + a() * x * x + b();
         if (w.is_zero())
             return ecurve_point{*this};
     
         auto v = w * square(x.inverse());
-        auto z = solve_quadratic_equasion(gf_, field().element(1), v);
+        auto z = solve_quadratic_equasion(field(), field().element(1), v);
         if (!z.has_value())
             return ecurve_point{*this};
 
@@ -124,7 +124,7 @@ namespace dstu4145
                 return c.infinity_point();
 
             auto t = p.y / p.x + p.x;
-            auto x = square(t) + t + gf2m_element{c.gf_, c.a_};
+            auto x = square(t) + t + c.a();
 
             auto y = square(p.x) + t * x + x;
 
@@ -135,7 +135,7 @@ namespace dstu4145
         else
         {
             auto t = (p.y + q.y) / (p.x + q.x);
-            auto x = square(t) + t + p.x + q.x + gf2m_element{c.gf_, c.a_};
+            auto x = square(t) + t + p.x + q.x + c.a();
 
             auto y = t * (p.x + x) + x + p.y;
             auto r = ecurve_point{ c, x, y };
@@ -169,7 +169,7 @@ namespace dstu4145
         if (*this == c.infinity_point())
             return true;
 
-        return x * x * x + c.field().element(c.a()) * x * x + c.field().element(c.b()) == y * y + y * x;
+        return x * x * x + c.a() * x * x + c.b() == y * y + y * x;
     }
 
     auto ecurve_point::compress() const -> gf2m_element

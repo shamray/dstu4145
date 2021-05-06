@@ -23,8 +23,8 @@ namespace dstu4145
         ecurve& operator=(const ecurve&) = default;
 
         auto field() const -> const auto& { return gf_; }
-        auto a() const { return a_; }
-        auto b() const { return b_; }
+        auto a() const { return field().element(a_); }
+        auto b() const { return field().element(b_); }
 
         auto find_point(integer ix) const -> std::optional<ecurve_point>;
         auto find_point(rng_t rng, integer n) const -> ecurve_point;

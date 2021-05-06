@@ -22,8 +22,8 @@ namespace dstu4145
 
     ecurve::ecurve(gf2m gf, int a, integer b)
         : gf_{std::move(gf)}
-        , a_{a}
-        , b_{std::move(b)}
+        , a_{field().element(a)}
+        , b_{field().element(std::move(b))}
     {}
 
     auto ecurve::find_point(integer ix) const -> std::optional<ecurve_point>

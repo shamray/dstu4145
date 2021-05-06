@@ -57,7 +57,7 @@ namespace dstu4145
 
     auto ecurve::expand_point(gf2m_element compressed) const -> ecurve_point
     {
-        auto k = compressed.bit_test(0) ? gf_.element(1) : gf_.element(0);
+        auto k = compressed.bit_test(0) ? field().element(1) : field().element(0);
 
         compressed.bit_unset(0);
         auto x = compressed;
@@ -73,25 +73,25 @@ namespace dstu4145
             return ecurve_point{*this};
     
         auto v = w * square(x.inverse());
-        auto z = solve_quadratic_equasion(gf_, gf_.element(polynomial{1}), v);
+        auto z = solve_quadratic_equasion(gf_, field().element(1), v);
         if (!z.has_value())
             return ecurve_point{*this};
 
         if (z.value().trace() == k)
             return ecurve_point{*this, x, z.value() * x};
         else
-            return ecurve_point{*this, x, (z.value() + gf_.element(polynomial{1})) * x};
+            return ecurve_point{*this, x, (z.value() + field().element(1)) * x};
     }
 
     ecurve_point::ecurve_point(ecurve curve)
-        : x{curve.gf_.element(0)}
-        , y{curve.gf_.element(0)}
+        : x{curve.field().element(0)}
+        , y{curve.field().element(0)}
         , c{std::move(curve)}
     {}
 
     ecurve_point::ecurve_point(ecurve curve, integer ix, integer iy)
-        : x{curve.gf_, ix}
-        , y{curve.gf_, iy}
+        : x{curve.field(), ix}
+        , y{curve.field(), iy}
         , c{std::move(curve)}
     {
         assert(validate());

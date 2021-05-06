@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(dstu4145 LANGUAGES CXX)
 
+if (CMAKE_COMPILER_IS_GNUCXX)
+    option(ENABLE_COVERAGE "Enable code coverage for gcc/clang" FALSE)
+endif()
+
 include(GNUInstallDirs)
 
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")

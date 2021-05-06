@@ -31,6 +31,11 @@ target_link_libraries(dstu4145
 
 target_compile_features(dstu4145 PUBLIC cxx_std_17)
 
+if(ENABLE_COVERAGE)
+    target_compile_options(dstu4145 PRIVATE -O0 --coverage)
+    target_link_libraries(dstu4145 --coverage)
+endif()
+
 install(TARGETS dstu4145 EXPORT Dstu4145Config
     ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
     LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}

@@ -2,6 +2,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build Status](https://travis-ci.com/shamray/dstu4145.svg?branch=master)](https://travis-ci.com/shamray/dstu4145)
+[![codecov](https://codecov.io/gh/shamray/dstu4145/branch/master/graph/badge.svg?token=8iGWXl8Lfu)](https://codecov.io/gh/shamray/dstu4145)
 
 This library implements DSTU 4145-2002 - Ukrainian standard for
 eleptic curve cryptography digital signature algorithm. It is

@@ -32,7 +32,7 @@ target_link_libraries(dstu4145
 target_compile_features(dstu4145 PUBLIC cxx_std_17)
 
 if(ENABLE_COVERAGE)
-    target_compile_options(dstu4145 PRIVATE -O0 --coverage)
+    target_compile_options(dstu4145 PRIVATE -O0 --coverage -fno-inline -fno-inline-small-functions -fno-default-inline)
     target_link_libraries(dstu4145 --coverage)
 endif()
 

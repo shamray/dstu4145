@@ -27,7 +27,7 @@ namespace dstu4145::in
     {}
 
     polynomial::polynomial(std::string_view hex)
-        : value_("0x"s.append(hex))
+        : value_(hex)
     {}
 
     auto operator==(const polynomial& a, const polynomial& b) -> bool

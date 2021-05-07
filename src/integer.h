@@ -133,7 +133,7 @@ namespace dstu4145::ossl
         integer(long long value);
 
         explicit
-        integer(const std::string& hex);
+        integer(std::string_view hex);
 
         template <class iterator1, class iterator2>
         integer(const iterator1& begin, const iterator2& end)

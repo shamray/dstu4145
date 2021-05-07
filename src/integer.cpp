@@ -153,11 +153,11 @@ namespace dstu4145::ossl
         BN_set_word(impl_, value);
     }
 
-    integer::integer(const std::string& hex)
+    integer::integer(std::string_view hex)
         : impl_(BN_new())
         , ctx_(BN_CTX_new())
     {
-        BN_hex2bn(&impl_, hex.c_str());
+        BN_hex2bn(&impl_, std::string(hex).c_str());
     }
 
     auto operator<<(std::ostream &os, const integer &a) -> std::ostream&

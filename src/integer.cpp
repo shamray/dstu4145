@@ -186,7 +186,7 @@ namespace dstu4145::ossl
 
     void integer::bit_unset(size_t n)
     {
-        if (n > msb())
+        if (BN_is_zero(impl_) || n > msb())
             return;
 
         auto r = BN_clear_bit(impl_, static_cast<int>(n));

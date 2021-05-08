@@ -27,6 +27,13 @@ struct curve163 : Test
     dstu4145::integer n{"400000000000000000002BEC12BE2262D39BCF14D"};
 };
 
+TEST_F(curve163, p_is_p)
+{
+    EXPECT_TRUE(p == p);
+    EXPECT_TRUE(p != curve.infinity_point());
+    EXPECT_TRUE(curve.infinity_point() == curve.infinity_point());
+}
+
 TEST_F(curve163, point_multiplication)
 {
     auto expected = dstu4145::ecurve_point{

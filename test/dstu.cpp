@@ -151,3 +151,12 @@ TEST_F(dstu, public_key_serialization)
 
     EXPECT_EQ(pub_key, deserialized);
 }
+
+TEST(key_pair, private_key_constructor)
+{
+    auto b = hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s);
+    dstu4145::private_key pk1{b};
+    dstu4145::private_key pk2{dstu4145::integer(b)};
+
+    EXPECT_EQ(pk1, pk2);
+}

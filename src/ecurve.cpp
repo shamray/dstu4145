@@ -66,16 +66,16 @@ namespace dstu4145
             x.bit_set(0);
 
         if (x.is_zero())
-            return ecurve_point{*this};
+            return infinity_point();
 
         auto w = x * x * x + a() * x * x + b();
         if (w.is_zero())
-            return ecurve_point{*this};
+            return infinity_point();
     
         auto v = w * square(x.inverse());
         auto z = solve_quadratic_equasion(field(), field().element(1), v);
         if (!z.has_value())
-            return ecurve_point{*this};
+            return infinity_point();
 
         if (z.value().trace() == k)
             return ecurve_point{*this, x, z.value() * x};

@@ -34,6 +34,13 @@ TEST_F(curve163, p_is_p)
     EXPECT_TRUE(curve.infinity_point() == curve.infinity_point());
 }
 
+TEST_F(curve163, point_addition_with_infinity)
+{
+    EXPECT_EQ(curve.infinity_point() + p, p);
+    EXPECT_EQ(p + curve.infinity_point(), p);
+    EXPECT_EQ(curve.infinity_point() + curve.infinity_point(), curve.infinity_point());
+}
+
 TEST_F(curve163, point_multiplication)
 {
     auto expected = dstu4145::ecurve_point{
@@ -188,6 +195,25 @@ TEST_F(curve163, find_point_zero)
 {
     auto actual = curve.find_point(dstu4145::integer{0});
     EXPECT_EQ(actual, curve.infinity_point());
+}
+
+TEST_F(curve163, find_point_random)
+{
+    dstu4145::rng_t rng{
+        []() {
+            static auto buffer = hex_buffer(
+                "072D867F93A93AC27DF9FF01AFFE74885C8C540420"s
+            );
+            static auto current = std::begin(buffer);
+
+            if (current == std::end(buffer))
+                return decltype(buffer)::value_type();
+            else
+                return *current++;
+        }
+    };
+    auto actual = curve.find_point(rng, n);
+    EXPECT_EQ(actual, p);
 }
 
 struct curve257: Test

@@ -184,6 +184,12 @@ TEST_F(curve163, find_point)
     EXPECT_EQ(actual, p);
 }
 
+TEST_F(curve163, find_point_zero)
+{
+    auto actual = curve.find_point(dstu4145::integer{0});
+    EXPECT_EQ(actual, curve.infinity_point());
+}
+
 struct curve257: Test
 {
     dstu4145::gf2m field{257, 12};

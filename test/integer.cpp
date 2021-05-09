@@ -271,6 +271,20 @@ namespace test_ossl
         auto x = integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
         EXPECT_GE(x.size_in_bytes(), 21);
     }
+
+    TEST(integer_ossl, ostream)
+    {
+        std::stringstream stream;
+        stream << std::hex << integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
+        EXPECT_EQ("02100D86957331832B8E8C230F5BD6A332B3615ACA"s, stream.str());
+    }
+
+    TEST(integer_ossl, copy)
+    {
+        auto x = integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
+        auto y = x;
+        EXPECT_GE(x, y);
+    }
 }
 
 namespace test_bmp
@@ -537,4 +551,17 @@ TEST(integer_bmp, bit_test)
         EXPECT_GE(x.size_in_bytes(), 21);
     }
 
+    TEST(integer_bmp, ostream)
+    {
+        std::stringstream stream;
+        stream << std::hex << integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
+        EXPECT_EQ("2100d86957331832b8e8c230f5bd6a332b3615aca"s, stream.str());
+    }
+
+    TEST(integer_bmp, copy)
+    {
+        auto x = integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
+        auto y = x;
+        EXPECT_GE(x, y);
+    }
 }

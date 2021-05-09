@@ -90,7 +90,8 @@ TEST_F(field163, field_element_multiplication_small)
     EXPECT_EQ(a * b, field.element(6));
 }
 
-TEST_F(field163, field_element_multiplication_big) {
+TEST_F(field163, field_element_multiplication_big) 
+{
     auto a = field.element(dstu4145::integer{"695B3B9D26830943133078EF19FE8A8814F8F7B70"});
     auto b = field.element(dstu4145::integer{"378C6CADAC80077C50EC218AB8C96015750C83564"});
 

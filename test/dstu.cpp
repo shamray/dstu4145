@@ -73,7 +73,6 @@ TEST_F(dstu, signing_hash_produces_correct_signature)
 
 TEST_F(dstu, compute_presignature)
 {
-    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
     auto engine = dstu4145::engine{ params };
 
     auto [e, fe] = engine.compute_presignature(rng);

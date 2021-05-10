@@ -41,7 +41,7 @@ TEST(gf2m_test, multiply_identical)
     EXPECT_EQ(a * a, expected);
 }
 
-TEST(gf2m_test, add)
+TEST(gf2m_test, addition)
 {
     auto field = dstu4145::gf2m{163, 7, 6, 3 };
     auto a = field.element(dstu4145::integer{"4CAD141C3B5ADA6B8A55A0A1FDA6D223A86F85B5E"});
@@ -49,8 +49,38 @@ TEST(gf2m_test, add)
     auto expected = field.element(dstu4145::integer{"516BE03AE56F748923573041E9709C494BAB7F340"});
 
     EXPECT_EQ(a + s, expected);
+}
 
-    auto r = s + a;
+TEST(gf2m_test, operations_in_different_fields)
+{
+    auto fieldA = dstu4145::gf2m{7, 5, 2, 1 };
+    auto fieldB = dstu4145::gf2m{163, 7, 6, 3 };
+    auto elementA = dstu4145::gf2m_element{fieldA, 42};
+    auto elementB = dstu4145::gf2m_element{fieldB, 43};
+
+    EXPECT_THROW(elementA + elementB, std::logic_error);
+    EXPECT_THROW(elementA * elementB, std::logic_error);
+    EXPECT_THROW(elementA / elementB, std::logic_error);
+}
+
+TEST(gf2m_test, comparison)
+{
+    auto field = dstu4145::gf2m{7, 5, 2, 1};
+    auto a = dstu4145::gf2m_element{field, 42};
+    auto b = dstu4145::gf2m_element{field, 24};
+
+    EXPECT_EQ(a, a);
+    EXPECT_NE(a, b);
+}
+
+TEST(gf2m_test, comparison_in_different_fields)
+{
+    auto fieldA = dstu4145::gf2m{7, 5, 2, 1};
+    auto fieldB = dstu4145::gf2m{163, 7, 6, 3};
+    auto elementA = dstu4145::gf2m_element{fieldA, 42};
+    auto elementB = dstu4145::gf2m_element{fieldB, 42};
+
+    EXPECT_NE(elementA, elementB);
 }
 
 struct field163 : Test
@@ -96,4 +126,11 @@ TEST_F(field163, field_element_multiplication_big)
     auto b = field.element(dstu4145::integer{"378C6CADAC80077C50EC218AB8C96015750C83564"});
 
     EXPECT_EQ(a * b, field.element(dstu4145::integer{"2F44EF2885428821377088E7AB7110467B10B663B"}));
+}
+
+TEST_F(field163, field_element_ostream)
+{
+    std::stringstream stream;
+    stream << field.element(dstu4145::integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"});
+    EXPECT_EQ("02100D86957331832B8E8C230F5BD6A332B3615ACA", stream.str());
 }

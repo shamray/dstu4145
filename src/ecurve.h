@@ -63,23 +63,8 @@ namespace dstu4145
         auto compress() const -> gf2m_element;
     };
 
-    inline auto operator* (const integer& d, const ecurve_point& p)
-    {
-        return p * d;
-    }
-
-    inline auto operator== (const ecurve_point& a, const ecurve_point& b)
-    {
-        return a.x == b.x && a.y == b.y;
-    }
-
-    inline auto operator!= (const ecurve_point& a, const ecurve_point& b)
-    {
-        return !(a == b);
-    }
-
-    inline auto operator<< (std::ostream& os, const ecurve_point& p) -> std::ostream&
-    {
-        return os << std::hex << "(" << p.x << ", " << p.y << ")";
-    }
+    auto operator* (const integer& d, const ecurve_point& p) -> ecurve_point;
+    auto operator== (const ecurve_point& a, const ecurve_point& b) -> bool;
+    auto operator!= (const ecurve_point& a, const ecurve_point& b) -> bool;
+    auto operator<< (std::ostream& os, const ecurve_point& p) -> std::ostream&;
 }

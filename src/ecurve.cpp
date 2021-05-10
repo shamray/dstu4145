@@ -184,4 +184,23 @@ namespace dstu4145
         return r;
     }
 
+    auto operator* (const integer& d, const ecurve_point& p) -> ecurve_point
+    {
+        return p * d;
+    }
+
+    auto operator== (const ecurve_point& a, const ecurve_point& b) -> bool
+    {
+        return a.x == b.x && a.y == b.y;
+    }
+
+    auto operator!= (const ecurve_point& a, const ecurve_point& b) -> bool
+    {
+        return !(a == b);
+    }
+
+    auto operator<< (std::ostream& os, const ecurve_point& p) -> std::ostream&
+    {
+        return os << std::hex << "(" << p.x << ", " << p.y << ")";
+    }
 }

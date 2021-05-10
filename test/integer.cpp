@@ -279,11 +279,16 @@ namespace test_ossl
         EXPECT_EQ("02100D86957331832B8E8C230F5BD6A332B3615ACA"s, stream.str());
     }
 
-    TEST(integer_ossl, copy)
+    TEST(integer_ossl, copy_assign)
     {
         auto x = integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
         auto y = x;
-        EXPECT_GE(x, y);
+        EXPECT_EQ(x, y);
+
+        auto z = integer{42};
+        ASSERT_NE(x, z);
+        z = x;
+        EXPECT_EQ(x, z);
     }
 }
 
@@ -558,10 +563,15 @@ TEST(integer_bmp, bit_test)
         EXPECT_EQ("2100d86957331832b8e8c230f5bd6a332b3615aca"s, stream.str());
     }
 
-    TEST(integer_bmp, copy)
+    TEST(integer_bmp, copy_assign)
     {
         auto x = integer{"02100D86957331832B8E8C230F5BD6A332B3615ACA"};
         auto y = x;
-        EXPECT_GE(x, y);
+        EXPECT_EQ(x, y);
+
+        auto z = integer{42};
+        ASSERT_NE(x, z);
+        z = x;
+        EXPECT_EQ(x, z);
     }
 }

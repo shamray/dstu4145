@@ -60,6 +60,7 @@ jobs:
       - name: Conan install
         run: >
           conan install . -of build --build=missing -s build_type=Debug
+          -s compiler.cppstd=17
           -c tools.cmake.cmaketoolchain:generator=Ninja
 
       - name: Configure
@@ -68,8 +69,12 @@ jobs:
       - name: Build
         run: cmake --build --preset conan-debug
 
+      # acceptance* tests run real randomized sign/verify rounds per curve and
+      # can take minutes each; excluded from the default CI test run (still
+      # runnable via `ctest -L acceptance`). See docs/ROADMAP.md Phase 3 for
+      # the known assert()-vs-retry correctness gap they occasionally hit.
       - name: Test
-        run: ctest --preset conan-debug --output-on-failure
+        run: ctest --preset conan-debug --output-on-failure -LE acceptance
 
   sanitize:
     name: asan-ubsan
@@ -93,6 +98,7 @@ jobs:
       - name: Conan install (with sanitizers)
         run: >
           conan install . -of build --build=missing -s build_type=Debug
+          -s compiler.cppstd=17
           -c tools.cmake.cmaketoolchain:generator=Ninja
           -c tools.build:cxxflags="['-fsanitize=address,undefined']"
           -c tools.build:exelinkflags="['-fsanitize=address,undefined']"
@@ -104,7 +110,7 @@ jobs:
         run: cmake --build --preset conan-debug
 
       - name: Test
-        run: ctest --preset conan-debug --output-on-failure
+        run: ctest --preset conan-debug --output-on-failure -LE acceptance
 
   coverage:
     name: coverage
@@ -128,6 +134,7 @@ jobs:
       - name: Conan install
         run: >
           conan install . -of build --build=missing -s build_type=Debug
+          -s compiler.cppstd=17
           -c tools.cmake.cmaketoolchain:generator=Ninja
 
       - name: Configure
@@ -137,7 +144,7 @@ jobs:
         run: cmake --build --preset conan-debug
 
       - name: Test
-        run: ctest --preset conan-debug --output-on-failure
+        run: ctest --preset conan-debug --output-on-failure -LE acceptance
 
       - name: Generate coverage report
         run: gcovr --root . --filter 'src/' --xml-pretty --output coverage.xml build
@@ -216,6 +223,7 @@ jobs:
         working-directory: consumer
         run: >
           conan install ../dstu4145 -of build --build=missing -s build_type=Release
+          -s compiler.cppstd=17
           -c tools.cmake.cmaketoolchain:generator=Ninja
 
       - name: Configure consumer

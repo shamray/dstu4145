@@ -16,7 +16,7 @@ add_executable(dstu-unit-tests
   ecurve.cpp
   dstu.cpp)
 
-target_link_libraries(dstu-unit-tests
+target_link_libraries(dstu-unit-tests PRIVATE
   test-utils
   dstu4145::dstu4145
   GTest::gtest
@@ -34,7 +34,7 @@ gtest_discover_tests(
 add_executable(dstu-acceptance-test
   acceptance.cpp)
 
-target_link_libraries(dstu-acceptance-test
+target_link_libraries(dstu-acceptance-test PRIVATE
   dstu4145::dstu4145
   test-utils
   GTest::gtest

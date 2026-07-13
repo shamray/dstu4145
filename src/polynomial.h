@@ -78,7 +78,7 @@ namespace dstu4145::vec
                 auto chunk = *v;
                 std::vector<std::byte> chunk_bytes;
                 for (auto i = 0; i < to_copy; ++i) {
-                    chunk_bytes.push_back(std::byte{ chunk & 0xFF });
+                    chunk_bytes.push_back(static_cast<std::byte>(chunk & 0xFF));
                     chunk = chunk >> 8;
                 }
                 out = std::copy(chunk_bytes.rbegin(), chunk_bytes.rend(), out);

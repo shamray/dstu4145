@@ -4,6 +4,7 @@
 #include "gf2m_element.h"
 #include "rng_interface.h"
 
+#include <iosfwd>
 #include <optional>
 
 namespace dstu4145

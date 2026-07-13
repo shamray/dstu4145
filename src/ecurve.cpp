@@ -2,6 +2,9 @@
 #include "rng.h"
 #include "arithmetic.h"
 
+#include <cassert>
+#include <ostream>
+
 namespace dstu4145
 {
     namespace

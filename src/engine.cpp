@@ -1,7 +1,10 @@
 #include "engine.h"
 #include "rng.h"
 
+#include <cassert>
+#include <iterator>
 #include <map>
+#include <string>
 #include <vector>
 
 using namespace std::string_literals;

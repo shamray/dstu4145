@@ -1,0 +1,227 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  # Guards against ConanCenter recipes whose bundled CMakeLists.txt still
+  # declare cmake_minimum_required() below what the running CMake accepts.
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ubuntu-gcc
+            os: ubuntu-latest
+            cc: gcc
+            cxx: g++
+          - name: ubuntu-clang
+            os: ubuntu-latest
+            cc: clang
+            cxx: clang++
+          - name: windows-msvc
+            os: windows-latest
+          - name: macos-clang
+            os: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+
+      - uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Select compiler
+        if: matrix.cc
+        run: |
+          echo "CC=${{ matrix.cc }}" >> "$GITHUB_ENV"
+          echo "CXX=${{ matrix.cxx }}" >> "$GITHUB_ENV"
+        shell: bash
+
+      - name: Install Conan
+        run: pip install conan
+
+      - name: Detect Conan profile
+        run: conan profile detect --force
+
+      - name: Conan install
+        run: >
+          conan install . -of build --build=missing -s build_type=Debug
+          -c tools.cmake.cmaketoolchain:generator=Ninja
+
+      - name: Configure
+        run: cmake --preset conan-debug
+
+      - name: Build
+        run: cmake --build --preset conan-debug
+
+      - name: Test
+        run: ctest --preset conan-debug --output-on-failure
+
+  sanitize:
+    name: asan-ubsan
+    runs-on: ubuntu-latest
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Install Conan
+        run: pip install conan
+
+      - name: Detect Conan profile
+        run: conan profile detect --force
+
+      - name: Conan install (with sanitizers)
+        run: >
+          conan install . -of build --build=missing -s build_type=Debug
+          -c tools.cmake.cmaketoolchain:generator=Ninja
+          -c tools.build:cxxflags="['-fsanitize=address,undefined']"
+          -c tools.build:exelinkflags="['-fsanitize=address,undefined']"
+
+      - name: Configure
+        run: cmake --preset conan-debug
+
+      - name: Build
+        run: cmake --build --preset conan-debug
+
+      - name: Test
+        run: ctest --preset conan-debug --output-on-failure
+
+  coverage:
+    name: coverage
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Install Conan and gcovr
+        run: pip install conan gcovr
+
+      - name: Detect Conan profile
+        run: conan profile detect --force
+
+      - name: Conan install
+        run: >
+          conan install . -of build --build=missing -s build_type=Debug
+          -c tools.cmake.cmaketoolchain:generator=Ninja
+
+      - name: Configure
+        run: cmake --preset conan-debug -DENABLE_COVERAGE=ON
+
+      - name: Build
+        run: cmake --build --preset conan-debug
+
+      - name: Test
+        run: ctest --preset conan-debug --output-on-failure
+
+      - name: Generate coverage report
+        run: gcovr --root . --filter 'src/' --xml-pretty --output coverage.xml build
+
+      - uses: codecov/codecov-action@v4
+        with:
+          files: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  smoke-test:
+    name: consumer-smoke-test
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: dstu4145
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Install Conan
+        run: pip install conan
+
+      - name: Detect Conan profile
+        run: conan profile detect --force
+
+      - name: Scaffold consumer project
+        run: |
+          mkdir -p consumer
+          cat > consumer/CMakeLists.txt <<'EOF'
+          cmake_minimum_required(VERSION 3.23)
+          project(dstu4145_consumer LANGUAGES CXX)
+
+          include(FetchContent)
+          FetchContent_Declare(dstu4145 SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../dstu4145")
+          set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+          FetchContent_MakeAvailable(dstu4145)
+
+          add_executable(consumer main.cpp)
+          target_link_libraries(consumer PRIVATE dstu4145::dstu4145)
+          EOF
+          cat > consumer/main.cpp <<'EOF'
+          #include "engine.h"
+          #include <random>
+
+          int main()
+          {
+              using namespace dstu4145;
+
+              auto curve = ecurve{gf2m{163, 7, 6, 3}, 1,
+                  integer{"5FF6108462A2DC8210AB403925E638A19C1455D21"}};
+              auto params = domain_params{curve,
+                  integer{"400000000000000000002BEC12BE2262D39BCF14D"},
+                  ecurve_point{curve,
+                      integer{"72D867F93A93AC27DF9FF01AFFE74885C8C540420"},
+                      integer{"0224A9C3947852B97C5599D5F4AB81122ADC3FD9B"}}};
+
+              auto rng = rng_t{[] { static std::mt19937 gen{42}; return std::byte(gen() & 0xFF); }};
+
+              auto engine = dstu4145::engine{params};
+              auto [prv, pub] = engine.generate_key_pair(rng);
+
+              auto hash = buffer(20, std::byte{0x01});
+              auto signature = engine.sign(rng, prv, hash);
+
+              return engine.verify(pub, hash, signature) ? 0 : 1;
+          }
+          EOF
+
+      - name: Conan install (openssl only, for the consumer build)
+        working-directory: consumer
+        run: >
+          conan install ../dstu4145 -of build --build=missing -s build_type=Release
+          -c tools.cmake.cmaketoolchain:generator=Ninja
+
+      - name: Configure consumer
+        working-directory: consumer
+        run: cmake --preset conan-release
+
+      - name: Build consumer
+        working-directory: consumer
+        run: cmake --build --preset conan-release

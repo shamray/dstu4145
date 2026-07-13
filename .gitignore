@@ -7,3 +7,6 @@ build
 
 .idea
 cmake-build-*
+
+# local research materials - never commit
+research/

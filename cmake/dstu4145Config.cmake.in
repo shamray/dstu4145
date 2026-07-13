@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+find_dependency(OpenSSL)
+
+include("${CMAKE_CURRENT_LIST_DIR}/dstu4145Targets.cmake")
+
+check_required_components(dstu4145)

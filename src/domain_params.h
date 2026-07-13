@@ -4,6 +4,8 @@
 #include "integer.h"
 #include "rng_interface.h"
 
+#include <cassert>
+
 namespace dstu4145
 {
     struct domain_params

@@ -1,4 +1,5 @@
-include (GoogleTest)
+find_package(GTest REQUIRED)
+include(GoogleTest)
 
 add_library(test-utils
   test-utils.cpp
@@ -17,12 +18,13 @@ add_executable(dstu-unit-tests
 
 target_link_libraries(dstu-unit-tests
   test-utils
-  dstu4145
-  ${CONAN_LIBS})
+  dstu4145::dstu4145
+  GTest::gtest
+  GTest::gtest_main)
 
 if(ENABLE_COVERAGE)
   target_compile_options(dstu-unit-tests PRIVATE -O0 -fno-inline -fno-inline-small-functions -fno-default-inline)
-  target_link_libraries(dstu-unit-tests --coverage)
+  target_link_libraries(dstu-unit-tests PRIVATE --coverage)
 endif()
 
 gtest_discover_tests(
@@ -33,6 +35,12 @@ add_executable(dstu-acceptance-test
   acceptance.cpp)
 
 target_link_libraries(dstu-acceptance-test
-  dstu4145
+  dstu4145::dstu4145
   test-utils
-  ${CONAN_LIBS})
+  GTest::gtest
+  GTest::gtest_main)
+
+gtest_discover_tests(
+  dstu-acceptance-test
+  PROPERTIES LABELS acceptance
+)

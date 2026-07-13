@@ -1,5 +1,8 @@
 #include "gf2m_element.h"
 
+#include <ostream>
+#include <stdexcept>
+
 namespace dstu4145
 {
     gf2m_element::gf2m_element(gf2m field, integer value)

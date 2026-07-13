@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <tuple>
+#include <iosfwd>
 
 namespace dstu4145
 {

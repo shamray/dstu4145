@@ -4,6 +4,8 @@
 #include "domain_params.h"
 #include "key_pair.h"
 
+#include <cstddef>
+#include <tuple>
 #include <vector>
 
 namespace dstu4145

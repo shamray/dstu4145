@@ -2,12 +2,15 @@
 
 #include "gf2m.h"
 
+#include <iosfwd>
+
 namespace dstu4145
 {
-    class gf2m_element: boost::equality_comparable<gf2m_element>
+    class gf2m_element
     {
     public:
         friend auto operator==(const gf2m_element&, const gf2m_element&) -> bool;
+        friend auto operator!=(const gf2m_element& a, const gf2m_element& b) -> bool { return !(a == b); }
         friend auto operator+(const gf2m_element& a, const gf2m_element& b) -> gf2m_element;
         friend auto operator*(const gf2m_element& a, const gf2m_element& b) -> gf2m_element;
         friend auto operator/(const gf2m_element& a, const gf2m_element& b) -> gf2m_element;

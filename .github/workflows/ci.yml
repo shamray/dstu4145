@@ -191,6 +191,17 @@ jobs:
           add_executable(consumer main.cpp)
           target_link_libraries(consumer PRIVATE dstu4145::dstu4145)
           EOF
+          cat > consumer/conanfile.txt <<'EOF'
+          [requires]
+          openssl/[>=3 <4]
+
+          [generators]
+          CMakeDeps
+          CMakeToolchain
+
+          [layout]
+          cmake_layout
+          EOF
           cat > consumer/main.cpp <<'EOF'
           #include "engine.h"
           #include <random>
@@ -222,7 +233,7 @@ jobs:
       - name: Conan install (openssl only, for the consumer build)
         working-directory: consumer
         run: >
-          conan install ../dstu4145 -of build --build=missing -s build_type=Release
+          conan install . -of build --build=missing -s build_type=Release
           -s compiler.cppstd=17
           -c tools.cmake.cmaketoolchain:generator=Ninja
 

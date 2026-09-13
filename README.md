@@ -102,7 +102,7 @@ assert(engine.verify(pub_key, hash, signature));
 ```shell
 pip install conan
 conan profile detect --force
-conan install . -of build --build=missing -s build_type=Debug
+conan install . -of build --build=missing -s build_type=Debug -s compiler.cppstd=17
 cmake --preset conan-debug
 cmake --build --preset conan-debug
 ctest --preset conan-debug

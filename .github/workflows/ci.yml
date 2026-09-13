@@ -70,11 +70,44 @@ jobs:
         run: cmake --build --preset conan-debug
 
       # acceptance* tests run real randomized sign/verify rounds per curve and
-      # can take minutes each; excluded from the default CI test run (still
-      # runnable via `ctest -L acceptance`). See docs/ROADMAP.md Phase 3 for
-      # the known assert()-vs-retry correctness gap they occasionally hit.
+      # are minutes-long per curve in a Debug build; they run in the separate
+      # Release `acceptance` job instead.
       - name: Test
         run: ctest --preset conan-debug --output-on-failure -LE acceptance
+
+  acceptance:
+    name: acceptance
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Install Conan
+        run: pip install conan
+
+      - name: Detect Conan profile
+        run: conan profile detect --force
+
+      - name: Conan install
+        run: >
+          conan install . -of build --build=missing -s build_type=Release
+          -s compiler.cppstd=17
+          -c tools.cmake.cmaketoolchain:generator=Ninja
+
+      - name: Configure
+        run: cmake --preset conan-release
+
+      - name: Build
+        run: cmake --build --preset conan-release
+
+      - name: Test
+        run: ctest --preset conan-release --output-on-failure -L acceptance
 
   sanitize:
     name: asan-ubsan

@@ -131,6 +131,47 @@ TEST_F(dstu, verifying_correct_signature_is_successful_longer_signature)
     EXPECT_TRUE(engine.verify(pub_key, h, signature));
 }
 
+TEST_F(dstu, verifying_malformed_signature_returns_false)
+{
+    auto engine = dstu4145::engine{params};
+    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+
+    auto zero = std::string(64, '0');
+    auto s = "000000000000000000000002100D86957331832B8E8C230F5BD6A332B3615ACA"s;
+    auto r = "00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s;
+
+    EXPECT_FALSE(engine.verify(pub_key, h, {}));
+    EXPECT_FALSE(engine.verify(pub_key, h, hex_buffer("0011223344556677889900"s)));
+    EXPECT_FALSE(engine.verify(pub_key, h, hex_buffer(zero + r)));
+    EXPECT_FALSE(engine.verify(pub_key, h, hex_buffer(s + zero)));
+    EXPECT_FALSE(engine.verify(pub_key, h, hex_buffer(zero + zero)));
+}
+
+TEST_F(dstu, verifying_rejects_signature_with_s_shifted_by_n)
+{
+    auto engine = dstu4145::engine{params};
+    auto h = hex_buffer("09C9C44277910C9AAEE486883A2EB95B7180166DDF73532EEB76EDAEF52247FF");
+
+    // s + n verifies under the raw equation, so without the s < n check it is a
+    // second valid signature for the same message.
+    auto signature = hex_buffer(
+        "000000000000000000000006100D86957331832B8E8EE1D087B8C95FED1E4C17"s +
+        "00000000000000000000000274EA2C0CAA014A0D80A424F59ADE7A93068D08A7"s
+    );
+
+    EXPECT_FALSE(engine.verify(pub_key, h, signature));
+}
+
+TEST_F(dstu, signing_zero_hash_is_possible)
+{
+    auto engine = dstu4145::engine{params};
+    auto h = dstu4145::buffer(32, std::byte{0});
+
+    auto signature = engine.sign(rng, prv_key, h);
+
+    EXPECT_TRUE(engine.verify(pub_key, h, signature));
+}
+
 TEST_F(dstu, private_key_serialization)
 {
     std::vector<std::byte> buffer;

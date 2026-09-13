@@ -5,6 +5,7 @@
 #include "key_pair.h"
 
 #include <cstddef>
+#include <optional>
 #include <tuple>
 #include <vector>
 
@@ -29,6 +30,9 @@ namespace dstu4145
         auto verify(public_key key, const buffer& hash, const buffer& signature) const -> bool;
 
     private:
+        auto try_sign(const presignature& ps, const private_key& key, const buffer& hash) const
+            -> std::optional<buffer>;
+
         domain_params params_;
     };
 }

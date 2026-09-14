@@ -31,7 +31,7 @@ namespace dstu4145
         auto find_point(rng_t rng, integer n) const -> ecurve_point;
         auto infinity_point() const -> ecurve_point;
 
-        auto expand_point(gf2m_element compressed) const -> ecurve_point;
+        auto expand_point(gf2m_element compressed) const -> std::optional<ecurve_point>;
 
     private:
         gf2m gf_;

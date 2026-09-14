@@ -192,6 +192,51 @@ TEST_F(dstu, public_key_serialization)
     EXPECT_EQ(pub_key, deserialized);
 }
 
+struct dstu257 : Test
+{
+    dstu4145::ecurve curve {
+        dstu4145::gf2m {257, 12},
+        0,
+        dstu4145::integer{"01CEF494720115657E18F938D7A7942394FF9425C1458C57861F9EEA6ADBE3BE10"}
+    };
+    dstu4145::domain_params params {
+        curve,
+        dstu4145::integer{"800000000000000000000000000000006759213AF182E987D3E17714907D470D"},
+        dstu4145::ecurve_point {
+            curve,
+            dstu4145::integer{"2A29EF207D0E9B6C55CD260B306C7E007AC491CA1B10C62334A9E8DCD8D20FB7"},
+            dstu4145::integer{"010686D41FF744D4449FCCF6D8EEA03102E6812C93A9D60B978B702CF156D814EF"}
+        }
+    };
+};
+
+TEST_F(dstu257, public_key_rejects_point_at_infinity)
+{
+    auto zero = dstu4145::buffer(32, std::byte{0});
+
+    EXPECT_THROW((dstu4145::public_key{params, zero}), std::runtime_error);
+}
+
+TEST_F(dstu257, public_key_rejects_value_not_on_curve)
+{
+    EXPECT_THROW((dstu4145::public_key{params, hex_buffer("02"s)}), std::runtime_error);
+}
+
+TEST_F(dstu257, public_key_rejects_point_of_wrong_order)
+{
+    // (0, sqrt(b)) is the point of order 2, so p + t has order 2n but still
+    // survives compression on a curve with cofactor 4.
+    auto sqrt_b = curve.b();
+    for (auto i = 1; i < 257; ++i)
+        sqrt_b = square(sqrt_b);
+    auto t = dstu4145::ecurve_point{curve, curve.field().element(0), sqrt_b};
+
+    auto buffer = dstu4145::buffer{};
+    (params.p + t).compress().to_buffer(std::back_inserter(buffer));
+
+    EXPECT_THROW((dstu4145::public_key{params, buffer}), std::runtime_error);
+}
+
 TEST(key_pair, private_key_constructor)
 {
     auto b = hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s);

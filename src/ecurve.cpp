@@ -12,7 +12,6 @@ namespace dstu4145
         auto solve_quadratic_equasion(const gf2m& gf, const gf2m_element& u, const gf2m_element& w) -> std::optional<gf2m_element>
         {
             assert(u != gf.element(0));
-            assert(w != gf.element(0));
 
             auto v = w * square(u.inverse());
 
@@ -58,7 +57,7 @@ namespace dstu4145
         return ecurve_point{*this};
     }
 
-    auto ecurve::expand_point(gf2m_element compressed) const -> ecurve_point
+    auto ecurve::expand_point(gf2m_element compressed) const -> std::optional<ecurve_point>
     {
         auto k = compressed.bit_test(0) ? field().element(1) : field().element(0);
 
@@ -72,13 +71,10 @@ namespace dstu4145
             return infinity_point();
 
         auto w = x * x * x + a() * x * x + b();
-        if (w.is_zero())
-            return infinity_point();
-    
         auto v = w * square(x.inverse());
         auto z = solve_quadratic_equasion(field(), field().element(1), v);
         if (!z.has_value())
-            return infinity_point();
+            return std::nullopt;
 
         if (z.value().trace() == k)
             return ecurve_point{*this, x, z.value() * x};

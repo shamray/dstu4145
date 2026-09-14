@@ -242,7 +242,7 @@ TEST_F(curve257, expand_point_1)
     );
     auto point = curve.expand_point(compressed);
 
-    EXPECT_EQ(point, p);
+    EXPECT_EQ(point.value(), p);
 }
 
 TEST_F(curve257, expand_point_2)
@@ -258,7 +258,7 @@ TEST_F(curve257, expand_point_2)
     );
     auto point = curve.expand_point(compressed);
 
-    EXPECT_EQ(point, p);
+    EXPECT_EQ(point.value(), p);
 }
 
 TEST_F(curve257, expand_point_zero)
@@ -268,7 +268,14 @@ TEST_F(curve257, expand_point_zero)
     );
     auto point = curve.expand_point(compressed);
 
-    EXPECT_EQ(point, curve.infinity_point());
+    EXPECT_EQ(point.value(), curve.infinity_point());
+}
+
+TEST_F(curve257, expand_point_not_on_curve)
+{
+    auto point = curve.expand_point(field.element(2));
+
+    EXPECT_FALSE(point.has_value());
 }
 
 TEST_F(curve257, compress_point_1)

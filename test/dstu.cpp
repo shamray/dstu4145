@@ -237,6 +237,26 @@ TEST_F(dstu257, public_key_rejects_point_of_wrong_order)
     EXPECT_THROW((dstu4145::public_key{params, buffer}), std::runtime_error);
 }
 
+TEST_F(dstu257, domain_params_reject_point_at_infinity)
+{
+    EXPECT_THROW((dstu4145::domain_params{curve, params.n, curve.infinity_point()}), std::runtime_error);
+}
+
+TEST_F(dstu257, domain_params_reject_point_not_on_curve)
+{
+    auto p = params.p;
+    p.y = p.y + curve.field().element(1);
+
+    EXPECT_THROW((dstu4145::domain_params{curve, params.n, p}), std::runtime_error);
+}
+
+TEST_F(dstu257, domain_params_reject_wrong_order)
+{
+    auto n_minus_1 = dstu4145::integer{"800000000000000000000000000000006759213AF182E987D3E17714907D470C"};
+
+    EXPECT_THROW((dstu4145::domain_params{curve, n_minus_1, params.p}), std::runtime_error);
+}
+
 TEST(key_pair, private_key_constructor)
 {
     auto b = hex_buffer("00000000000000000000000183F60FDF7951FF47D67193F8D073790C1C9B5A3E"s);

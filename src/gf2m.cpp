@@ -29,6 +29,6 @@ namespace dstu4145
 
     auto gf2m::operator== (const gf2m& other) const  -> bool
     {
-        return m() == other.m();
+        return m() == other.m() && basis() == other.basis();
     }
 }

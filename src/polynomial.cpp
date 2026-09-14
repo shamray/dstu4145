@@ -117,7 +117,7 @@ namespace dstu4145::vec
     {
         bool carry = false;
         for (auto& x: value_) {
-            auto nextCarry = ((1 << (internal_chunk_size() - 1) ) & x) != 0;
+            auto nextCarry = ((1u << (internal_chunk_size() - 1) ) & x) != 0;
             x <<= 1;
             if (carry)
                 x |= 1;
@@ -192,7 +192,7 @@ namespace dstu4145::vec
         if (value_.size() <= ix)
             value_.resize(ix + 1);
 
-        auto x = (1 << bi);
+        auto x = (1u << bi);
 
         value_[ix] |= x;
     }
@@ -205,7 +205,7 @@ namespace dstu4145::vec
         if (value_.size() <= ix)
             return;
 
-        value_[ix] &= ~(1 << bi);
+        value_[ix] &= ~(1u << bi);
 
         for (; !value_.empty() && value_.back() == 0; value_.pop_back()) {}
     }
@@ -227,7 +227,7 @@ namespace dstu4145::vec
         if (value_.size() <= ix)
             return false;
 
-        return (value_[ix] & (1 << bi)) != 0;
+        return (value_[ix] & (1u << bi)) != 0;
     }
 
     size_t polynomial::msb() const

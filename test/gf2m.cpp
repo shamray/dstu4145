@@ -83,6 +83,17 @@ TEST(gf2m_test, comparison_in_different_fields)
     EXPECT_NE(elementA, elementB);
 }
 
+TEST(gf2m_test, comparison_in_fields_with_different_basis)
+{
+    auto fieldA = dstu4145::gf2m{7, 5, 2, 1};
+    auto fieldB = dstu4145::gf2m{7, 1};
+    auto elementA = dstu4145::gf2m_element{fieldA, 42};
+    auto elementB = dstu4145::gf2m_element{fieldB, 42};
+
+    EXPECT_NE(elementA, elementB);
+    EXPECT_THROW(elementA * elementB, std::logic_error);
+}
+
 struct field163 : Test
 {
     dstu4145::gf2m field{163, 7, 6, 3 };

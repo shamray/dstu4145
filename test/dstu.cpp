@@ -28,13 +28,13 @@ struct dstu : Test
         }
     };
 
-    dstu4145::rng_t rng {
-        [] () {
-            static auto buffer = hex_buffer(
-                "01025E40BD97DB012B7A1D79DE8E12932D247F61C6"s
-            );
-            static auto current = std::begin(buffer);
+    std::vector<std::byte> buffer = hex_buffer(
+        "01025E40BD97DB012B7A1D79DE8E12932D247F61C6"s
+    );
+    std::vector<std::byte>::iterator current = std::begin(buffer);
 
+    dstu4145::rng_t rng {
+        [this] () {
             if (current == std::end(buffer))
                 return decltype(buffer)::value_type();
             else

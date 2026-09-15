@@ -199,15 +199,15 @@ TEST_F(curve163, find_point_zero)
 
 TEST_F(curve163, find_point_random)
 {
-    dstu4145::rng_t rng{
-        []() {
-            static auto buffer = hex_buffer(
-                "072D867F93A93AC27DF9FF01AFFE74885C8C540420"s
-            );
-            static auto current = std::begin(buffer);
+    auto buffer = hex_buffer(
+        "072D867F93A93AC27DF9FF01AFFE74885C8C540420"s
+    );
+    auto current = std::begin(buffer);
 
+    dstu4145::rng_t rng{
+        [&]() {
             if (current == std::end(buffer))
-                return decltype(buffer)::value_type();
+                return std::byte{};
             else
                 return *current++;
         }

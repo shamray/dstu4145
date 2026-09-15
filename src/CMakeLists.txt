@@ -21,7 +21,9 @@ add_library(dstu4145
     key_pair.h
     domain_params.cpp
     domain_params.h
-    rng.h)
+    rng.h
+    standard_curves.cpp
+    standard_curves.h)
 add_library(dstu4145::dstu4145 ALIAS dstu4145)
 
 target_sources(dstu4145 PUBLIC
@@ -39,7 +41,8 @@ target_sources(dstu4145 PUBLIC
         key_pair.h
         polynomial.h
         rng.h
-        rng_interface.h)
+        rng_interface.h
+        standard_curves.h)
 
 target_link_libraries(dstu4145 PUBLIC OpenSSL::Crypto)
 

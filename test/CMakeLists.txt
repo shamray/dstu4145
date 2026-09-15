@@ -14,7 +14,8 @@ add_executable(dstu-unit-tests
   gf2m.cpp
   integer.cpp
   ecurve.cpp
-  dstu.cpp)
+  dstu.cpp
+  standard_curves.cpp)
 
 target_link_libraries(dstu-unit-tests PRIVATE
   test-utils

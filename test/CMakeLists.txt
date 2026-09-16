@@ -6,6 +6,7 @@ add_library(test-utils
   test-utils.h)
 
 target_compile_features(test-utils PUBLIC cxx_std_17)
+target_include_directories(test-utils PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(dstu-unit-tests
   test-utils-test.cpp

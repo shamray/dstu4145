@@ -9,6 +9,8 @@ if (CMAKE_COMPILER_IS_GNUCXX)
     option(ENABLE_COVERAGE "Enable code coverage for gcc/clang" FALSE)
 endif()
 
+option(DSTU4145_BUILD_EXAMPLES "Build examples" ${PROJECT_IS_TOP_LEVEL})
+
 include(GNUInstallDirs)
 include(CTest)
 
@@ -16,4 +18,8 @@ add_subdirectory(src)
 
 if(BUILD_TESTING)
     add_subdirectory(test)
+endif()
+
+if(DSTU4145_BUILD_EXAMPLES AND BUILD_TESTING)
+    add_subdirectory(examples/jks)
 endif()
